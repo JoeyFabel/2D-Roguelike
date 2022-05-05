@@ -1,0 +1,15 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!221 &22100000
+AnimatorOverrideController:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Horizontal Door Upward Open
+  m_Controller: {fileID: 9100000, guid: effc5c17a1e6ce547932edc2719b7d98, type: 2}
+  m_Clips:
+  - m_OriginalClip: {fileID: 7400000, guid: b3c246b316ab53c468664245fe90527a, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: 8b75cebde65a693469331dd929692eaf, type: 2}
+  - m_OriginalClip: {fileID: 7400000, guid: 5db928d3b2b191149b160c18b01ef637, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: 1001d5f8c6a3d76458bd77fabbba3695, type: 2}

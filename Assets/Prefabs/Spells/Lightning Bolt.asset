@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 49c01512e35b45c4cb994f2d2bfd3e0e, type: 3}
+  m_Name: Lightning Bolt
+  m_EditorClassIdentifier: 
+  uiImage: {fileID: 21300000, guid: bf7693fd562810a4ba8d5f02cf8a50a9, type: 3}
+  spellName: Lightning Bolt
+  damage: 1
+  castTime: 3
+  magicCost: 5
+  castSound: {fileID: 0}
+  prepSound: {fileID: 8300000, guid: b330192fea174f54da9223989d141551, type: 3}
+  spellPrefab: {fileID: 1527983520415916060, guid: 144e5a4e14c58644da351f0158200a7f, type: 3}
+  preparationPrefab: {fileID: 6770809094144976465, guid: f72849aa6273fc141bfbaf86b9bcdbeb, type: 3}
+  continuousUseSpell: 0

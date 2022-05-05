@@ -1,0 +1,30 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1045 &1
+EditorBuildSettings:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Scenes:
+  - enabled: 1
+    path: Assets/Scenes/Overworld.unity
+    guid: d70c3a161dafa744a8dd306df6bca49f
+  - enabled: 1
+    path: Assets/Scenes/Shrine.unity
+    guid: 243075174779a1640b3e9b1aa07baf8d
+  - enabled: 1
+    path: Assets/Scenes/Castle F1.unity
+    guid: 6cb81d3bbfb58ed40a6002e11294f2bb
+  - enabled: 1
+    path: Assets/Scenes/Castle F2.unity
+    guid: dc75926564fc52d4bab9b43abcd9254b
+  - enabled: 1
+    path: Assets/Scenes/Forest.unity
+    guid: c9164646d075ee94dbfaf54ad6f5888c
+  - enabled: 1
+    path: Assets/Scenes/Lake.unity
+    guid: 2cc4b6130c0b7b54c91ec1734d6c8912
+  - enabled: 1
+    path: Assets/Scenes/Mountain.unity
+    guid: b743e06c91f0c6349b8b0fc08bdf62dd
+  m_configObjects:
+    com.unity.input.settings: {fileID: 11400000, guid: 63ca6d0eacad0284ab335e88fee8f1c6, type: 2}

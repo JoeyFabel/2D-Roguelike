@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 49c01512e35b45c4cb994f2d2bfd3e0e, type: 3}
+  m_Name: Fireball
+  m_EditorClassIdentifier: 
+  uiImage: {fileID: 21300000, guid: 96318a04e22a5e44b91e2e5e01af1c26, type: 3}
+  spellName: Fireball
+  damage: 1
+  castTime: 1
+  magicCost: 2
+  castSound: {fileID: 8300000, guid: dcb511a4bd58bce49b49257f8138c18f, type: 3}
+  prepSound: {fileID: 8300000, guid: 38649a65bb7580c479836ff0b91e15f8, type: 3}
+  spellPrefab: {fileID: 379448170539735181, guid: b4511c8994934da46a4b856fc00b8284, type: 3}
+  preparationPrefab: {fileID: 8142239321590848856, guid: e879d17220dabf94ab9ccb28f4719533, type: 3}
+  continuousUseSpell: 0

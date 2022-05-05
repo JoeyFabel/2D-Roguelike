@@ -1,0 +1,64 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 355f8b7f2eb576e419cadab065bc6d00, type: 3}
+  m_Name: Stair Tile Data
+  m_EditorClassIdentifier: 
+  tiles:
+  - {fileID: 11400000, guid: 73e3eb1ca9284d14c8e970c444617f45, type: 2}
+  - {fileID: 11400000, guid: 9f16783a40ac4de4c9f9314ae5a1ef77, type: 2}
+  - {fileID: 11400000, guid: acda8ac17f6d5f746add930471a306a5, type: 2}
+  - {fileID: 11400000, guid: 8e8b6ed7cecc892468b149a58fcb445f, type: 2}
+  - {fileID: 11400000, guid: ed3cff61017d8214a8c9ca70245c204a, type: 2}
+  - {fileID: 11400000, guid: c00deecce069a2d46b1555ec036dc0f5, type: 2}
+  - {fileID: 11400000, guid: 746404c95ddd99c46bb3ee954003cc54, type: 2}
+  - {fileID: 11400000, guid: b7decea15ec72f14c8a9826a1fcfa828, type: 2}
+  - {fileID: 11400000, guid: 2b790680692e3fe4d9f7d67f058c37bb, type: 2}
+  - {fileID: 11400000, guid: 5d8b665802d4c6d44af9a5dad21a7f01, type: 2}
+  - {fileID: 11400000, guid: b0db6ea5e11fa034197a60de744c5d8f, type: 2}
+  - {fileID: 11400000, guid: d33db29555802974aa59bd3a580b9b32, type: 2}
+  - {fileID: 11400000, guid: 720744f1263cb3648809272f946b9e48, type: 2}
+  - {fileID: 11400000, guid: 92aeb04471df72a43a7ac069731cc5e9, type: 2}
+  - {fileID: 11400000, guid: aaf5d8987b5745b40810cba67f1f1175, type: 2}
+  - {fileID: 11400000, guid: 7277d1060d774f0428e8467c15c3e946, type: 2}
+  - {fileID: 11400000, guid: ab464ce5f81988543a0ba817cad03f9c, type: 2}
+  - {fileID: 11400000, guid: 10d9ced0ddce9474491c61131337a6ab, type: 2}
+  - {fileID: 11400000, guid: a0296c57de5be4d4491e53c30986fd26, type: 2}
+  - {fileID: 11400000, guid: 26d8ed8dbb4fd454cbf370411843cfad, type: 2}
+  - {fileID: 11400000, guid: d79a507e03ac54f4cb3738eb1a5a88a0, type: 2}
+  - {fileID: 11400000, guid: af00df748cf55e44da7d1578c68bac7b, type: 2}
+  - {fileID: 11400000, guid: 3cd65cd5c87be204f90e0ef9a243747d, type: 2}
+  - {fileID: 11400000, guid: 62c0ea7bf3b6c584a937e0a07f52b044, type: 2}
+  - {fileID: 11400000, guid: d81a2f84e8a01014fae3a387001ed09f, type: 2}
+  - {fileID: 11400000, guid: a2745630bde05f8449516e8e07c22f9a, type: 2}
+  - {fileID: 11400000, guid: 79285f10cf617bf489336b71de17ca3a, type: 2}
+  - {fileID: 11400000, guid: 2de2e53ab59a60a49b820e8704bcb160, type: 2}
+  - {fileID: 11400000, guid: 3f5fe5429c32c5a4b9b5c78675d6dfce, type: 2}
+  - {fileID: 11400000, guid: 661ed96c38a044b41bc7bc6d64d4c80e, type: 2}
+  - {fileID: 11400000, guid: d4c2f8404e9cd1f45b9468d891e2f934, type: 2}
+  - {fileID: 11400000, guid: eff13bff89d50de46936b270864349f9, type: 2}
+  - {fileID: 11400000, guid: 074a6c17039584c429ad135a6555d3c5, type: 2}
+  - {fileID: 11400000, guid: 71c1d03fc8656304d8d8aacec73b6d48, type: 2}
+  - {fileID: 11400000, guid: 72e80a47493866741b756418246fb620, type: 2}
+  - {fileID: 11400000, guid: f8cd3bc5fd152f448b41b5588c1ba107, type: 2}
+  walkingSpeedMultiplier: 0.6
+  layerHeight: 0
+  footstepSounds:
+  - {fileID: 8300000, guid: ecd647025e0a3c04fbd5829fff509e09, type: 3}
+  - {fileID: 8300000, guid: 3bd1b93317b7a3a49b13011cdaa64d0b, type: 3}
+  - {fileID: 8300000, guid: 7b4b6eb734482064c8c1e5fd45d4d76c, type: 3}
+  - {fileID: 8300000, guid: fba95cafa5bba8649a7d269656e7317b, type: 3}
+  - {fileID: 8300000, guid: e924ff5d774024542830602ee674d9a9, type: 3}
+  - {fileID: 8300000, guid: 281c105661e5ee14b8e76523200338bd, type: 3}
+  - {fileID: 8300000, guid: 3069c9f7e833f8e4099228c28f9d65dd, type: 3}
+  - {fileID: 8300000, guid: 82354d1fee336984994fbdcc8154c89c, type: 3}
+  - {fileID: 8300000, guid: 068414160a0ccf34ca0c11b55d43ffc8, type: 3}
+  - {fileID: 8300000, guid: 02d4b2dff380d194fab91c0864b0c386, type: 3}
