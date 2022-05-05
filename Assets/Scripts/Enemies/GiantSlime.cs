@@ -20,18 +20,33 @@ public class GiantSlime : Boss
     private List<Slime> createdSlimes;
 
     new Collider2D collider;
+    Collider2D secondaryCollider;
 
+    private float mainColliderOffset;
+    private float secondaryColliderOffset;
 
     protected override void Start()
     {
         base.Start();
 
         collider = GetComponent<Collider2D>();
+        secondaryCollider = transform.GetChild(0).GetComponent<Collider2D>();
+
         player = CharacterSelector.GetPlayerController();
         createdSlimes = new List<Slime>();
 
         Vector3 scale = Vector3.one + Vector3.one * scaleIncreasePerHealth * maxHealth;
         transform.localScale = scale;
+
+        mainColliderOffset = collider.offset.x;
+        secondaryColliderOffset = secondaryCollider.offset.x;
+        print(collider);
+    }
+
+    private void Update()
+    {
+        collider.offset = new Vector2(mainColliderOffset * (sprite.flipX ? -1 : 1), collider.offset.y);
+        secondaryCollider.offset = new Vector2(secondaryColliderOffset * (sprite.flipX ? -1 : 1), secondaryCollider.offset.y);
     }
 
     protected override void Death()

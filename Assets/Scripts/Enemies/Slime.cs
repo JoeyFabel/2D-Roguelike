@@ -38,11 +38,16 @@ public class Slime : Enemy
     private bool hasAction;
 
     private float regularColliderHeight;
+    private float mainColliderOffset;
+    private float secondaryColliderOffset;
+
     private Vector2 regularColliderOffset;
 
     private int remainingMovesBeforeAttack;
 
-    new BoxCollider2D collider;
+    new CapsuleCollider2D collider;
+    CapsuleCollider2D secondaryCollider;
+
     PlayerController player;
 
     private bool started = false;
@@ -57,7 +62,12 @@ public class Slime : Enemy
         base.Start();
 
         player = CharacterSelector.GetPlayerController();
-        collider = GetComponent<BoxCollider2D>();
+        collider = GetComponent<CapsuleCollider2D>();
+        secondaryCollider = transform.GetChild(0).GetComponent<CapsuleCollider2D>();
+
+        mainColliderOffset = collider.offset.x;
+        secondaryColliderOffset = secondaryCollider.offset.x;
+
         regularColliderHeight = collider.bounds.size.y;
         regularColliderOffset = collider.offset;
         parentSlime = null;
@@ -107,6 +117,9 @@ public class Slime : Enemy
                 StartCoroutine(DoMove(Vector2.zero));
             }
         }
+
+        collider.offset = new Vector2(mainColliderOffset * (sprite.flipX ? -1 : 1), collider.offset.y);
+        secondaryCollider.offset = new Vector2(secondaryColliderOffset * (sprite.flipX ? -1 : 1), secondaryCollider.offset.y);
     }
 
     private void CheckForPlayer()
@@ -185,15 +198,9 @@ public class Slime : Enemy
         else if (parentSlime && attacksBeforeReabsorption <= 0 && collision.gameObject.Equals(parentSlime.gameObject)) parentSlime.ReabsorbSlime(this);
     }
 
-    private void OnCollisionEnter2D(Collision2D collision)
-    {
-        print("collision with " + collider.gameObject);
-    }
-
     private IEnumerator TryToMergeWithParent()
     {
         hasAction = true;
-        print(this + " is moving towards the giant slime for reabsorption");
 
         while (enabled)
         {
@@ -244,8 +251,6 @@ public class Slime : Enemy
 
         float jumpMovementSpeed = jumpDirection.magnitude / jumpTime * 2;
 
-        print("jump distance: " + jumpDirection.magnitude + " (" + jumpDirection + "). Jump speed:" + jumpMovementSpeed + ", jumpTime = " + jumpTime);
-
         bool hitMaxHeight = false;
 
         while ((endPosition - rigidbody.position).magnitude >= jumpMovementSpeed * Time.deltaTime)
@@ -294,12 +299,13 @@ public class Slime : Enemy
         while (Time.time - timestamp <= attackTime)
         {
             timeUntilNewDirection -= Time.deltaTime;
+
             if (timeUntilNewDirection <= 0) needsDirection = true;
             else
             {
                 List<RaycastHit2D> results = new List<RaycastHit2D>();
 
-                if (Physics2D.BoxCast(rigidbody.position, collider.size, 0, direction, contactFilter, results, moveSpeed * Time.fixedDeltaTime) > 0)
+                if (Physics2D.CapsuleCast(rigidbody.position, collider.size, collider.direction, 0, direction, contactFilter, results, 4.5f * moveSpeed * Time.fixedDeltaTime) > 0)
                 {
                     // ignore collisions with oneself
                     for (int i = results.Count - 1; i >= 0; i--)
@@ -371,7 +377,8 @@ public class Slime : Enemy
 
             List<RaycastHit2D> results = new List<RaycastHit2D>();
 
-            if (Physics2D.BoxCast(rigidbody.position, collider.size, 0, direction, contactFilter,  results, moveSpeed * Time.fixedDeltaTime) > 0)
+            //if (Physics2D.BoxCast(rigidbody.position, collider.size, 0, direction, contactFilter,  results, moveSpeed * Time.fixedDeltaTime) > 0)
+            if (Physics2D.CapsuleCast(rigidbody.position, collider.size, collider.direction, 0, direction, contactFilter,  results, moveSpeed * Time.fixedDeltaTime) > 0)
             {
                 // ignore collisions with oneself
                 for (int i = results.Count - 1; i >= 0; i--)
