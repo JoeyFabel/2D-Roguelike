@@ -195,7 +195,12 @@ public abstract class WeaponController : MonoBehaviour
         {
             //print("melee hit " + damageable.gameObject);
 
-            damageable.ApplyDamage(damage, damageType);
+            // Prevent a damage receiver from being hit by the same swing as the actual damageable
+            if (damageable is DamageReceiver)
+            {
+                if (!hitDamageables.Contains((damageable as DamageReceiver).objectToDamage)) damageable.ApplyDamage(damage, damageType);
+            }
+            else damageable.ApplyDamage(damage, damageType);
 
             // Will play multiple sounds if multiple enemies hit - see if this sounds good or if only last hit enemy should play sound
             PlaySound(damageable.GetWeaponHitSound(damageType));

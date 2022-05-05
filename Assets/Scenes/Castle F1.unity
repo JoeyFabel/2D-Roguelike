@@ -1250,6 +1250,7 @@ GameObject:
   m_Component:
   - component: {fileID: 327941132}
   - component: {fileID: 327941133}
+  - component: {fileID: 327941134}
   m_Layer: 10
   m_Name: Collider
   m_TagString: Untagged
@@ -1287,6 +1288,40 @@ CapsuleCollider2D:
   m_Offset: {x: -0.0829871, y: 0.15297796}
   m_Size: {x: 0.73161614, y: 0.24709807}
   m_Direction: 1
+--- !u!114 &327941134
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 327941131}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: be12848ee401b914087dc483cb949382, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxHealth: 0
+  resistances:
+    resistances:
+    - attackType: 0
+      resistance: 0
+    - attackType: 1
+      resistance: 0
+    - attackType: 2
+      resistance: 0
+    - attackType: 3
+      resistance: 0
+    - attackType: 4
+      resistance: 0
+  damageSounds: []
+  deathSounds: []
+  fireballImpactSound: {fileID: 0}
+  slashImpactSound: {fileID: 0}
+  thrustImpactSound: {fileID: 0}
+  bluntImpactSound: {fileID: 0}
+  magicImpactSound: {fileID: 0}
+  objectToDamage: {fileID: 2480379326868309027}
+  damageMultiplier: 1
 --- !u!1 &356493452
 GameObject:
   m_ObjectHideFlags: 0
@@ -1842,6 +1877,86 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 2, y: 1.5}
   m_EdgeRadius: 0
+--- !u!1 &908857532
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 908857535}
+  - component: {fileID: 908857534}
+  - component: {fileID: 908857533}
+  m_Layer: 2
+  m_Name: Giant Slime Test Boss Trigger
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!58 &908857533
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 908857532}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  serializedVersion: 2
+  m_Radius: 3
+--- !u!114 &908857534
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 908857532}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7c0002e1a18d8d342bde7570d81a55c5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  saveIDNumber: -1
+  boss: {fileID: 2480379326868309027}
+  OnBossRoomEntered:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 2480379326868309027}
+        m_TargetAssemblyTypeName: GiantSlime, Assembly-CSharp
+        m_MethodName: ReactToPlayerArrival
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  OnBossDefeated:
+    m_PersistentCalls:
+      m_Calls: []
+--- !u!4 &908857535
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 908857532}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 1.04, y: -3.644, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 18
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &926868445
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -103086,7 +103201,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2423757100478318705, guid: 464538ea159a5814d85f703dc45b3a95, type: 3}
       propertyPath: m_RootOrder
-      value: 13
+      value: 12
       objectReference: {fileID: 0}
     - target: {fileID: 2423757100478318705, guid: 464538ea159a5814d85f703dc45b3a95, type: 3}
       propertyPath: m_LocalPosition.x
@@ -103277,7 +103392,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 12
+  m_RootOrder: 13
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1499085937
 MonoBehaviour:
@@ -106597,7 +106712,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 15
+  m_RootOrder: 16
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1669986257
 GameObject:
@@ -106993,7 +107108,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2350785741254405314, guid: a453c9f5af4a8fc41acb8d63f499c235, type: 3}
       propertyPath: m_RootOrder
-      value: 16
+      value: 15
       objectReference: {fileID: 0}
     - target: {fileID: 2350785741254405314, guid: a453c9f5af4a8fc41acb8d63f499c235, type: 3}
       propertyPath: m_LocalPosition.x
@@ -107470,7 +107585,29 @@ MonoBehaviour:
   slimeLaunchTime: 0.1
   minChildAttacksBeforeAbsorption: 1
   maxChildAttacksBeforeAbsorption: 2
+  moveSpeed: 1
+  moveSpeedDecreasePerHealth: 0.25
   launchDistance: 1
+  contactFilter:
+    useTriggers: 1
+    useLayerMask: 1
+    useDepth: 0
+    useOutsideDepth: 0
+    useNormalAngle: 0
+    useOutsideNormalAngle: 0
+    layerMask:
+      serializedVersion: 2
+      m_Bits: 1
+    minDepth: 0
+    maxDepth: 0
+    minNormalAngle: 0
+    maxNormalAngle: 0
+  pauseTime: 2
+  minRandomMoveTime: 1.5
+  maxRandomMoveTime: 3
+  minAttackTime: 2
+  maxAttackTime: 4
+  numMovesBeforeAttack: 2
 --- !u!70 &2480379326868309028
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
@@ -107571,7 +107708,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2480379326868309026}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1.3240712, y: -1.667076, z: 0}
+  m_LocalPosition: {x: 1.3240712, y: -3.85, z: 0}
   m_LocalScale: {x: 3, y: 3, z: 1}
   m_Children:
   - {fileID: 327941132}

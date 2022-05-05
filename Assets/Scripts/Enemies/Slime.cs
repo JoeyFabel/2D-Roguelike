@@ -236,6 +236,7 @@ public class Slime : Enemy
         animator.SetBool("Falling", true);
         animator.SetTrigger("Fall");
         collider.enabled = false;
+        secondaryCollider.enabled = false;
 
         float jumpHeight = 0.75f;
                         
@@ -278,6 +279,7 @@ public class Slime : Enemy
         animator.SetBool("Falling", false);
         hasAction = false;
         collider.enabled = true;
+        secondaryCollider.enabled = true;
     }
 
     private IEnumerator DoAttack()
@@ -441,9 +443,7 @@ public class Slime : Enemy
         collider.size = new Vector2(collider.size.x, hiddenColliderHeight);
         collider.offset = hiddenColliderOffset;
 
-        print("started hiding");
-
-         while ((player.transform.position - transform.position).magnitude > hidingDetectionDistance) yield return null;
+        while ((player.transform.position - transform.position).magnitude > hidingDetectionDistance) yield return null;
 
         print("done hiding");
         collider.size = new Vector2(collider.size.x, regularColliderHeight);

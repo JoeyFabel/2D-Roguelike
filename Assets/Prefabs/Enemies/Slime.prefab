@@ -318,6 +318,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3356862313672150940}
   - component: {fileID: 420360843021213367}
+  - component: {fileID: 782718815183201891}
   m_Layer: 10
   m_Name: Collider
   m_TagString: Untagged
@@ -355,3 +356,37 @@ CapsuleCollider2D:
   m_Offset: {x: -0.050577268, y: 0.16965161}
   m_Size: {x: 0.7976955, y: 0.29566383}
   m_Direction: 1
+--- !u!114 &782718815183201891
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6057048370691529595}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: be12848ee401b914087dc483cb949382, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxHealth: 0
+  resistances:
+    resistances:
+    - attackType: 0
+      resistance: 0
+    - attackType: 1
+      resistance: 0
+    - attackType: 2
+      resistance: 0
+    - attackType: 3
+      resistance: 0
+    - attackType: 4
+      resistance: 0
+  damageSounds: []
+  deathSounds: []
+  fireballImpactSound: {fileID: 0}
+  slashImpactSound: {fileID: 0}
+  thrustImpactSound: {fileID: 0}
+  bluntImpactSound: {fileID: 0}
+  magicImpactSound: {fileID: 0}
+  objectToDamage: {fileID: 8866664711628131855}
+  damageMultiplier: 1
