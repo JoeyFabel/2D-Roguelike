@@ -258,7 +258,6 @@ MonoBehaviour:
   numMovesBeforeAttack: 2
   deathVFX: {fileID: 3751328571576430700, guid: 7406c038ab9579f4bb42c68814b48641, type: 3}
   vfxSound: {fileID: 8300000, guid: 2f8b56c696bf4f24d90446f208de8933, type: 3}
-  vfxToCreate: 5
 --- !u!50 &4822716467708267170
 Rigidbody2D:
   serializedVersion: 4
@@ -336,7 +335,7 @@ AudioSource:
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 1
+      value: 0.8
       inSlope: 0
       outSlope: 0
       tangentMode: 0

@@ -3,7 +3,12 @@ guid: 46f0df2a7e9ec944a8a80d177b1ddb3c
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - fireballImpactSound: {fileID: 8300000, guid: 3e933431083312942a8be7dba6cc93e0, type: 3}
+  - slashImpactSound: {instanceID: 0}
+  - thrustImpactSound: {instanceID: 0}
+  - bluntImpactSound: {instanceID: 0}
+  - magicImpactSound: {instanceID: 0}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 

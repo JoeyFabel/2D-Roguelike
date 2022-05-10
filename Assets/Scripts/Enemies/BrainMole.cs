@@ -4,9 +4,9 @@ using UnityEngine;
 
 public class BrainMole : Enemy
 {
+    [Header("Movement")] // these appear in flipped order
     [Header("Brain Mole Stuff")]
 
-    [Header("Movement")]
     public float moveSpeed = 1f;
 
     [Tooltip("How long the slime pauses after an attack or random movement")]
@@ -17,16 +17,26 @@ public class BrainMole : Enemy
 
     public ContactFilter2D contactFilter;
 
+    [Header("Attack")]
+    public AudioClip attackSound;
+
+    [Header("Detection Values")]
+    public float forwardDetectionDistance = 3f;
+    public float rearDetectionDistance = 1f;
+    public float minDistanceForDetectionLoss = 3f;
+
     private bool hasAction;
     private bool playerDetected;
 
-    private new BoxCollider2D collider;
+    private new CapsuleCollider2D collider;
+    private PlayerController player;
 
     protected override void Start()
     {
         base.Start();
 
-        collider = GetComponent<BoxCollider2D>();
+        collider = GetComponent<CapsuleCollider2D>();
+        player = CharacterSelector.GetPlayerController();
 
         hasAction = false;
         playerDetected = false;
@@ -34,11 +44,13 @@ public class BrainMole : Enemy
 
     private void Update()
     {
+        CheckForPlayer();
+
         if (!hasAction)
         {
             if (playerDetected)
             {
-
+                StartCoroutine(DoMove(player.transform.position - transform.position));
             }
             else
             {
@@ -49,11 +61,47 @@ public class BrainMole : Enemy
 
     protected override void Death()
     {
+        hasAction = true;
+        StopAllCoroutines();
+
         animator.SetTrigger("Death");
 
         audioSource.PlayOneShot(deathSounds[Random.Range(0, deathSounds.Length)]);
 
-        StartCoroutine(DestroyAfterAudio());
+        //StartCoroutine(DestroyAfterAudio());
+        Destroy(gameObject, 1f);
+    }
+
+    private void CheckForPlayer()
+    {
+        if (!playerDetected)
+        {
+
+            float detectionDistance;
+
+            if (player.transform.position.x >= transform.position.x) // player rightward of slime
+            {
+                if (sprite.flipX) detectionDistance = rearDetectionDistance;
+                else detectionDistance = forwardDetectionDistance;
+            }
+            else // player leftward of slime
+            {
+                if (sprite.flipX) detectionDistance = forwardDetectionDistance;
+                else detectionDistance = rearDetectionDistance;
+            }
+
+            playerDetected = (player.transform.position - transform.position).magnitude <= detectionDistance;
+
+            if (playerDetected) print(this + " saw the player");
+        }
+        else
+        {
+            if ((player.transform.position - transform.position).magnitude > minDistanceForDetectionLoss)
+            {
+                playerDetected = false;
+                print(this + " lost track of the player");
+            }
+        }
     }
 
     /// <summary>
@@ -67,35 +115,56 @@ public class BrainMole : Enemy
         // (1) Choose a random direction or use the specified direction
         Vector2 direction;
 
-        if (moveDirection != Vector2.zero)
-        {
-            direction = moveDirection;
-        }
-        else
-        {
-            int xDir = Random.Range(-1, 2); // -1, 0, or 1
-            int yDir = Random.Range(-1, 2); // -1, 0, or 1
-            if (xDir == 0 && yDir == 0) xDir = 1; // cannot randomly not move
-
-            direction = new Vector2(xDir, yDir).normalized;
-        }
+        if (moveDirection != Vector2.zero) direction = moveDirection.normalized;
+        else direction = Random.insideUnitCircle.normalized;
 
 
         // (2) Move in that direction for the randomly determined time
         float timestamp = Time.time;
         float moveTime = GetRandomMoveTime();
-        animator.SetBool("Moving", true);
+        //animator.SetBool("Moving", true);
 
         sprite.flipX = direction.x < 0;
 
         while (Time.time - timestamp <= moveTime)
         {
             // (a) Make sure a wall will not be hit. If it will be hit, revert direction
-            // Handle this with box cast
+            // Handle this with box cast bc collider is kinematic
 
             List<RaycastHit2D> results = new List<RaycastHit2D>();
 
-            if (Physics2D.BoxCast(rigidbody.position, collider.size, 0, direction, contactFilter,  results, moveSpeed * Time.fixedDeltaTime) > 0)
+            if (Physics2D.CapsuleCast(rigidbody.position, collider.size, collider.direction, 0, direction, contactFilter, results, moveSpeed * Time.fixedDeltaTime) > 0)
+            {
+                // ignore collisions with oneself
+                for (int i = results.Count - 1; i >= 0; i--)
+                {
+                    if (results[i].collider == collider) results.RemoveAt(i);
+                }
+
+                if (results.Count > 0)
+                {
+                    // Get new move direction
+                    // The new move direction needs to be in an opposite direction
+
+                    int newX;
+                    if (direction.x == 0) newX = Random.Range(-1, 2);
+                    else newX = direction.x > 0 ? Random.Range(-1, 1) : Random.Range(0, 2);
+
+                    int newY;
+                    if (direction.y == 0) newY = Random.Range(-1, 2);
+                    else newY = direction.y > 0 ? Random.Range(-1, 1) : Random.Range(0, 2);
+
+                    Vector2 newMoveDirection = new Vector2(newX, newY).normalized;
+
+                    // do a pause
+                    yield return StartCoroutine(TakePause());
+
+                    // Redo the movement
+                    StartCoroutine(DoMove(newMoveDirection));
+
+                    yield break;
+                }
+            }
 
             // (b) Move in the random direction
             rigidbody.MovePosition(rigidbody.position + direction * moveSpeed * Time.fixedDeltaTime);
@@ -110,7 +179,7 @@ public class BrainMole : Enemy
 
     private IEnumerator TakePause()
     {
-        animator.SetBool("Moving", false);
+        // animator.SetBool("Moving", false);
 
         float timestamp = Time.time;
 
