@@ -134,10 +134,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Giant Slime
       objectReference: {fileID: 0}
-    - target: {fileID: 3674672706728360557, guid: bd5e68297f8238048b5ba9b66232e494, type: 3}
-      propertyPath: maxHealth
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 6458492809676698781, guid: bd5e68297f8238048b5ba9b66232e494, type: 3}
       propertyPath: m_RootOrder
       value: 12
@@ -8687,7 +8683,7 @@ GameObject:
   - component: {fileID: 1499085936}
   - component: {fileID: 1499085937}
   - component: {fileID: 1499085935}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Giant Slime Trigger
   m_TagString: Untagged
   m_Icon: {fileID: 0}
