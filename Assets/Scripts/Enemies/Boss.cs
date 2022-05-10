@@ -16,6 +16,11 @@ public class Boss : Enemy
         bossTrigger.OnBossDeath();
     }
 
+    protected void BossRoomTriggerOnDeath()
+    {
+        bossTrigger.OnBossDeath();
+    }
+
     public void SetBossRoomTrigger(BossRoomTrigger trigger)
     {
         bossTrigger = trigger;

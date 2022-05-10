@@ -212,7 +212,8 @@ public class GiantSlime : Boss
             {
                 Vector3 vfxPosition = transform.position + (Vector3)Random.insideUnitCircle * collider.bounds.size.x;
 
-                Instantiate(deathVFX, vfxPosition, Quaternion.identity); // should destroy itself
+                // should destroy itself
+                Instantiate(deathVFX, vfxPosition, Quaternion.identity).transform.localScale = Vector3.one * 0.5f;                
 
                 audioSource.PlayOneShot(vfxSound);
 
@@ -230,6 +231,8 @@ public class GiantSlime : Boss
         yield return new WaitForSeconds(1f);
 
         DropXPAndMoney();
+
+        BossRoomTriggerOnDeath();
 
         Destroy(gameObject);
     }

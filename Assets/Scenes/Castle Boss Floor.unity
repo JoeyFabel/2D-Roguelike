@@ -8647,7 +8647,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fa3555ee1273e7f4fac160876187a365, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sceneName: Castle F2
+  sceneName: Castle F1
   loadIntoShrine: 0
   loadOutOfShrine: 0
 --- !u!61 &1413850661
