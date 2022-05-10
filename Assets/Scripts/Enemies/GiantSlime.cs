@@ -33,6 +33,10 @@ public class GiantSlime : Boss
     public float maxAttackTime = 4f;
     public int numMovesBeforeAttack = 2;
 
+    [Header("Death VFX")]
+    public GameObject deathVFX;
+    public AudioClip vfxSound;
+
     private PlayerController player;
 
     private List<Slime> createdSlimes;
@@ -102,9 +106,6 @@ public class GiantSlime : Boss
 
     protected override void Death()
     {
-        animator.SetTrigger("Death");
-
-        audioSource.PlayOneShot(deathSounds[Random.Range(0, deathSounds.Length)]);
         rigidbody.simulated = false;
         GetComponent<Collider2D>().enabled = false;
         enabled = false;
@@ -112,10 +113,12 @@ public class GiantSlime : Boss
         // kill all the baby slimes :(
         for (int i = createdSlimes.Count - 1; i >= 0; i--) createdSlimes[i].ApplyDamage(createdSlimes[i].maxHealth);
 
-        StartCoroutine(DestroyAfterAudio());
+        StartCoroutine(PlayDeathVFX());
 
-        DropXPAndMoney();
-        Debug.LogWarning("TODO -- defeat animation/vfx, give xp after effect ends");
+        //StartCoroutine(DestroyAfterAudio());
+
+        //DropXPAndMoney();
+        //Debug.LogWarning("TODO -- defeat animation/vfx, give xp after effect ends");
     }
 
     public override void ApplyDamage(float amount)
@@ -187,6 +190,48 @@ public class GiantSlime : Boss
     {
         XPManager.GainXP(xpForDefeating, transform.position);
         if (Random.value <= moneyDropChance) Inventory.CreateMoneyDrop(moneyForDefeating, transform.position);
+    }
+
+    [SerializeField]    
+    int vfxToCreate = 5;
+
+    private IEnumerator PlayDeathVFX()
+    {
+        float vfxCreateTime = 0.5f;
+
+        float timestamp = Time.time;
+
+        // first time to freeze animator
+        animator.SetTrigger("Death");
+
+        int remainingVfx = vfxToCreate;
+
+        while (remainingVfx > 0)
+        {
+            if (Time.time >= timestamp + vfxCreateTime)
+            {
+                Vector3 vfxPosition = transform.position + (Vector3)Random.insideUnitCircle * collider.bounds.size.x;
+
+                Instantiate(deathVFX, vfxPosition, Quaternion.identity); // should destroy itself
+
+                audioSource.PlayOneShot(vfxSound);
+
+                timestamp = Time.time;
+                remainingVfx--;
+            }
+
+            yield return null;
+        }
+
+        // second time for animation
+        animator.SetTrigger("Death");
+        audioSource.PlayOneShot(deathSounds[Random.Range(0, deathSounds.Length)]);
+
+        yield return new WaitForSeconds(1f);
+
+        DropXPAndMoney();
+
+        Destroy(gameObject);
     }
 
     private IEnumerator WaitUntilRisen()
