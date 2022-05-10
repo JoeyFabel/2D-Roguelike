@@ -190,7 +190,9 @@ public class Slime : Enemy
         StartCoroutine(DestroyAfterAudio());
     }
 
-    protected virtual void OnCollisionStay2D(Collision2D collision)
+    // OnCollisionStay also calls on the very first frame, like OnCollisionEnter
+
+    protected void OnCollisionStay2D(Collision2D collision)
     {
         PlayerController player = collision.gameObject.GetComponent<PlayerController>();
 

@@ -192,7 +192,13 @@ public class GiantSlime : Boss
         if (Random.value <= moneyDropChance) Inventory.CreateMoneyDrop(moneyForDefeating, transform.position);
     }
 
-    [SerializeField]    
+    protected void OnCollisionStay2D(Collision2D collision)
+    {
+        PlayerController player = collision.gameObject.GetComponent<PlayerController>();
+
+        if (player) player.TakeDamage(damage, damageType);     
+    }
+
     int vfxToCreate = 5;
 
     private IEnumerator PlayDeathVFX()
