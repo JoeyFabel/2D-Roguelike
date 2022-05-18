@@ -51,6 +51,7 @@ public class Slime : Enemy
     PlayerController player;
 
     private bool started = false;
+    private bool touchingPlayer;
 
     private GiantSlime parentSlime;
     private int attacksBeforeReabsorption = 0;
@@ -74,6 +75,7 @@ public class Slime : Enemy
 
         isInvincible = false;
         hasAction = false;
+        touchingPlayer = false;
 
         remainingMovesBeforeAttack = numMovesBeforeAttack;
 
@@ -196,8 +198,17 @@ public class Slime : Enemy
     {
         PlayerController player = collision.gameObject.GetComponent<PlayerController>();
 
-        if (player) player.TakeDamage(damage, damageType);
+        if (player)
+        {
+            player.TakeDamage(damage, damageType);
+            touchingPlayer = true;
+        }
         else if (parentSlime && attacksBeforeReabsorption <= 0 && collision.gameObject.Equals(parentSlime.gameObject)) parentSlime.ReabsorbSlime(this);
+    }
+
+    private void OnCollisionExit2D(Collision2D collision)
+    {
+        if (collision.gameObject.Equals(player.gameObject)) touchingPlayer = false;
     }
 
     private IEnumerator TryToMergeWithParent()
@@ -284,6 +295,8 @@ public class Slime : Enemy
         secondaryCollider.enabled = true;
     }
 
+    public float touchingPlayerDistance = 0.2f;
+
     private IEnumerator DoAttack()
     {
         hasAction = true;
@@ -331,7 +344,7 @@ public class Slime : Enemy
             }
 
             // move towards player
-            rigidbody.MovePosition(rigidbody.position + 4 * moveSpeed * Time.fixedDeltaTime * direction);
+            if (!touchingPlayer) rigidbody.MovePosition(rigidbody.position + 4 * moveSpeed * Time.fixedDeltaTime * direction);
 
             yield return null;
         }
@@ -416,7 +429,7 @@ public class Slime : Enemy
             }
 
             // (b) Move in the random direction
-            rigidbody.MovePosition(rigidbody.position + direction * moveSpeed * Time.fixedDeltaTime);            
+            if (!touchingPlayer) rigidbody.MovePosition(rigidbody.position + direction * moveSpeed * Time.fixedDeltaTime);            
 
             yield return null;
         }

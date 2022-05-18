@@ -169,7 +169,7 @@ public class PlayerController : MonoBehaviour
         }
 
         if (animator.GetBool("Can Move")) HandleMovement();
-        else HandleMovingGround();
+        else HandleMovingGround(); // attacking on moving platform, for example
 
         /*if (!animator.GetBool("Attacking"))
         {
@@ -231,9 +231,10 @@ public class PlayerController : MonoBehaviour
         }
 
         //if (mapManager.getMovementMultiplier(position) < 1f) print(mapManager.getMovementMultiplier(position));
-        position += speed * Time.fixedDeltaTime * movementVector * mapManager.getMovementMultiplier(position) + groundMoved;
+        position += mapManager.getMovementMultiplier(position) * speed * Time.fixedDeltaTime * movementVector + groundMoved;
 
         rb.MovePosition(position);
+        // rb.velocity = mapManager.getMovementMultiplier(position) * speed * movementVector;
     }
 
     private void HandleMovingGround()
@@ -299,6 +300,7 @@ public class PlayerController : MonoBehaviour
 
     public void TakeDamage(float amount, Damageable.DamageTypes damageType)
     {
+        print("Player taking damage");
         float damage = amount - (amount * resistances.GetResistanceValue(damageType));
 
         // Right now, technically could heal if resistances > 100%, but not implemented, maybe never will be

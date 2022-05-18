@@ -19,6 +19,8 @@ public class BrainMole : Enemy
 
     [Header("Attack")]
     public AudioClip attackSound;
+    public float maxDistanceForAttack = 0.3f;
+    public float waitTimeAfterAttack = 0.5f;
 
     [Header("Detection Values")]
     public float forwardDetectionDistance = 3f;
@@ -27,6 +29,7 @@ public class BrainMole : Enemy
 
     private bool hasAction;
     private bool playerDetected;
+    private bool touchingPlayer;
 
     private new CapsuleCollider2D collider;
     private PlayerController player;
@@ -40,6 +43,7 @@ public class BrainMole : Enemy
 
         hasAction = false;
         playerDetected = false;
+        touchingPlayer = false;
     }
 
     private void Update()
@@ -50,7 +54,11 @@ public class BrainMole : Enemy
         {
             if (playerDetected)
             {
-                StartCoroutine(DoMove(player.transform.position - transform.position));
+                if (touchingPlayer || (player.transform.position - gameObject.transform.position).magnitude <= maxDistanceForAttack)
+                {
+                    StartCoroutine(Attack());
+                }
+                else StartCoroutine(MoveTowardsPlayer(GetRandomMoveTime()));
             }
             else
             {
@@ -70,6 +78,16 @@ public class BrainMole : Enemy
 
         //StartCoroutine(DestroyAfterAudio());
         Destroy(gameObject, 1f);
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {       
+        if (collision.gameObject.Equals(player.gameObject)) touchingPlayer = true;
+    }
+
+    private void OnCollisionExit2D(Collision2D collision)
+    {
+        if (collision.gameObject.Equals(player.gameObject)) touchingPlayer = false;
     }
 
     private void CheckForPlayer()
@@ -102,6 +120,56 @@ public class BrainMole : Enemy
                 print(this + " lost track of the player");
             }
         }
+    }
+    
+    private IEnumerator Attack()
+    {
+        if (animator.GetBool("Attacking")) yield break;
+        
+        hasAction = true;
+
+        if (!animator.GetBool("Attacking")) animator.SetTrigger("Attack");
+
+        yield return null;
+
+        while (animator.GetBool("Attacking")) yield return null;
+
+        if (touchingPlayer)
+        {
+            player.TakeDamage(damage, damageType);
+        }
+
+        yield return new WaitForSeconds(waitTimeAfterAttack);
+
+        hasAction = false;
+    }
+
+    private IEnumerator MoveTowardsPlayer(float moveTime)
+    {
+        hasAction = true;
+
+        float timestamp = Time.time;
+
+        while (Time.time < timestamp + moveTime && !animator.GetBool("Attacking"))
+        {
+            if (!touchingPlayer)
+            {
+                Vector2 towardsPlayer = (player.transform.position - transform.position).normalized;
+
+                sprite.flipX = towardsPlayer.x < 0;
+
+                rigidbody.MovePosition(rigidbody.position + moveSpeed * Time.fixedDeltaTime * towardsPlayer);
+            }
+            else
+            {
+                StartCoroutine(Attack());
+                yield break;
+            }
+
+            yield return null;
+        }
+
+        hasAction = false;
     }
 
     /// <summary>
@@ -167,7 +235,7 @@ public class BrainMole : Enemy
             }
 
             // (b) Move in the random direction
-            rigidbody.MovePosition(rigidbody.position + direction * moveSpeed * Time.fixedDeltaTime);
+            rigidbody.MovePosition(rigidbody.position + moveSpeed * Time.fixedDeltaTime * direction);
 
             yield return null;
         }

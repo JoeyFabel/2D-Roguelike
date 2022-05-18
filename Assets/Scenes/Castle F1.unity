@@ -106465,7 +106465,7 @@ GameObject:
   - component: {fileID: 1620262494}
   - component: {fileID: 1620262493}
   - component: {fileID: 1620262495}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Brain Mole
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -106603,8 +106603,8 @@ MonoBehaviour:
   moneyDropChance: 0.2
   moveSpeed: 2
   pauseTime: 2
-  minRandomMoveTime: 1.5
-  maxRandomMoveTime: 3
+  minRandomMoveTime: 1
+  maxRandomMoveTime: 2
   contactFilter:
     useTriggers: 0
     useLayerMask: 0
@@ -106654,12 +106654,12 @@ Rigidbody2D:
   m_Mass: 1
   m_LinearDrag: 0
   m_AngularDrag: 0.05
-  m_GravityScale: 1
+  m_GravityScale: 0
   m_Material: {fileID: 0}
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
-  m_Constraints: 0
+  m_Constraints: 4
 --- !u!82 &1620262495
 AudioSource:
   m_ObjectHideFlags: 0
