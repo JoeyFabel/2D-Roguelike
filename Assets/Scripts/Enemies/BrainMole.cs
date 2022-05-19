@@ -132,7 +132,19 @@ public class BrainMole : Enemy
 
         yield return null;
 
-        while (animator.GetBool("Attacking")) yield return null;
+        audioSource.PlayOneShot(attackSound);
+
+        while (animator.GetBool("Attacking"))
+        {
+            Vector2 towardsPlayer = player.transform.position - transform.position;
+
+            print("moving during attack");
+
+            sprite.flipX = towardsPlayer.x < 0;
+
+            if (!touchingPlayer) rigidbody.MovePosition(rigidbody.position + moveSpeed * Time.fixedDeltaTime * towardsPlayer);
+            yield return null;
+        }
 
         if (touchingPlayer)
         {

@@ -16,9 +16,13 @@ public class TreantEnemy : Enemy
     public bool canChangeAxis = false;
     public float axisChangeChance = 0.25f;
 
+    public ContactFilter2D contactFilter;
+
     private float changeTime;
     private float pauseTime;
     private bool isPaused;
+    
+    private new BoxCollider2D collider;
 
     float timer;
     int direction = 1;
@@ -26,6 +30,8 @@ public class TreantEnemy : Enemy
     protected override void Start()
     {
         base.Start();
+
+        collider = GetComponent<BoxCollider2D>();
 
         CalculateChangeTime();
         timer = changeTime;
@@ -72,15 +78,20 @@ public class TreantEnemy : Enemy
             }
 
             Vector2 position = rigidbody.position;
+            Vector2 moveDirection;
 
             if (vertical)
             {
+                moveDirection = Vector2.up * direction;
+
                 position.y += Time.fixedDeltaTime * speed * direction;
                 animator.SetFloat("Look X", 0);
                 animator.SetFloat("Look Y", direction);
             }
             else
             {
+                moveDirection = Vector2.right * direction;
+
                 position.x += Time.fixedDeltaTime * speed * direction;
                 animator.SetFloat("Look X", direction);
                 animator.SetFloat("Look Y", 0);
@@ -90,7 +101,15 @@ public class TreantEnemy : Enemy
 
             animator.SetFloat("Speed", 1);
 
-            rigidbody.MovePosition(position);
+            List<RaycastHit2D> results = new List<RaycastHit2D>();
+
+            //if (Physics2D.CapsuleCast(rigidbody.position, collider.size, collider.direction, 0, direction, contactFilter, results, moveSpeed * Time.fixedDeltaTime) > 0)
+            if (Physics2D.BoxCast(rigidbody.position, collider.size, 0, moveDirection, contactFilter, results, speed * Time.fixedDeltaTime) > 0)
+            {
+                timer = -1f;
+                print("hit something: " + results[0].collider.gameObject);
+            }
+            else rigidbody.MovePosition(position);
         }
     }
 

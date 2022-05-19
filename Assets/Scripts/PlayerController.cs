@@ -345,6 +345,8 @@ public class PlayerController : MonoBehaviour
         var deathClip = deathClips[Random.Range(0, deathClips.Length - 1)];
         PlaySound(deathClip);
 
+        sprite.sortingOrder--;
+
         enabled = false;
     }
 
