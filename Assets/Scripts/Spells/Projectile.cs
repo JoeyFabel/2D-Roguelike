@@ -72,6 +72,11 @@ public class Projectile : Spell
                 damageable.ApplyDamage(damage, damageType);
                 impactSound = damageable.GetWeaponHitSound(damageType);
             }
+            else if (collision.gameObject.TryGetComponent(out PlayerController player))
+            {
+                player.TakeDamage(damage, damageType);
+                impactSound = defaultImpactSound;
+            }
         }
         else
         {

@@ -278,6 +278,7 @@ public class PlayerController : MonoBehaviour
     {
         if (isInvincibleAfterDamage || isInvincible) return;
 
+        print("Player taking " + amount + "damage");
         currentHealth -= amount;
 
         if (currentHealth > 0)
@@ -300,7 +301,6 @@ public class PlayerController : MonoBehaviour
 
     public void TakeDamage(float amount, Damageable.DamageTypes damageType)
     {
-        print("Player taking damage");
         float damage = amount - (amount * resistances.GetResistanceValue(damageType));
 
         // Right now, technically could heal if resistances > 100%, but not implemented, maybe never will be

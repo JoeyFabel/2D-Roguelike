@@ -9,6 +9,8 @@ public class FlameheartBoss : Boss
     [Header("Fire Ball Attack")]
     public GameObject fireballPrefab;
     public AudioClip fireBreatheSFX;
+    public float launchForce = 3f;
+    public float maxAngleFromVertical = 45f;
 
     public Vector2 verticalFireballOffset;
     public Vector2 diagonalFireballOffset;
@@ -17,7 +19,14 @@ public class FlameheartBoss : Boss
     [Tooltip("How far into the animation is the fireball created?")]
     public float fireballInstantiateAnimPercentage = 0.25f;
 
+    [Header("Melee Attack")]
+    public CapsuleCollider2D meleeCollider;    
+    public float hitCheckTimestamp = 3f / 8f;
+    public LayerMask meleeHitLayerMask;
+    private float meleeColliderXOffset;
+
     // Testing
+    [Header("Testing")]
     public bool doFireballAttack;
     public bool doMeleeAttack;
 
@@ -34,6 +43,8 @@ public class FlameheartBoss : Boss
         flyingCollider.enabled = false;
 
         hasAction = false;
+
+        meleeColliderXOffset = meleeCollider.offset.x;
     }
 
     private void Update()
@@ -72,11 +83,43 @@ public class FlameheartBoss : Boss
 
     private IEnumerator MeleeAttack()
     {
+        // Make sure the flameheart is not flying when this is triggered
+        
+        hasAction = true;
+
+        // trigger the attack
+        animator.SetTrigger("Melee Attack");
+
+        sprite.flipX = player.transform.position.x < transform.position.x;
+
+        // wait a frame for the animation to start
         yield return null;
+
+        // do melee hit check somewhere in animation
+        while (animator.GetCurrentAnimatorStateInfo(0).normalizedTime <= hitCheckTimestamp) yield return null;
+
+        meleeCollider.offset = new Vector2(meleeColliderXOffset * (sprite.flipX ? -1: 1), meleeCollider.offset.y);
+
+        var hitCollider = Physics2D.OverlapCapsule(meleeCollider.bounds.center, meleeCollider.bounds.size, meleeCollider.direction, 0f, meleeHitLayerMask);
+
+        if (hitCollider && hitCollider.gameObject.Equals(player.gameObject))
+        {
+            // dont hurt the player if the player is behind the flameheart
+            if ((!sprite.flipX && player.transform.position.x >= transform.position.x) || (sprite.flipX && player.transform.transform.position.x <= transform.position.x)) player.TakeDamage(damage, damageType);
+        }
+
+        // wait for the animation to end
+        while (animator.GetBool("Attacking")) yield return null;
+
+        hasAction = false;
+
+        if (player.health <= 0) animator.SetTrigger("Spot Player");
     }
 
     private IEnumerator FireballAttack()
     {
+        // Make sure the flameheart is not flying when this is triggered
+
         hasAction = true;
 
         // Trigger the inhale animation
@@ -90,7 +133,7 @@ public class FlameheartBoss : Boss
         Vector2 towardsPlayer = player.transform.position - transform.position;
         float anglesFromDown = Vector2.Angle(Vector2.down, towardsPlayer);
 
-        print("angles from down: " + anglesFromDown);
+        sprite.flipX = towardsPlayer.x < 0;
 
         // If the player managed to get above the boss, the fireball can't go more than horizontal
         if (anglesFromDown >= 90f) anglesFromDown = 90;
@@ -111,9 +154,27 @@ public class FlameheartBoss : Boss
             fireballPos.y += diagonalFireballOffset.y;
             fireballPos.x += diagonalFireballOffset.x * (sprite.flipX ? -1 : 1);
 
+
             fireball.transform.position = fireballPos;
         }
         else fireball.transform.position += (Vector3)verticalFireballOffset;
+
+        // reget towards player and launch fireball
+        towardsPlayer = player.GetComponent<Collider2D>().bounds.center - fireball.transform.position;
+        towardsPlayer.Normalize();
+
+        // if (towardsPlayer.y > 0) towardsPlayer.y = 0;
+        if (Vector2.Angle(towardsPlayer, Vector2.up) < maxAngleFromVertical)
+        {
+            Vector2 clampedVector = towardsPlayer.normalized;
+
+            clampedVector.x = Mathf.Cos(maxAngleFromVertical * Mathf.Deg2Rad);
+            clampedVector.y = Mathf.Sin(maxAngleFromVertical * Mathf.Deg2Rad);
+
+            towardsPlayer = clampedVector.normalized;
+        }
+
+        fireball.GetComponent<Fireball>().Launch(towardsPlayer, launchForce);
 
         hasAction = false;
     }
