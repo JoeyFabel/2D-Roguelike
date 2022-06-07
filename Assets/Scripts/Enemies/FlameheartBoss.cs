@@ -22,8 +22,17 @@ public class FlameheartBoss : Boss
     [Header("Melee Attack")]
     public CapsuleCollider2D meleeCollider;    
     public float hitCheckTimestamp = 3f / 8f;
+    public float meleeAttackChance = 0.5f;
     public LayerMask meleeHitLayerMask;
     private float meleeColliderXOffset;
+
+    [Header("Movement")]
+    public float moveSpeed = 2f;
+    public BoxCollider2D arenaBounds;
+    public int minMovesBetweenAttacks = 1;
+    public int maxMovesBetweenAttacks = 3;
+
+    private bool lastActionWasAttack;
 
     // Testing
     [Header("Testing")]
@@ -45,8 +54,10 @@ public class FlameheartBoss : Boss
         hasAction = false;
 
         meleeColliderXOffset = meleeCollider.offset.x;
+        lastActionWasAttack = false;
     }
 
+    /*
     private void Update()
     {
         if (hasAction) return;
@@ -62,10 +73,95 @@ public class FlameheartBoss : Boss
             StartCoroutine(MeleeAttack());
         }
     }
+    */
+    private void ChooseAction()
+    {
+        if (hasAction) return;
+
+        if (lastActionWasAttack) StartCoroutine(DoRandomMoves());
+        else if (Random.value <= meleeAttackChance) StartCoroutine(MeleeAttack());
+        else StartCoroutine(FireballAttack());
+    }
+
+    // for melee attack, fly and then try to move close to player
+    // for fireball attack, fly and then try to move far from player
+    // check how close to player the boss is, and then alter attack if within certain range and meets percent chance
 
     public void RespondToPlayer()
     {
         StartCoroutine(PlayerResponse());
+    }
+
+    private Vector3 GetRandomPositionInBounds()
+    {
+        float x = Random.Range(arenaBounds.bounds.min.x, arenaBounds.bounds.max.x);
+        float y = Random.Range(arenaBounds.bounds.min.y, arenaBounds.bounds.max.y);
+
+        return new Vector3(x, y, 0);
+    }
+
+    private Vector3 GetBestAttackPosition()
+    {
+        float x = Random.Range(arenaBounds.bounds.min.x, arenaBounds.bounds.max.x);
+        float y = Mathf.Clamp(player.transform.position.y + 1f, arenaBounds.bounds.min.y, arenaBounds.bounds.max.y);
+
+        return new Vector3(x, y, 0);
+    }
+
+    private IEnumerator DoRandomMoves()
+    {
+        print("doing random moves");
+
+        hasAction = true;
+
+        int numMoves = Random.Range(minMovesBetweenAttacks, maxMovesBetweenAttacks + 1);
+
+        for (int i = 0;  i < numMoves; i++)
+        {
+            yield return StartCoroutine(MoveToPosition(GetRandomPositionInBounds()));
+
+            yield return null;
+        }
+
+      //  yield return StartCoroutine(Land());
+
+        yield return null;
+
+        lastActionWasAttack = false;
+        hasAction = false;
+
+        ChooseAction();
+    }
+
+    private IEnumerator MoveToPosition(Vector3 position)
+    {
+        // If not flying already, take off
+        if (!animator.GetBool("Flying"))
+        {
+            animator.SetBool("Flying", true);
+
+            yield return null;
+
+            while (!animator.GetBool("Can Move")) yield return null;
+        }
+
+        Vector3 towardsTarget = position - transform.position;
+
+        while (Vector3.Distance(position, transform.position) >= 0.05f)
+        {
+            rigidbody.MovePosition(transform.position + Time.deltaTime * moveSpeed * towardsTarget.normalized);
+
+            yield return null;
+        }
+    }
+
+    private IEnumerator Land()
+    {
+        animator.SetBool("Flying", false);
+
+        yield return null;
+
+        while (animator.GetCurrentAnimatorStateInfo(0).normalizedTime < 1f) yield return null;
     }
 
     private IEnumerator PlayerResponse()
@@ -79,13 +175,23 @@ public class FlameheartBoss : Boss
         while (animator.GetBool("Reacting")) yield return null;
 
         hasAction = false;
+
+        if (player.health > 0) ChooseAction();
     }
 
     private IEnumerator MeleeAttack()
     {
-        // Make sure the flameheart is not flying when this is triggered
-        
+        print("Doing melee attack");
         hasAction = true;
+
+        // Move to attack position
+        yield return StartCoroutine(MoveToPosition(GetBestAttackPosition()));
+        print("    done moving");
+
+        // Land before the attack
+
+        yield return StartCoroutine(Land());
+        print("    landed");
 
         // trigger the attack
         animator.SetTrigger("Melee Attack");
@@ -111,16 +217,26 @@ public class FlameheartBoss : Boss
         // wait for the animation to end
         while (animator.GetBool("Attacking")) yield return null;
 
+        lastActionWasAttack = true;
         hasAction = false;
 
         if (player.health <= 0) animator.SetTrigger("Spot Player");
+        else ChooseAction();
+        
     }
 
     private IEnumerator FireballAttack()
     {
-        // Make sure the flameheart is not flying when this is triggered
-
+        print("Doing fireball attack");
         hasAction = true;
+
+        // Move to attack position
+        yield return StartCoroutine(MoveToPosition(GetBestAttackPosition()));
+        print("    done moving");
+
+        // Make sure the flameheart is not flying when this is triggered
+        yield return StartCoroutine(Land());
+        print("    landed");
 
         // Trigger the inhale animation
         animator.SetTrigger("Fire Attack");
@@ -176,6 +292,13 @@ public class FlameheartBoss : Boss
 
         fireball.GetComponent<Fireball>().Launch(towardsPlayer, launchForce);
 
+        while (animator.GetCurrentAnimatorStateInfo(0).normalizedTime < 1f) yield return null;
+
+        yield return null;
+
+        lastActionWasAttack = true;
         hasAction = false;
+
+        if (player.health > 0) ChooseAction();
     }
 }
