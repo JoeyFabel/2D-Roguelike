@@ -311,6 +311,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Treant
       objectReference: {fileID: 0}
+    - target: {fileID: 2350785741254405343, guid: a453c9f5af4a8fc41acb8d63f499c235, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a453c9f5af4a8fc41acb8d63f499c235, type: 3}
 --- !u!1 &64370284
@@ -2772,6 +2776,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Slime (2)
       objectReference: {fileID: 0}
+    - target: {fileID: 2480379327398035363, guid: 63d2372a4d673cb418d54273c45cdad9, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5274331427614519634, guid: 63d2372a4d673cb418d54273c45cdad9, type: 3}
       propertyPath: m_RootOrder
       value: 17
@@ -3406,6 +3414,10 @@ PrefabInstance:
     - target: {fileID: 2117790914124465807, guid: f0b8519b2e4759244900eea2ffa24a0b, type: 3}
       propertyPath: m_Name
       value: Brain Mole (2)
+      objectReference: {fileID: 0}
+    - target: {fileID: 2117790914124465807, guid: f0b8519b2e4759244900eea2ffa24a0b, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f0b8519b2e4759244900eea2ffa24a0b, type: 3}
@@ -4665,6 +4677,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Brain Mole (4)
       objectReference: {fileID: 0}
+    - target: {fileID: 2117790914124465807, guid: f0b8519b2e4759244900eea2ffa24a0b, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f0b8519b2e4759244900eea2ffa24a0b, type: 3}
 --- !u!1 &904616608
@@ -5212,6 +5228,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Slime (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 2480379327398035363, guid: 63d2372a4d673cb418d54273c45cdad9, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5274331427614519634, guid: 63d2372a4d673cb418d54273c45cdad9, type: 3}
       propertyPath: m_RootOrder
       value: 16
@@ -5418,7 +5438,7 @@ MonoBehaviour:
   fireballInstantiateAnimPercentage: 0.33333334
   meleeCollider: {fileID: 1382359788}
   hitCheckTimestamp: 0.48
-  meleeAttackChance: 0.5
+  meleeAttackChance: 1
   meleeHitLayerMask:
     serializedVersion: 2
     m_Bits: 64
@@ -5426,6 +5446,7 @@ MonoBehaviour:
   arenaBounds: {fileID: 564708079}
   minMovesBetweenAttacks: 1
   maxMovesBetweenAttacks: 3
+  rotationSpeed: 0.5
   doFireballAttack: 0
   doMeleeAttack: 0
 --- !u!70 &1086970823
@@ -5940,6 +5961,10 @@ PrefabInstance:
     - target: {fileID: 2480379327398035363, guid: 63d2372a4d673cb418d54273c45cdad9, type: 3}
       propertyPath: m_Name
       value: Slime
+      objectReference: {fileID: 0}
+    - target: {fileID: 2480379327398035363, guid: 63d2372a4d673cb418d54273c45cdad9, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5274331427614519634, guid: 63d2372a4d673cb418d54273c45cdad9, type: 3}
       propertyPath: m_RootOrder
@@ -98263,6 +98288,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Brain Mole
       objectReference: {fileID: 0}
+    - target: {fileID: 2117790914124465807, guid: f0b8519b2e4759244900eea2ffa24a0b, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f0b8519b2e4759244900eea2ffa24a0b, type: 3}
 --- !u!1 &1477328592
@@ -98972,6 +99001,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Brain Mole (3)
       objectReference: {fileID: 0}
+    - target: {fileID: 2117790914124465807, guid: f0b8519b2e4759244900eea2ffa24a0b, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f0b8519b2e4759244900eea2ffa24a0b, type: 3}
 --- !u!1 &1577974030
@@ -99085,6 +99118,10 @@ PrefabInstance:
     - target: {fileID: 2117790914124465807, guid: f0b8519b2e4759244900eea2ffa24a0b, type: 3}
       propertyPath: m_Name
       value: Brain Mole (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 2117790914124465807, guid: f0b8519b2e4759244900eea2ffa24a0b, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f0b8519b2e4759244900eea2ffa24a0b, type: 3}
@@ -100781,7 +100818,7 @@ GameObject:
   - component: {fileID: 1687972576}
   - component: {fileID: 1687972578}
   - component: {fileID: 1687972577}
-  m_Layer: 10
+  m_Layer: 14
   m_Name: Flying Collider
   m_TagString: Untagged
   m_Icon: {fileID: 0}

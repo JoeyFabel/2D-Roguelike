@@ -5,6 +5,7 @@ using UnityEngine;
 public class FlameheartBoss : Boss
 {
     public Collider2D flyingCollider;
+    private Collider2D landedCollider;
 
     [Header("Fire Ball Attack")]
     public GameObject fireballPrefab;
@@ -27,10 +28,12 @@ public class FlameheartBoss : Boss
     private float meleeColliderXOffset;
 
     [Header("Movement")]
-    public float moveSpeed = 2f;
+    public float moveSpeed = 2f;    
     public BoxCollider2D arenaBounds;
     public int minMovesBetweenAttacks = 1;
     public int maxMovesBetweenAttacks = 3;
+    public float rotationSpeed = 0.5f;
+    private float circleRadius = 2f;
 
     private bool lastActionWasAttack;
 
@@ -47,9 +50,12 @@ public class FlameheartBoss : Boss
     {
         base.Start();
 
+        Debug.LogWarning("TODO - Disable player/flameheart and player attack/flameheart collisions while flying");
+
         player = CharacterSelector.GetPlayerController();
 
         flyingCollider.enabled = false;
+        landedCollider = GetComponent<Collider2D>();
 
         hasAction = false;
 
@@ -78,7 +84,7 @@ public class FlameheartBoss : Boss
     {
         if (hasAction) return;
 
-        if (lastActionWasAttack) StartCoroutine(DoRandomMoves());
+        if (lastActionWasAttack) DoMovementAction();
         else if (Random.value <= meleeAttackChance) StartCoroutine(MeleeAttack());
         else StartCoroutine(FireballAttack());
     }
@@ -94,7 +100,7 @@ public class FlameheartBoss : Boss
 
     private Vector3 GetRandomPositionInBounds()
     {
-        float x = Random.Range(arenaBounds.bounds.min.x, arenaBounds.bounds.max.x);
+        float x = Random.Range(arenaBounds.bounds.min.x + 1, arenaBounds.bounds.max.x - 1);
         float y = Random.Range(arenaBounds.bounds.min.y, arenaBounds.bounds.max.y);
 
         return new Vector3(x, y, 0);
@@ -102,12 +108,63 @@ public class FlameheartBoss : Boss
 
     private Vector3 GetBestAttackPosition()
     {
-        float x = Random.Range(arenaBounds.bounds.min.x, arenaBounds.bounds.max.x);
+        float x = Random.Range(arenaBounds.bounds.min.x + 1, arenaBounds.bounds.max.x - 1);
         float y = Mathf.Clamp(player.transform.position.y + 1f, arenaBounds.bounds.min.y, arenaBounds.bounds.max.y);
 
         return new Vector3(x, y, 0);
     }
 
+    private void DoMovementAction()
+    {
+        if (Random.value <= 0.5f) StartCoroutine(DoRandomMoves());
+        else StartCoroutine(CirclePlayer());
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        print(collision.collider.name + " hit " + collision.otherCollider.name);
+    }
+
+    /// <summary>
+    /// Sub-action, run during another action, that has the Flameheart takeoff and start flying
+    /// </summary>
+    /// <returns></returns>
+    private IEnumerator Takeoff()
+    {
+        // If not flying already, take off
+        if (!animator.GetBool("Flying"))
+        {
+            animator.SetBool("Flying", true);
+
+            yield return null;
+
+            while (!animator.GetBool("Can Move")) yield return null;
+
+            landedCollider.enabled = false;
+            flyingCollider.enabled = true;
+        }
+    }
+
+    /// <summary>
+    /// Sub-action, run during another action, that has the Flameheart land on the ground
+    /// </summary>
+    /// <returns></returns>
+    private IEnumerator Land()
+    {
+        animator.SetBool("Flying", false);
+
+        yield return null;
+
+        flyingCollider.enabled = false;
+        landedCollider.enabled = true;
+
+        while (animator.GetBool("Landing")) yield return null;        
+    }
+
+    /// <summary>
+    /// Primary action that has the Flameheart move to a few random positions before choosing the next action
+    /// </summary>
+    /// <returns></returns>
     private IEnumerator DoRandomMoves()
     {
         print("doing random moves");
@@ -133,35 +190,110 @@ public class FlameheartBoss : Boss
         ChooseAction();
     }
 
+    /// <summary>
+    /// Sub-action, run during another action, that moves the Flameheart to the specified position
+    /// </summary>
+    /// <param name="position"></param>
+    /// <returns></returns>
     private IEnumerator MoveToPosition(Vector3 position)
     {
         // If not flying already, take off
-        if (!animator.GetBool("Flying"))
-        {
-            animator.SetBool("Flying", true);
-
-            yield return null;
-
-            while (!animator.GetBool("Can Move")) yield return null;
-        }
+        yield return StartCoroutine(Takeoff());
 
         Vector3 towardsTarget = position - transform.position;
 
         while (Vector3.Distance(position, transform.position) >= 0.05f)
         {
-            rigidbody.MovePosition(transform.position + Time.deltaTime * moveSpeed * towardsTarget.normalized);
+            Vector2 movePosition = rigidbody.position;
+            movePosition += Time.fixedDeltaTime * moveSpeed * (Vector2)towardsTarget.normalized;
+
+            //rigidbody.MovePosition(transform.position + Time.deltaTime * moveSpeed * towardsTarget.normalized);
+            rigidbody.MovePosition(movePosition);
+
+            sprite.flipX = towardsTarget.x < 0;
 
             yield return null;
         }
     }
 
-    private IEnumerator Land()
+    /// <summary>
+    /// Sub-action, run during another action, that moves the Flameheart to a position next to the player
+    /// </summary>
+    /// <returns></returns>
+    private IEnumerator MoveToPlayer()
     {
-        animator.SetBool("Flying", false);
+        float timeout = 4f;
+        float speedMultiplier = 1f;
 
-        yield return null;
+        // If not flying already, take off
+        yield return StartCoroutine(Takeoff());
 
-        while (animator.GetCurrentAnimatorStateInfo(0).normalizedTime < 1f) yield return null;
+        while (Vector3.Distance(player.transform.position, transform.position) >= 1f)
+        {
+            Vector2 movePosition = rigidbody.position;
+            movePosition += Time.fixedDeltaTime * moveSpeed * speedMultiplier * (Vector2)(player.transform.position - transform.position).normalized;
+
+            rigidbody.MovePosition(movePosition);
+
+            timeout -= Time.fixedDeltaTime;
+            sprite.flipX = player.transform.position.x < transform.position.x;
+
+            if (timeout <= 0)
+            {
+                speedMultiplier += 0.5f;
+                timeout = 2f;
+            }
+
+            yield return null;
+        }
+    }
+
+    /// <summary>
+    /// Primary action that has the Flameheart circle the player a few times before choosing the next action
+    /// </summary>
+    /// <returns></returns>
+    private IEnumerator CirclePlayer()
+    {
+        // If not flying already, take off
+        yield return StartCoroutine(Takeoff());
+
+        // Move to the player before circling
+        yield return StartCoroutine(MoveToPlayer());
+
+        int numCircles = Random.Range(minMovesBetweenAttacks, maxMovesBetweenAttacks + 1);
+
+        /*
+         * To circle the player, two things are needed: The players position, and a circle function
+         *      - The players position is straightforward
+         *      - The circle function is radius * (cos(2?/timePerCircle), sin(2?/timePerCircle)
+         */
+
+        // timePerCircle is the distance per circle divided by the move speed
+        float timePerCircle = Mathf.PI * 2 * circleRadius / moveSpeed;
+
+        float time = numCircles * timePerCircle;
+
+        Vector2 circlePosition;
+        float angle = 0f;
+
+        while (angle <= Mathf.PI * 2 * numCircles)
+        {
+            circlePosition = new Vector2(Mathf.Cos(angle) * circleRadius, Mathf.Sin(angle) * circleRadius);
+          
+            rigidbody.MovePosition((Vector2)player.transform.position + circlePosition);
+            angle += Time.deltaTime * rotationSpeed * 2 * Mathf.PI;
+
+            sprite.flipX = player.transform.position.x < transform.position.x;
+
+            time -= Time.deltaTime;
+
+            yield return null;
+        }
+
+        lastActionWasAttack = false;
+        hasAction = false;
+
+        ChooseAction();
     }
 
     private IEnumerator PlayerResponse()
@@ -185,7 +317,8 @@ public class FlameheartBoss : Boss
         hasAction = true;
 
         // Move to attack position
-        yield return StartCoroutine(MoveToPosition(GetBestAttackPosition()));
+        //yield return StartCoroutine(MoveToPosition(GetBestAttackPosition()));
+        yield return StartCoroutine(MoveToPlayer());
         print("    done moving");
 
         // Land before the attack
