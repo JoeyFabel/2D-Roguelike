@@ -37,6 +37,11 @@ public class FlameheartBoss : Boss
 
     private bool lastActionWasAttack;
 
+    [Header("Audio")]
+    public AudioClip wingFlapSfx;
+    public AudioClip meleeAttackSfx;
+    public AudioClip firebreathSfx;
+
     // Testing
     [Header("Testing")]
     public bool doFireballAttack;
@@ -49,8 +54,6 @@ public class FlameheartBoss : Boss
     protected override void Start()
     {
         base.Start();
-
-        Debug.LogWarning("TODO - Disable player/flameheart and player attack/flameheart collisions while flying");
 
         player = CharacterSelector.GetPlayerController();
 
@@ -123,6 +126,11 @@ public class FlameheartBoss : Boss
     private void OnCollisionEnter2D(Collision2D collision)
     {
         print(collision.collider.name + " hit " + collision.otherCollider.name);
+    }
+
+    private void PlayWingFlapSFX()
+    {
+        audioSource.PlayOneShot(wingFlapSfx);
     }
 
     /// <summary>
@@ -260,8 +268,6 @@ public class FlameheartBoss : Boss
         // Move to the player before circling
         yield return StartCoroutine(MoveToPlayer());
 
-        int numCircles = Random.Range(minMovesBetweenAttacks, maxMovesBetweenAttacks + 1);
-
         /*
          * To circle the player, two things are needed: The players position, and a circle function
          *      - The players position is straightforward
@@ -269,14 +275,14 @@ public class FlameheartBoss : Boss
          */
 
         // timePerCircle is the distance per circle divided by the move speed
-        float timePerCircle = Mathf.PI * 2 * circleRadius / moveSpeed;
+        //float timePerCircle = Mathf.PI * 2 * circleRadius / moveSpeed;
 
-        float time = numCircles * timePerCircle;
+        float time = Random.Range((float)minMovesBetweenAttacks, maxMovesBetweenAttacks + 1) * Mathf.PI / 2;
 
         Vector2 circlePosition;
         float angle = 0f;
 
-        while (angle <= Mathf.PI * 2 * numCircles)
+        while (time >= 0)
         {
             circlePosition = new Vector2(Mathf.Cos(angle) * circleRadius, Mathf.Sin(angle) * circleRadius);
           
@@ -313,18 +319,18 @@ public class FlameheartBoss : Boss
 
     private IEnumerator MeleeAttack()
     {
-        print("Doing melee attack");
+      //  print("Doing melee attack");
         hasAction = true;
 
         // Move to attack position
         //yield return StartCoroutine(MoveToPosition(GetBestAttackPosition()));
         yield return StartCoroutine(MoveToPlayer());
-        print("    done moving");
+      //  print("    done moving");
 
         // Land before the attack
 
         yield return StartCoroutine(Land());
-        print("    landed");
+      //  print("    landed");
 
         // trigger the attack
         animator.SetTrigger("Melee Attack");
@@ -347,6 +353,8 @@ public class FlameheartBoss : Boss
             if ((!sprite.flipX && player.transform.position.x >= transform.position.x) || (sprite.flipX && player.transform.transform.position.x <= transform.position.x)) player.TakeDamage(damage, damageType);
         }
 
+        audioSource.PlayOneShot(meleeAttackSfx);
+
         // wait for the animation to end
         while (animator.GetBool("Attacking")) yield return null;
 
@@ -360,16 +368,16 @@ public class FlameheartBoss : Boss
 
     private IEnumerator FireballAttack()
     {
-        print("Doing fireball attack");
+      // print("Doing fireball attack");
         hasAction = true;
 
         // Move to attack position
         yield return StartCoroutine(MoveToPosition(GetBestAttackPosition()));
-        print("    done moving");
+      //  print("    done moving");
 
         // Make sure the flameheart is not flying when this is triggered
         yield return StartCoroutine(Land());
-        print("    landed");
+      //  print("    landed");
 
         // Trigger the inhale animation
         animator.SetTrigger("Fire Attack");
@@ -394,7 +402,7 @@ public class FlameheartBoss : Boss
         while (animator.GetCurrentAnimatorStateInfo(0).normalizedTime <= fireballInstantiateAnimPercentage) yield return null;
 
         // then create the fireball
-        audioSource.PlayOneShot(fireBreatheSFX);
+        audioSource.PlayOneShot(firebreathSfx);
 
         GameObject fireball = Instantiate(fireballPrefab, transform.position, Quaternion.Euler(0, 0, 180 + anglesFromDown * (sprite.flipX ? -1 : 1)));
         if (animator.GetBool("Diagonal Fire"))

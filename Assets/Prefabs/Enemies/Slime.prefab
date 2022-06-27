@@ -175,6 +175,7 @@ MonoBehaviour:
   rearDetectionDistance: 1.5
   minDistanceForDetectionLoss: 5
   hidingDetectionDistance: 2
+  touchingPlayerDistance: 0.2
 --- !u!50 &5944372810623766381
 Rigidbody2D:
   serializedVersion: 4
@@ -205,7 +206,7 @@ AudioSource:
   m_GameObject: {fileID: 2480379327398035363}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
+  OutputAudioMixerGroup: {fileID: -74195539171963299, guid: 23bf10148bc649748bc77ff2044b6f06, type: 2}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 0
   m_Volume: 1

@@ -5447,6 +5447,9 @@ MonoBehaviour:
   minMovesBetweenAttacks: 1
   maxMovesBetweenAttacks: 3
   rotationSpeed: 0.5
+  wingFlapSfx: {fileID: 8300000, guid: 0aaab46896d005c4eb401aae75b9ac89, type: 3}
+  meleeAttackSfx: {fileID: 8300000, guid: 38ff67d39c988c242829ac3a7cba9e87, type: 3}
+  firebreathSfx: {fileID: 8300000, guid: 3e933431083312942a8be7dba6cc93e0, type: 3}
   doFireballAttack: 0
   doMeleeAttack: 0
 --- !u!70 &1086970823
@@ -5474,9 +5477,9 @@ AudioSource:
   m_GameObject: {fileID: 1086970818}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
+  OutputAudioMixerGroup: {fileID: -74195539171963299, guid: 23bf10148bc649748bc77ff2044b6f06, type: 2}
   m_audioClip: {fileID: 0}
-  m_PlayOnAwake: 1
+  m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
   Loop: 0
@@ -5485,7 +5488,7 @@ AudioSource:
   SpatializePostEffects: 0
   Priority: 128
   DopplerLevel: 1
-  MinDistance: 1
+  MinDistance: 3
   MaxDistance: 500
   Pan2D: 0
   rolloffMode: 0
@@ -5521,7 +5524,7 @@ AudioSource:
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 0
+      value: 0.5
       inSlope: 0
       outSlope: 0
       tangentMode: 0

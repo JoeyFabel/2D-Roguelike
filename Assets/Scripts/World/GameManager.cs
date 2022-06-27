@@ -38,6 +38,8 @@ public class GameManager : MonoBehaviour
 
     private void Awake()
     {
+        Debug.LogWarning("TODO - Work on Audio Grouping: Players/Enemies on one that is not changeable in menu, sfx on one that is editable, bg music on one that is editable.");
+        Debug.LogWarning("TODO - Audio menu");
         // Create the singleton or destroy the duplicate
         if (instance == null)
         {

@@ -169,7 +169,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 764d128e7f453c24f9999f82d6437e13, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth: 5
+  baseMaxHealth: 5
+  hpIncreasePerLevelUp: 1
   speed: 3
   timeInvincible: 2
   resistances:
@@ -193,6 +194,10 @@ MonoBehaviour:
   deathClips:
   - {fileID: 8300000, guid: edf87c7ce411b3446b385928ab99c70a, type: 3}
   splashSound: {fileID: 8300000, guid: 595387b7a1169b54188c520f6b15fef1, type: 3}
+  maxHealth: 5
+  groundMask:
+    serializedVersion: 2
+    m_Bits: 0
 --- !u!114 &3040652425858987979
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -205,12 +210,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5b4b038c171b91c4599a051b747a3b16, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  damageIncreasePerLeveulUp: 0.5
   meleeHitBox: {fileID: 3040652424825576242}
   meleeLayerMask:
     serializedVersion: 2
     m_Bits: 1025
   damageType: 3
-  damage: 1
+  baseDamage: 1
   nMeleeYOffset: 0.05
   sMeleeYOffset: -0.15
   allowableXOffsetNorth: 0.5
@@ -218,6 +224,7 @@ MonoBehaviour:
   allowableXOffsetSouth: 0.5
   allowableYOffsetSouth: 0.5
   meleeMissSound: {fileID: 8300000, guid: 5eb85b66bcf287e458a0be9921743759, type: 3}
+  magicIncreasePerLevelUp: 1
   magicRegenRate: 0.1
   northSpellXOffset: -0.149
   northSpellYOffset: 1.468
@@ -225,6 +232,7 @@ MonoBehaviour:
   southSpellYOffset: 1.409
   pureSouthFlippedXOffset: -0.276
   pureNorthFlippedXOffset: 0.194
+  baseMaxMagic: 10
   maxMagic: 10
 --- !u!114 &3040652425858987978
 MonoBehaviour:
@@ -332,7 +340,7 @@ AudioSource:
   m_GameObject: {fileID: 3040652425858988019}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
+  OutputAudioMixerGroup: {fileID: -74195539171963299, guid: 23bf10148bc649748bc77ff2044b6f06, type: 2}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 1
   m_Volume: 1

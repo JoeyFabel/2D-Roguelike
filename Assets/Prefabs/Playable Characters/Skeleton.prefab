@@ -122,7 +122,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 764d128e7f453c24f9999f82d6437e13, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth: 5
+  baseMaxHealth: 5
+  hpIncreasePerLevelUp: 1
   speed: 3
   timeInvincible: 2
   resistances:
@@ -153,6 +154,10 @@ MonoBehaviour:
   - {fileID: 8300000, guid: c1474ee701f1aa04a9b6eb04d50c8473, type: 3}
   - {fileID: 8300000, guid: 3fe147c65c7652d429ec95ba0b1305f3, type: 3}
   splashSound: {fileID: 8300000, guid: 595387b7a1169b54188c520f6b15fef1, type: 3}
+  maxHealth: 5
+  groundMask:
+    serializedVersion: 2
+    m_Bits: 0
 --- !u!114 &6605448680959563927
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -211,12 +216,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ac71819e230f7e649afde954a2d00896, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  damageIncreasePerLeveulUp: 0.5
   meleeHitBox: {fileID: 6605448681795070013}
   meleeLayerMask:
     serializedVersion: 2
     m_Bits: 1025
   damageType: 1
-  damage: 1
+  baseDamage: 1
   nMeleeYOffset: 0.1
   sMeleeYOffset: 0
   allowableXOffsetNorth: 0.4
@@ -283,7 +289,7 @@ AudioSource:
   m_GameObject: {fileID: 6605448680959563934}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
+  OutputAudioMixerGroup: {fileID: -74195539171963299, guid: 23bf10148bc649748bc77ff2044b6f06, type: 2}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 1
   m_Volume: 1

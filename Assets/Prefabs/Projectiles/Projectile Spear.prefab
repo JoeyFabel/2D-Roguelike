@@ -148,6 +148,7 @@ MonoBehaviour:
   lifetime: 5
   damage: 1
   spellLaunchSpeed: 200
+  damageRadius: 0
   rotateWithVelocity: 1
   damageType: 2
   defaultImpactSound: {fileID: 0}
@@ -161,7 +162,7 @@ AudioSource:
   m_GameObject: {fileID: 5494984870038691126}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
+  OutputAudioMixerGroup: {fileID: -9012482439652360, guid: 23bf10148bc649748bc77ff2044b6f06, type: 2}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 0
   m_Volume: 1
