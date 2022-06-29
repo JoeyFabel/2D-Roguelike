@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.Audio;
 
 public class SaurianAugurWeapon : WeaponController
 {
@@ -30,6 +31,8 @@ public class SaurianAugurWeapon : WeaponController
     private float currentMagic;
 
     private PlayerController player;
+
+    public AudioSource spellSfxSource;
 
     //private float originalSize;
 
@@ -152,7 +155,7 @@ public class SaurianAugurWeapon : WeaponController
         GameObject spellPrepEffect = null;
 
         if (currentSpell.preparationPrefab) spellPrepEffect = Instantiate(currentSpell.preparationPrefab, spellCastPosition, Quaternion.identity);
-        if (currentSpell.prepSound) PlaySound(currentSpell.prepSound);
+        if (currentSpell.prepSound) spellSfxSource.PlayOneShot(currentSpell.prepSound);        
 
         while (Time.time <= enterTime + currentSpell.castTime)
         {
@@ -172,7 +175,7 @@ public class SaurianAugurWeapon : WeaponController
 
         if (spellPrepEffect) Destroy(spellPrepEffect);
 
-        if (currentSpell.castSound) PlaySound(currentSpell.castSound);
+        if (currentSpell.castSound) spellSfxSource.PlayOneShot(currentSpell.castSound);
 
         currentMagic -= currentSpell.magicCost;
         UpdateMagicQuantity();

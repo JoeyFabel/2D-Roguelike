@@ -103,6 +103,7 @@ MonoBehaviour:
   chestOpenSprite: {fileID: 21300000, guid: 746507989ee6b354fa9a950b00b15c73, type: 3}
   itemToGain: {fileID: 11400000, guid: 70260ff118b074c4eaf8e9117d2253f4, type: 2}
   quantityToGain: 1
+  moneyToGain: 0
 --- !u!61 &2423757100478318703
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -164,7 +165,7 @@ AudioSource:
   m_GameObject: {fileID: 2423757100478318707}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
+  OutputAudioMixerGroup: {fileID: -9012482439652360, guid: 23bf10148bc649748bc77ff2044b6f06, type: 2}
   m_audioClip: {fileID: 8300000, guid: f4ecbb09aea2f9a43be23d555412a903, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 1
