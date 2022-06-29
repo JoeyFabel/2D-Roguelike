@@ -60,6 +60,7 @@ TextureImporter:
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
+  ignoreMasterTextureLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -388,6 +389,19 @@ TextureImporter:
     edges: []
     weights: []
     secondaryTextures: []
+    nameFileIdTable:
+      npc_8: 21300016
+      npc_4: 21300008
+      npc_3: 21300006
+      npc_6: 21300012
+      npc_11: 21300022
+      npc_9: 21300018
+      npc_2: 21300004
+      npc_7: 21300014
+      npc_5: 21300010
+      npc_1: 21300002
+      npc_10: 21300020
+      npc_0: 21300000
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0

@@ -54,6 +54,7 @@ TextureImporter:
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
+  ignoreMasterTextureLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -352,6 +353,17 @@ TextureImporter:
     edges: []
     weights: []
     secondaryTextures: []
+    nameFileIdTable:
+      waterfall-1_3: -5612570290283080875
+      waterfall-1_2: -7800648164943457510
+      waterfall-1_6: -7466104163147513729
+      waterfall-1_7: -4418142333175517593
+      waterfall-1_4: -544883627142991591
+      waterfall-1_8: -3442652589725571193
+      waterfall-1_0: -1716979659065640056
+      waterfall-1_1: -1269915130629824232
+      waterfall-1_9: 3292356128928075486
+      waterfall-1_5: -3899637315952057149
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0

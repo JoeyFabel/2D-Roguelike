@@ -51,6 +51,7 @@ TextureImporter:
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
+  ignoreMasterTextureLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -352,6 +353,16 @@ TextureImporter:
     edges: []
     weights: []
     secondaryTextures: []
+    nameFileIdTable:
+      FloorWaterRoundCorners_8: 8928097699067777432
+      FloorWaterRoundCorners_1: -1461658588064603524
+      FloorWaterRoundCorners_7: -848561354300285403
+      FloorWaterRoundCorners_2: -187217663852998986
+      FloorWaterRoundCorners_0: 8160936719798313024
+      FloorWaterRoundCorners_5: 1764941518268613943
+      FloorWaterRoundCorners_3: -216212205376463626
+      FloorWaterRoundCorners_4: 5390282840649996488
+      FloorWaterRoundCorners_6: 409711093647374902
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0
