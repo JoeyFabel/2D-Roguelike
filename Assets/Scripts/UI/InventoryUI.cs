@@ -12,6 +12,9 @@ public class InventoryUI : MonoBehaviour
     public Selectable firstSelectedOnOpen;
     public GameObject warningPanel;
     public Button warningCancelButton;
+    public GameObject settingsPanel;
+
+    public CanvasGroup inventoryButtons;
 
     public Text moneyText;
 
@@ -28,7 +31,10 @@ public class InventoryUI : MonoBehaviour
 
         inventoryCells = new List<InventoryCell>();
 
+        inventoryButtons.interactable = true;
+
         gameObject.SetActive(false);
+        settingsPanel.SetActive(false);
     }       
 
     public void UpdateItemUI(Item item, int newQuantity)
@@ -74,7 +80,7 @@ public class InventoryUI : MonoBehaviour
 
     public void OpenSettingsMenu()
     {
-        Debug.LogWarning("TODO -- implement settings menu");
+        settingsPanel.SetActive(true);
     }
 
     public void ReturnToMainMenu()
