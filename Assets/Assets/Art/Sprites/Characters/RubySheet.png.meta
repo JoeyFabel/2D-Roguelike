@@ -132,6 +132,7 @@ TextureImporter:
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
+  ignoreMasterTextureLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -712,6 +713,31 @@ TextureImporter:
     edges: []
     weights: []
     secondaryTextures: []
+    nameFileIdTable:
+      RubyRunSide1: 21300024
+      RubyRunUp4: 21300038
+      RubyRunUp1: 21300032
+      RubyRunUp3: 21300036
+      RubyHitSides: 21300056
+      RubyRunUp2: 21300034
+      RubyHitdown: 21300060
+      RubyRunDown2: 21300042
+      RubyIdleSide1: 21300048
+      RubyRunSide4: 21300030
+      RubyIdleDown2: 21300068
+      RubyIdleUp1: 21300052
+      RubyLaunchUp: 21300062
+      RubyRunSide2: 21300026
+      RubyRunDown4: 21300046
+      RubyLaunchDown: 21300054
+      RubyIdleDown1: 21300050
+      RubyRunSide3: 21300028
+      RubyRunDown3: 21300044
+      RubyLauchSides: 21300064
+      RubyIdleSides2: 21300066
+      RubyIdleUp2: 21300070
+      RubyRunDown1: 21300040
+      RubyHitUp: 21300058
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0

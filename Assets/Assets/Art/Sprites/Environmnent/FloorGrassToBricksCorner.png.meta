@@ -51,6 +51,7 @@ TextureImporter:
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
+  ignoreMasterTextureLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -316,6 +317,16 @@ TextureImporter:
     edges: []
     weights: []
     secondaryTextures: []
+    nameFileIdTable:
+      FloorGrassToBricksCorner_6: -1519951085987953674
+      FloorGrassToBricksCorner_0: -3265215667744824251
+      FloorGrassToBricksCorner_4: -8494855901003087046
+      FloorGrassToBricksCorner_3: -7684012841847623795
+      FloorGrassToBricksCorner_2: -5383219996417302934
+      FloorGrassToBricksCorner_7: -4791438984722042884
+      FloorGrassToBricksCorner_1: 7275759306356368550
+      FloorGrassToBricksCorner_5: -7383445712326616866
+      FloorGrassToBricksCorner_8: 6320572342612093594
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0

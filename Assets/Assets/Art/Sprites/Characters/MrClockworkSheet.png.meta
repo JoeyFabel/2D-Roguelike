@@ -84,6 +84,7 @@ TextureImporter:
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
+  ignoreMasterTextureLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -559,6 +560,26 @@ TextureImporter:
     edges: []
     weights: []
     secondaryTextures: []
+    nameFileIdTable:
+      MrClockworkWalkUp1: 21300000
+      MrClockworkWalkSides1: 21300016
+      MrClockworkIdleSides: 21300024
+      MrClockworkWalkUp2: 21300002
+      MrClockworkWalkSides2: 21300018
+      MrClockworkWalkDown3: 21300012
+      MrClockworkWalkUp3: 21300004
+      MrClockworkWalkDown1: 21300008
+      MrClockworkFixed2: 21300032
+      MrClockworkWalkUp4: 21300006
+      MrClockworkWalkDown4: 21300014
+      MrClockworkWalkSides3: 21300020
+      MrClockworkFixed1: 21300030
+      MrClockworkIdleDown: 21300026
+      MrClockworkWalkSides4: 21300022
+      MrClockworkWalkDown2: 21300010
+      MrClockworkIdleUp: 21300028
+      MrClockworkFixed4: 21300036
+      MrClockworkFixed3: 21300034
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0

@@ -24,6 +24,7 @@ TextureImporter:
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
+  ignoreMasterTextureLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -499,6 +500,26 @@ TextureImporter:
     edges: []
     weights: []
     secondaryTextures: []
+    nameFileIdTable:
+      Brain Mole Monarch Sprite Sheet_0: -8476652840971015511
+      Brain Mole Monarch Sprite Sheet_19: 1766801068633390018
+      Brain Mole Monarch Sprite Sheet_9: -974942569259172088
+      Brain Mole Monarch Sprite Sheet_4: -2368135237913251631
+      Brain Mole Monarch Sprite Sheet_5: -705454514938742296
+      Brain Mole Monarch Sprite Sheet_2: -2094954397124056875
+      Brain Mole Monarch Sprite Sheet_14: -1540289685980664225
+      Brain Mole Monarch Sprite Sheet_15: 5443424182966550017
+      Brain Mole Monarch Sprite Sheet_7: 5220204805818664362
+      Brain Mole Monarch Sprite Sheet_6: -4611414169458109434
+      Brain Mole Monarch Sprite Sheet_1: -7251642278615428772
+      Brain Mole Monarch Sprite Sheet_13: 8399649232368507683
+      Brain Mole Monarch Sprite Sheet_10: 6568142057587399945
+      Brain Mole Monarch Sprite Sheet_8: 6487615146622791141
+      Brain Mole Monarch Sprite Sheet_16: 5634531801259102542
+      Brain Mole Monarch Sprite Sheet_17: 2204811518333902865
+      Brain Mole Monarch Sprite Sheet_12: -1116176690112691549
+      Brain Mole Monarch Sprite Sheet_3: -1225043332585374589
+      Brain Mole Monarch Sprite Sheet_11: 7623496985993013305
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0
