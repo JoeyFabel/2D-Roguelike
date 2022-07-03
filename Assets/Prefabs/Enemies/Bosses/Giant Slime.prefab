@@ -28,6 +28,7 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 6458492809676698781}
   m_RootOrder: 0
@@ -114,6 +115,7 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -36.8, y: -64.5, z: 0}
   m_LocalScale: {x: 3, y: 3, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1194329665416938050}
   m_Father: {fileID: 0}
@@ -130,6 +132,7 @@ SpriteRenderer:
   m_CastShadows: 0
   m_ReceiveShadows: 0
   m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
@@ -172,7 +175,7 @@ SpriteRenderer:
   m_SpriteSortPoint: 1
 --- !u!95 &2618608098255714900
 Animator:
-  serializedVersion: 3
+  serializedVersion: 4
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -185,6 +188,7 @@ Animator:
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
   m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
@@ -225,8 +229,8 @@ MonoBehaviour:
   magicImpactSound: {fileID: 8300000, guid: f38363f5423a5ce499f67290adeb3fa7, type: 3}
   damage: 1
   damageType: 1
-  xpForDefeating: 100
-  moneyForDefeating: 25
+  xpForDefeating: 200
+  moneyForDefeating: 50
   moneyDropChance: 1
   scaleIncreasePerHealth: 0.25
   slimePrefab: {fileID: 2480379327398035363, guid: 63d2372a4d673cb418d54273c45cdad9, type: 3}

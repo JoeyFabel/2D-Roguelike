@@ -42,6 +42,11 @@ public class FlameheartBoss : Boss
     public AudioClip meleeAttackSfx;
     public AudioClip firebreathSfx;
 
+    [Header("Death")]
+    public int numVfxToCreate = 5;
+    public GameObject deathVFX;
+    public AudioClip vfxSound;
+
     // Testing
     [Header("Testing")]
     public bool doFireballAttack;
@@ -99,6 +104,95 @@ public class FlameheartBoss : Boss
     public void RespondToPlayer()
     {
         StartCoroutine(PlayerResponse());
+    }
+
+    protected override void Death()
+    {
+        // Play the death animation & effects
+        print("died!");
+
+        rigidbody.simulated = false;
+        landedCollider.enabled = false;
+        flyingCollider.enabled = false;
+
+        enabled = false;
+
+        StopAllCoroutines();
+        StartCoroutine(PlayDeathVFX());
+    }
+
+    #region Death Helper Methods
+
+    private IEnumerator PlayDeathVFX()
+    {        
+        // Land first
+        yield return StartCoroutine(Land());
+
+        float vfxCreateTime = 0.4f;
+
+        float timestamp = Time.time;
+
+        // first time to freeze animator
+        animator.SetTrigger("Death");
+
+        int remainingVfx = numVfxToCreate;
+
+        while (remainingVfx > 0)
+        {
+            if (Time.time >= timestamp + vfxCreateTime)
+            {
+                Vector3 vfxPosition = transform.position + (Vector3)Random.insideUnitCircle * landedCollider.bounds.size.x;
+
+                // should destroy itself
+                Instantiate(deathVFX, vfxPosition, Quaternion.identity).transform.localScale = Vector3.one * 0.5f;
+
+                audioSource.PlayOneShot(vfxSound);
+
+                timestamp = Time.time;
+                remainingVfx--;
+            }
+
+            yield return null;
+        }
+
+        // second time for animation
+        animator.SetTrigger("Death");
+        audioSource.PlayOneShot(deathSounds[Random.Range(0, deathSounds.Length)]);
+
+        yield return new WaitForSeconds(1f);
+
+        DropXPAndMoney();
+
+        BossRoomTriggerOnDeath();
+
+        Destroy(gameObject);
+    }
+
+    private void DropXPAndMoney()
+    {
+        XPManager.GainXP(xpForDefeating, transform.position);
+        if (Random.value <= moneyDropChance) Inventory.CreateMoneyDrop(moneyForDefeating, transform.position);
+    }
+
+    #endregion
+
+    // Prevents XP and money from being dropped too soon
+    public override void ApplyDamage(float amount)
+    {
+        currentHealth -= amount;
+
+        if (currentHealth <= 0f)
+        {
+            //XPManager.GainXP(xpForDefeating, transform.position);
+            //if (Random.value <= moneyDropChance) Inventory.CreateMoneyDrop(moneyForDefeating, transform.position);
+
+            Death();
+        }
+        else
+        {
+            PlayDamagedSound();
+            StartCoroutine(FlashRedOnDamage());
+        }
     }
 
     private Vector3 GetRandomPositionInBounds()

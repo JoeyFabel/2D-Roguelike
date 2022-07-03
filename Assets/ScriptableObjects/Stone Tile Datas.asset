@@ -283,6 +283,16 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 75ec35d62d62d8c4cbb39e9298b568b6, type: 2}
   - {fileID: 11400000, guid: b0ada7446ea1a99488bb73e8ca153466, type: 2}
   - {fileID: 11400000, guid: 12b2ebf27b4d8ce44911f37f5d91da64, type: 2}
+  - {fileID: 11400000, guid: c38f13b651f31b14cba96042f0b0f33d, type: 2}
+  - {fileID: 11400000, guid: 4aae1f203e19a9c49b37c91e5ad3e87b, type: 2}
+  - {fileID: 11400000, guid: 5435d5a2d900a4c4eb95c682edef1efe, type: 2}
+  - {fileID: 11400000, guid: b024b85e230bf1244bb6755909e5ba92, type: 2}
+  - {fileID: 11400000, guid: 2bc3ed9653edf68458cca1ed3198accd, type: 2}
+  - {fileID: 11400000, guid: b64a68600a14af24290445f79482e24e, type: 2}
+  - {fileID: 11400000, guid: 3b71e04b4d58a6a4093a54d3b912e145, type: 2}
+  - {fileID: 11400000, guid: ce01d18272d47d2438f8c910fdddc4e4, type: 2}
+  - {fileID: 11400000, guid: 20f8f6e53fb09244c9e857fefe8ed9bd, type: 2}
+  - {fileID: 11400000, guid: b658479b03c498f468b699514a855132, type: 2}
   walkingSpeedMultiplier: 1
   layerHeight: 0
   footstepSounds:

@@ -106,6 +106,7 @@ public class GiantSlime : Boss
 
     protected override void Death()
     {
+
         rigidbody.simulated = false;
         GetComponent<Collider2D>().enabled = false;
         enabled = false;
@@ -121,6 +122,7 @@ public class GiantSlime : Boss
         //Debug.LogWarning("TODO -- defeat animation/vfx, give xp after effect ends");
     }
 
+    // This prevents giving XP and money too soon
     public override void ApplyDamage(float amount)
     {
         if (isInvincible) return;
