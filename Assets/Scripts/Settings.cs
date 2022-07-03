@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Audio;
@@ -36,11 +35,6 @@ public class Settings : MonoBehaviour
     private float musicVolumePercentage = 1f;
     private float soundFXVolumePercentage = 1f;
 
-    private void Start()
-    {
-
-    }
-
     public void LoadSettings()
     {
         persistentPath = Application.persistentDataPath + Path.AltDirectorySeparatorChar + SettingsFileName;
@@ -49,7 +43,7 @@ public class Settings : MonoBehaviour
         string json = reader.ReadToEnd();
 
         SettingsSaveData data = JsonUtility.FromJson<SettingsSaveData>(json);
-        
+
         if (data != null)
         {
             masterVolumePercentage = data.masterVolume;
@@ -92,7 +86,7 @@ public class Settings : MonoBehaviour
 
     public void ChangeMasterVolume(float volumePercentage)
     {
-        // Note -- change this to be between -50 and 0
+        // Note -- the slider should go from 0 to 1
         masterVolumePercentageText.text = (int)(volumePercentage * 100) + " %";
 
         masterVolumePercentage = volumePercentage;

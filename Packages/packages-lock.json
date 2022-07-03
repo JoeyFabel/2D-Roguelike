@@ -109,7 +109,7 @@
       "url": "https://packages.unity.com"
     },
     "com.unity.collab-proxy": {
-      "version": "1.15.18",
+      "version": "1.17.1",
       "depth": 0,
       "source": "registry",
       "dependencies": {
@@ -172,23 +172,6 @@
       "dependencies": {},
       "url": "https://packages.unity.com"
     },
-    "com.unity.render-pipelines.core": {
-      "version": "12.1.7",
-      "depth": 1,
-      "source": "builtin",
-      "dependencies": {
-        "com.unity.ugui": "1.0.0",
-        "com.unity.modules.physics": "1.0.0",
-        "com.unity.modules.jsonserialize": "1.0.0"
-      }
-    },
-    "com.unity.searcher": {
-      "version": "4.9.1",
-      "depth": 2,
-      "source": "registry",
-      "dependencies": {},
-      "url": "https://packages.unity.com"
-    },
     "com.unity.services.core": {
       "version": "1.4.0",
       "depth": 1,
@@ -199,15 +182,6 @@
         "com.unity.modules.androidjni": "1.0.0"
       },
       "url": "https://packages.unity.com"
-    },
-    "com.unity.shadergraph": {
-      "version": "12.1.7",
-      "depth": 1,
-      "source": "builtin",
-      "dependencies": {
-        "com.unity.render-pipelines.core": "12.1.7",
-        "com.unity.searcher": "4.9.1"
-      }
     },
     "com.unity.sysroot": {
       "version": "2.0.3",
@@ -257,7 +231,7 @@
       },
       "url": "https://packages.unity.com"
     },
-    "com.unity.toolchain.linux-x86_64": {
+    "com.unity.toolchain.win-x86_64-linux-x86_64": {
       "version": "2.0.2",
       "depth": 0,
       "source": "registry",
@@ -274,15 +248,6 @@
       "dependencies": {
         "com.unity.modules.ui": "1.0.0",
         "com.unity.modules.imgui": "1.0.0"
-      }
-    },
-    "com.unity.visualeffectgraph": {
-      "version": "12.1.7",
-      "depth": 0,
-      "source": "builtin",
-      "dependencies": {
-        "com.unity.shadergraph": "12.1.7",
-        "com.unity.render-pipelines.core": "12.1.7"
       }
     },
     "com.unity.modules.ai": {

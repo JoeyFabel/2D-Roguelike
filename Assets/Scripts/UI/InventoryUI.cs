@@ -14,8 +14,6 @@ public class InventoryUI : MonoBehaviour
     public Button warningCancelButton;
     public GameObject settingsPanel;
 
-    public CanvasGroup inventoryButtons;
-
     public Text moneyText;
 
     private List<InventoryCell> inventoryCells;
@@ -30,8 +28,6 @@ public class InventoryUI : MonoBehaviour
         }
 
         inventoryCells = new List<InventoryCell>();
-
-        inventoryButtons.interactable = true;
 
         gameObject.SetActive(false);
         settingsPanel.SetActive(false);
@@ -80,7 +76,7 @@ public class InventoryUI : MonoBehaviour
 
     public void OpenSettingsMenu()
     {
-        settingsPanel.SetActive(true);
+        Debug.LogWarning("TODO -- implement settings menu");
     }
 
     public void ReturnToMainMenu()
