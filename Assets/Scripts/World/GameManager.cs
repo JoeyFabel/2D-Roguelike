@@ -9,12 +9,14 @@ using UnityEngine.UI;
 public class GameManager : MonoBehaviour
 {
     #region Constants
-    private const string SaveFileName = "/save.dat";
+    private const string SaveFileName = "save.dat";
     #endregion
 
     public Image fadeImage;
     public CanvasGroup gameSavedImage;
     public float fadeTime = 1f;
+
+    public Settings settings;
 
     private static GameManager instance;
     private CharacterSelector characterSelector;
@@ -61,6 +63,7 @@ public class GameManager : MonoBehaviour
 
             SceneManager.sceneLoaded += OnSceneLoaded;
 
+            settings.LoadSettings();
             LoadSave();
         }
         else Destroy(gameObject);
@@ -192,7 +195,7 @@ public class GameManager : MonoBehaviour
         data.currentMoney = Inventory.GetCurrentMoney();
 
         // Create the file
-        FileStream file = File.Create(Application.persistentDataPath + SaveFileName);
+        FileStream file = File.Create(Application.persistentDataPath + Path.AltDirectorySeparatorChar + SaveFileName);
 
         // Save it and encrypt it
         BinaryFormatter bf = new BinaryFormatter();
@@ -201,7 +204,7 @@ public class GameManager : MonoBehaviour
         // and close the file
         file.Close();
 
-        print("Saved to file " + Application.persistentDataPath + SaveFileName);
+        print("Saved to file " + Application.persistentDataPath + Path.AltDirectorySeparatorChar + SaveFileName);
 
         instance.StartCoroutine(instance.ShowGameSavedMessage(2f));
     }
@@ -231,7 +234,7 @@ public class GameManager : MonoBehaviour
     {
         //if (!Directory.Exists(Application.persistentDataPath)) Directory.CreateDirectory(Application.persistentDataPath);
 
-        string filePath = Application.persistentDataPath + SaveFileName;
+        string filePath = Application.persistentDataPath + Path.AltDirectorySeparatorChar + SaveFileName;
 
         if (File.Exists(filePath))
         {
@@ -357,7 +360,7 @@ public class GameManager : MonoBehaviour
     {
         if (UnityEditor.EditorUtility.DisplayDialog("Delete Save File?", "Are you sure you want to delete your save file?", "Yes", "No"))
         {
-            string itemPath = Application.persistentDataPath + SaveFileName;
+            string itemPath = Application.persistentDataPath + Path.AltDirectorySeparatorChar + SaveFileName;
 
             File.Delete(itemPath);
         }
