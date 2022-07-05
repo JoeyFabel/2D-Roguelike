@@ -429,7 +429,7 @@ public class Slime : Enemy
             }
 
             // (b) Move in the random direction
-            if (!touchingPlayer) rigidbody.MovePosition(rigidbody.position + direction * moveSpeed * Time.fixedDeltaTime);            
+            if (!touchingPlayer) rigidbody.MovePosition(rigidbody.position + moveSpeed * Time.fixedDeltaTime * direction);            
 
             yield return null;
         }
