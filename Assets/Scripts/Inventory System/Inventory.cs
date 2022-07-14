@@ -69,6 +69,8 @@ public class Inventory : MonoBehaviour
 
     public static bool PlayerHasItem(Item itemToCheck)
     {
+        if (itemToCheck == null) return true;
+
         return instance.inventory.ContainsKey(itemToCheck);
     }
 

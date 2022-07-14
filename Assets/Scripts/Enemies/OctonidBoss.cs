@@ -60,6 +60,8 @@ public class OctonidBoss : Boss
             // See if the movement will hit a wall
             List<RaycastHit2D> results = new List<RaycastHit2D>();
 
+            /*
+
             // If there are going to be any collisions, check and see what is going to be hit
             if (Physics2D.CircleCast(collider.bounds.center, collider.radius + 0.1f, direction, contactFilter, results, moveSpeed * Time.fixedDeltaTime) > 0) // Stack overflow here?
             {
@@ -77,12 +79,14 @@ public class OctonidBoss : Boss
                     potentialDirections.Remove(direction);
 
                     // Move in one of those directions, randomly picked, for the remaining time
-                    StartCoroutine(Move(potentialDirections[Random.Range(0, 3)], moveTime - (Time.time - timestamp)));
+                    ContinueMovement(potentialDirections[Random.Range(0, 3)], moveTime - (Time.time - timestamp)));
 
                     // Stop the current movement instance
                     yield break;
                 }
             }
+
+            */
 
             // Do the movement
             rigidbody.MovePosition(rigidbody.position + moveSpeed * Time.fixedDeltaTime * direction);
@@ -101,5 +105,10 @@ public class OctonidBoss : Boss
         hasAction = false;
 
         DoMovement();
+    }
+
+    private void ContinueMovement(Vector2 direction, float moveTime)
+    {
+        StartCoroutine(Move(direction, moveTime));
     }
 }

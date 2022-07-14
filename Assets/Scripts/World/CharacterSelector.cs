@@ -37,7 +37,6 @@ public class CharacterSelector : MonoBehaviour
 
     public string GetCharacterName()
     {
-        print("current character is: " + playerCharacterName);
         return playerCharacterName;
     }
 

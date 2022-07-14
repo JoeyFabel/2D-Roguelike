@@ -17,12 +17,18 @@ public abstract class SaveableObject : MonoBehaviour
 
     public abstract WorldObjectSaveData GetSaveData();
 
+    /// <summary>
+    /// Load and initialize any values from the save data as needed.
+    /// Make sure you set isDoneLoading to true once you are done
+    /// </summary>
     protected abstract void LoadData();
 
     public string SaveID()
     {
         return SceneManager.GetActiveScene().name + ": " + saveIDNumber;
     }
+
+    // Note that start should always run before the data is loaded. If there is no data, then start will run afterwards
 
     public void GrabSaveDataReference(Dictionary<string, WorldObjectSaveData> dataDictionary)
     {
@@ -63,6 +69,10 @@ public abstract class SaveableObject : MonoBehaviour
         instances.Add(this);
     }
 
+    /// <summary>
+    /// Note that this start method will run before the save data is loaded.
+    /// If no save data is found, make sure any necessary values are set in this method
+    /// </summary>
     protected virtual void Start()
     {
         started = true;

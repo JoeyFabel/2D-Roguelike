@@ -63,6 +63,7 @@ public class GameManager : MonoBehaviour
 
             settings.LoadSettings();
             LoadSave();
+            GetComponentInChildren<DialogManager>().InitializeDialogManager();
         }
         else Destroy(gameObject);
     }

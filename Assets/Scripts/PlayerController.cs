@@ -76,7 +76,6 @@ public class PlayerController : MonoBehaviour
 
     private bool loadedData = false;
 
-    //private Interactable currentInteractable;
     private IInteractable currentInteractable;
 
     private new Collider2D collider;
@@ -383,7 +382,7 @@ public class PlayerController : MonoBehaviour
         {
             currentInteractable.Interact();
 
-            currentInteractable = null;
+            if (currentInteractable is not DialogTree) currentInteractable = null;
             DisableInteractSymbol();
         }
     }
@@ -415,6 +414,12 @@ public class PlayerController : MonoBehaviour
         inventoryToggleAction.Enable();
     }
 
+    public void DisableControlsForDialog()
+    {
+        playerInput.DeactivateInput();
+        interactAction.Enable();
+    }
+    
     public void EnableControlsAfterUI()
     {
         playerInput.ActivateInput();
