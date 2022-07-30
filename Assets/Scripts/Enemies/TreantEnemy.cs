@@ -107,7 +107,6 @@ public class TreantEnemy : Enemy
             if (Physics2D.BoxCast(rigidbody.position, collider.size, 0, moveDirection, contactFilter, results, speed * Time.fixedDeltaTime) > 0)
             {
                 timer = -1f;
-                print("hit something: " + results[0].collider.gameObject);
             }
             else rigidbody.MovePosition(position);
         }

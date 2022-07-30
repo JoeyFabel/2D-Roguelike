@@ -108144,7 +108144,7 @@ MonoBehaviour:
   moneyForDefeating: 10
   moneyDropChance: 0
   moveSpeed: 2
-  minMoveTime: 0.5
+  minMoveTime: 0.75
   maxMoveTime: 2
   contactFilter:
     useTriggers: 0

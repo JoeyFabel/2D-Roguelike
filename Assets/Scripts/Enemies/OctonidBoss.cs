@@ -9,8 +9,10 @@ public class OctonidBoss : Boss
     public float minMoveTime = 0.5f;
     public float maxMoveTime = 2f;
     public ContactFilter2D contactFilter;
+    public int minMovesInAction = 1;
+    public int maxMovesInAction = 3;
 
-    private bool hasAction;
+    private int remainingMovesInAction = -1;
 
     private new CircleCollider2D collider;
 
@@ -22,11 +24,20 @@ public class OctonidBoss : Boss
 
         DoMovement();
     }
-
-    public void DoMovement()
+    
+    /// <summary>
+    /// This method is the brain of the AI. It determines which course of action is the best move to take.
+    /// </summary>
+    private void ChooseAction()
     {
-        hasAction = true;
+        DoMovement();
+    }
 
+    /// <summary>
+    /// A Primary Action for the Octonid boss, it triggers a random number of moves
+    /// </summary>
+    private void DoMovement()
+    {
         // Determine the length and direction of the movement
         float moveTime = Random.Range(minMoveTime, maxMoveTime);
 
@@ -47,6 +58,8 @@ public class OctonidBoss : Boss
                 break;
         }
 
+        if (remainingMovesInAction <= 0) remainingMovesInAction = Random.Range(minMovesInAction, maxMovesInAction + 1);
+
         StartCoroutine(Move(movementVector, moveTime));
     }
 
@@ -55,38 +68,32 @@ public class OctonidBoss : Boss
         float timestamp = Time.time;
         animator.SetBool("Moving", true);
 
+        List<RaycastHit2D> results = new List<RaycastHit2D>();
+        
         while (Time.time - timestamp <= moveTime)
         {
-            // See if the movement will hit a wall
-            List<RaycastHit2D> results = new List<RaycastHit2D>();
+            // See if the movement will hit a wall, and if it does, change direction of movement
 
-            /*
+            results.Clear();
+            Physics2D.CircleCast(collider.bounds.center, collider.radius + 0.1f, direction, contactFilter, results, moveSpeed * Time.fixedDeltaTime);
 
-            // If there are going to be any collisions, check and see what is going to be hit
-            if (Physics2D.CircleCast(collider.bounds.center, collider.radius + 0.1f, direction, contactFilter, results, moveSpeed * Time.fixedDeltaTime) > 0) // Stack overflow here?
+            for (int i = results.Count - 1; i>= 0; i--) if (results[i].collider.Equals(collider))
+                {
+                    results.RemoveAt(i);
+                    break;
+                }
+
+            if (results.Count > 0)
             {
-                // ignore collisions with oneself
-                for (int i = results.Count - 1; i >= 0; i--)
-                {
-                    if (results[i].collider == collider) results.RemoveAt(i);
-                }
+                print(results.Count + ": " + results[0].collider.name);
 
-                // If there are collisions with another object, move in a different direction for the remaining time
-                if (results.Count > 0)
-                {
-                    // Get a list with the three movement directions that are not being used
-                    List<Vector2> potentialDirections = new List<Vector2> { Vector2.right, Vector2.down, Vector2.left, Vector2.up };
-                    potentialDirections.Remove(direction);
+                List<Vector2> potentialDirections = new List<Vector2> { Vector2.right, Vector2.down, Vector2.left, Vector2.up };
+                potentialDirections.Remove(direction);
 
-                    // Move in one of those directions, randomly picked, for the remaining time
-                    ContinueMovement(potentialDirections[Random.Range(0, 3)], moveTime - (Time.time - timestamp)));
+                ContinueMovement(potentialDirections[Random.Range(0, 3)], moveTime - (Time.time - timestamp));
 
-                    // Stop the current movement instance
-                    yield break;
-                }
+                yield break;
             }
-
-            */
 
             // Do the movement
             rigidbody.MovePosition(rigidbody.position + moveSpeed * Time.fixedDeltaTime * direction);
@@ -100,11 +107,13 @@ public class OctonidBoss : Boss
 
         animator.SetBool("Moving", false);
 
-        yield return new WaitForSeconds(3f); // remove this
+        if (remainingMovesInAction > 0) DoMovement();
+        else
+        {
+            yield return new WaitForSeconds(3f); // remove this
 
-        hasAction = false;
-
-        DoMovement();
+            ChooseAction();
+        }
     }
 
     private void ContinueMovement(Vector2 direction, float moveTime)
