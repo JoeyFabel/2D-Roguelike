@@ -12,14 +12,28 @@ public class OctonidBoss : Boss
     public int minMovesInAction = 1;
     public int maxMovesInAction = 3;
 
+    [Header("Attacks")]
+    public float laserAttackChance = 0.5f;
+    public float laserAttackCooldown = 1f;
+    public float chanceForExtraLaserAttack = 0.1f;
+    public float eyeClosedMinTime = 2f;
+    public float eyeClosedMaxTime = 5f;
+
     private int remainingMovesInAction = -1;
 
     private new CircleCollider2D collider;
+    private PlayerController player;
+
+    private bool justMoved;
+    private bool isInvincible;
 
     protected override void Start()
     {
         base.Start();
 
+        isInvincible = false;
+
+        player = CharacterSelector.GetPlayerController();
         collider = GetComponent<CircleCollider2D>();
 
         DoMovement();
@@ -30,7 +44,76 @@ public class OctonidBoss : Boss
     /// </summary>
     private void ChooseAction()
     {
-        DoMovement();
+        if (justMoved)
+        {
+            if (Random.value <= laserAttackChance) StartCoroutine(DoLaserAttack());
+            else StartCoroutine(CloseEyeAction());
+
+            justMoved = false;
+        }
+        else
+        {
+            DoMovement();
+            justMoved = true;
+        }
+    }
+
+    /// <summary>
+    /// A Primary Action for the Octonid boss, it causes the octonid to close its eye and become invincible before choosing its next action.
+    /// </summary>
+    private IEnumerator CloseEyeAction()
+    {
+        animator.SetBool("Eye Closed", true);
+
+        yield return new WaitForSeconds(0.5f);
+
+        isInvincible = true;
+
+        yield return new WaitForSeconds(Random.Range(eyeClosedMinTime - 0.5f, eyeClosedMaxTime - 0.5f));
+
+        animator.SetBool("Eye Closed", false);
+
+        yield return new WaitForSeconds(0.5f);
+
+        // At the end, choose between the move action and the laser attack action, but the odds of a laser attack are increase.
+        float laserAttackOdds = laserAttackChance + (1f - laserAttackChance) / 2;
+
+        if (Random.value <= laserAttackOdds) StartCoroutine(DoLaserAttack());
+        else ChooseAction();
+    }
+
+    /// <summary>
+    /// A Primary Action for the Octonid boss, the octonid shoots a laser out of its eye.
+    /// </summary>
+    private IEnumerator DoLaserAttack()
+    {
+        // Make the octonid face towards the player
+        Vector2 toPlayer = player.transform.position - transform.position;
+
+        if (Mathf.Abs(toPlayer.x) >= Mathf.Abs(toPlayer.y)) animator.SetFloat("Movement X", toPlayer.x);
+        else animator.SetFloat("Movement Y", toPlayer.y);
+
+        // Trigger the animation
+        animator.SetTrigger("Laser Attack");
+
+        // Shoot the laser at the appropriate time in the animation
+        yield return new WaitForSeconds(0.375f);
+
+        ShootLaser();
+
+        yield return new WaitForSeconds(0.625f);
+
+        // The animation is now over, wait for the attack cooldown to end
+        yield return new WaitForSeconds(laserAttackCooldown);
+
+        // There is a small chance for a second laser to be fired, otherwise go back to movement
+        if (Random.value <= chanceForExtraLaserAttack) StartCoroutine(DoLaserAttack());
+        else ChooseAction();
+    }
+
+    private void ShootLaser()
+    {
+        print("laser!");
     }
 
     /// <summary>
@@ -69,7 +152,8 @@ public class OctonidBoss : Boss
         animator.SetBool("Moving", true);
 
         List<RaycastHit2D> results = new List<RaycastHit2D>();
-        
+
+
         while (Time.time - timestamp <= moveTime)
         {
             // See if the movement will hit a wall, and if it does, change direction of movement
@@ -77,15 +161,19 @@ public class OctonidBoss : Boss
             results.Clear();
             Physics2D.CircleCast(collider.bounds.center, collider.radius + 0.1f, direction, contactFilter, results, moveSpeed * Time.fixedDeltaTime);
 
-            for (int i = results.Count - 1; i>= 0; i--) if (results[i].collider.Equals(collider))
-                {
-                    results.RemoveAt(i);
-                    break;
-                }
+          //  results.AddRange(Physics2D.CircleCastAll(collider.bounds.center, collider.radius + 0.1f, direction, moveSpeed * Time.fixedDeltaTime, contactFilter.layerMask));
 
             if (results.Count > 0)
             {
-                print(results.Count + ": " + results[0].collider.name);
+            
+                for (int i = results.Count - 1; i>= 0; i--)
+                {
+                    if (results[i].collider.Equals(collider))
+                    {
+                        results.RemoveAt(i);
+                        break;
+                    }
+                }
 
                 List<Vector2> potentialDirections = new List<Vector2> { Vector2.right, Vector2.down, Vector2.left, Vector2.up };
                 potentialDirections.Remove(direction);
