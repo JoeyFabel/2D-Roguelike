@@ -134,6 +134,11 @@ public struct Resistance
         return null;
     }
 
+    /// <summary>
+    /// Subtracts the specified amount from the damageables health, checks for death, and plays any audio sfx.
+    /// This is the ApplyDamage that always actually applies the damage.
+    /// </summary>
+    /// <param name="amount">The amount of damage to take</param>
     public virtual void ApplyDamage(float amount)
     {
         currentHealth -= amount;
@@ -142,6 +147,12 @@ public struct Resistance
         else PlayDamagedSound();
     }
 
+    /// <summary>
+    /// Applies damage to the damageable, after factoring in resistances.
+    /// This just calls the other <see cref="ApplyDamage(float)"/> method.
+    /// </summary>
+    /// <param name="amount">The amount of damage to take</param>
+    /// <param name="damageType">The damage source's damage type</param>
     public virtual void ApplyDamage(float amount, DamageTypes damageType)
     {
         float damage = amount - (amount * resistances.GetResistanceValue(damageType));

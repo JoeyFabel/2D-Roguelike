@@ -19,13 +19,26 @@ public class OctonidBoss : Boss
     public float eyeClosedMinTime = 2f;
     public float eyeClosedMaxTime = 5f;
 
+    [SerializeField]
     private int remainingMovesInAction = -1;
 
-    private new CircleCollider2D collider;
+    private new CapsuleCollider2D collider;
     private PlayerController player;
 
     private bool justMoved;
     private bool isInvincible;
+
+#if UNITY_EDITOR    
+    private string currentAction;
+
+    [SerializeField]
+    private string actionDisplayText = "Current Action: none";
+
+    private void OnDrawGizmosSelected()
+    {
+        actionDisplayText = "Current Action: " + currentAction;
+    }
+#endif
 
     protected override void Start()
     {
@@ -34,11 +47,18 @@ public class OctonidBoss : Boss
         isInvincible = false;
 
         player = CharacterSelector.GetPlayerController();
-        collider = GetComponent<CircleCollider2D>();
+        collider = GetComponent<CapsuleCollider2D>();
 
         DoMovement();
     }
-    
+
+    public override void ApplyDamage(float amount)
+    {
+        if (isInvincible) return;
+
+        base.ApplyDamage(amount);
+    }
+
     /// <summary>
     /// This method is the brain of the AI. It determines which course of action is the best move to take.
     /// </summary>
@@ -63,6 +83,10 @@ public class OctonidBoss : Boss
     /// </summary>
     private IEnumerator CloseEyeAction()
     {
+#if UNITY_EDITOR
+        currentAction = "Close Eye Action";
+#endif
+
         animator.SetBool("Eye Closed", true);
 
         yield return new WaitForSeconds(0.5f);
@@ -87,6 +111,10 @@ public class OctonidBoss : Boss
     /// </summary>
     private IEnumerator DoLaserAttack()
     {
+#if UNITY_EDITOR
+        currentAction = "Laser Attack";
+#endif
+
         // Make the octonid face towards the player
         Vector2 toPlayer = player.transform.position - transform.position;
 
@@ -121,6 +149,10 @@ public class OctonidBoss : Boss
     /// </summary>
     private void DoMovement()
     {
+#if UNITY_EDITOR
+        currentAction = "Movement Action";
+#endif
+
         // Determine the length and direction of the movement
         float moveTime = Random.Range(minMoveTime, maxMoveTime);
 
@@ -129,15 +161,20 @@ public class OctonidBoss : Boss
 
         switch (moveDirection)
         {
-            case 0: movementVector = Vector2.right;
+            case 0:
+                movementVector = Vector2.right;
                 break;
-            case 1: movementVector = Vector2.down;
+            case 1:
+                movementVector = Vector2.down;
                 break;
-            case 2: movementVector = Vector2.left; 
+            case 2:
+                movementVector = Vector2.left;
                 break;
-            case 3: movementVector = Vector2.up; 
+            case 3:
+                movementVector = Vector2.up;
                 break;
-            default: movementVector = Vector2.right;
+            default:
+                movementVector = Vector2.right;
                 break;
         }
 
@@ -146,41 +183,39 @@ public class OctonidBoss : Boss
         StartCoroutine(Move(movementVector, moveTime));
     }
 
+    /// <summary>
+    /// Sub-Action, or helper method for DoMovement. Actual movement is handled here.
+    /// </summary>
+    /// <param name="direction">The direction for the Octonid to move in</param>
+    /// <param name="moveTime">The length of time that the Octonid should move</param>    
     private IEnumerator Move(Vector2 direction, float moveTime)
     {
         float timestamp = Time.time;
         animator.SetBool("Moving", true);
 
-        List<RaycastHit2D> results = new List<RaycastHit2D>();
-
-
         while (Time.time - timestamp <= moveTime)
         {
             // See if the movement will hit a wall, and if it does, change direction of movement
 
-            results.Clear();
-            Physics2D.CircleCast(collider.bounds.center, collider.radius + 0.1f, direction, contactFilter, results, moveSpeed * Time.fixedDeltaTime);
+            List<RaycastHit2D> results = new List<RaycastHit2D>();
 
-          //  results.AddRange(Physics2D.CircleCastAll(collider.bounds.center, collider.radius + 0.1f, direction, moveSpeed * Time.fixedDeltaTime, contactFilter.layerMask));
-
-            if (results.Count > 0)
+            //if (Physics2D.CapsuleCast(collider.bounds.center, collider.radius + 0.1f, direction, contactFilter, results, moveSpeed * Time.fixedDeltaTime) > 0)
+            if (Physics2D.CapsuleCast(rigidbody.position, collider.size, collider.direction, 0, direction, contactFilter, results, moveSpeed * Time.fixedDeltaTime) > 0)
             {
-            
-                for (int i = results.Count - 1; i>= 0; i--)
+                for (int i = results.Count - 1; i >= 0; i--)
                 {
-                    if (results[i].collider.Equals(collider))
-                    {
-                        results.RemoveAt(i);
-                        break;
-                    }
+                    if (results[i].collider.Equals(collider)) results.RemoveAt(i);
                 }
 
-                List<Vector2> potentialDirections = new List<Vector2> { Vector2.right, Vector2.down, Vector2.left, Vector2.up };
-                potentialDirections.Remove(direction);
+                if (results.Count > 0)
+                {
+                    List<Vector2> potentialDirections = new List<Vector2> { Vector2.right, Vector2.down, Vector2.left, Vector2.up };
+                    potentialDirections.Remove(direction);
 
-                ContinueMovement(potentialDirections[Random.Range(0, 3)], moveTime - (Time.time - timestamp));
+                    StartCoroutine(Move(potentialDirections[Random.Range(0, 3)], moveTime - (Time.time - timestamp)));
 
-                yield break;
+                    yield break;
+                }
             }
 
             // Do the movement
@@ -189,11 +224,13 @@ public class OctonidBoss : Boss
             animator.SetFloat("Movement Y", direction.y);
 
             // yield for the next frame and decrease the timer
-           // moveTime -= Time.fixedDeltaTime;
+            // moveTime -= Time.fixedDeltaTime;
             yield return null;
         }
 
         animator.SetBool("Moving", false);
+
+        remainingMovesInAction--;
 
         if (remainingMovesInAction > 0) DoMovement();
         else
@@ -204,8 +241,4 @@ public class OctonidBoss : Boss
         }
     }
 
-    private void ContinueMovement(Vector2 direction, float moveTime)
-    {
-        StartCoroutine(Move(direction, moveTime));
-    }
 }

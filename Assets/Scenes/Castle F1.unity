@@ -107877,7 +107877,7 @@ GameObject:
   - component: {fileID: 2047444621}
   - component: {fileID: 2047444627}
   - component: {fileID: 2047444625}
-  - component: {fileID: 2047444624}
+  - component: {fileID: 2047444628}
   - component: {fileID: 2047444626}
   m_Layer: 0
   m_Name: Octonid
@@ -107973,22 +107973,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 26
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!58 &2047444624
-CircleCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2047444620}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0.4}
-  serializedVersion: 2
-  m_Radius: 0.3
 --- !u!50 &2047444625
 Rigidbody2D:
   serializedVersion: 4
@@ -108160,6 +108144,31 @@ MonoBehaviour:
     maxDepth: 0
     minNormalAngle: 0
     maxNormalAngle: 0
+  minMovesInAction: 3
+  maxMovesInAction: 7
+  laserAttackChance: 0.5
+  laserAttackCooldown: 1
+  chanceForExtraLaserAttack: 0.1
+  eyeClosedMinTime: 2
+  eyeClosedMaxTime: 5
+  remainingMovesInAction: -1
+  actionDisplayText: 'Current Action: '
+--- !u!70 &2047444628
+CapsuleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2047444620}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0.4}
+  m_Size: {x: 0.595, y: 0.595}
+  m_Direction: 0
 --- !u!1001 &4683669014790467415
 PrefabInstance:
   m_ObjectHideFlags: 0
