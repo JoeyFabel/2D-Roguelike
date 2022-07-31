@@ -4,6 +4,12 @@ using UnityEngine;
 
 public class OctonidBoss : Boss
 {
+    [Header("Prefabs")]
+    public GameObject laserBeamPrefab;
+
+    [Header("Audio")]
+    public AudioClip laserFireSound;
+
     [Header("Movement")]
     public float moveSpeed = 2f;
     public float minMoveTime = 0.5f;
@@ -12,10 +18,14 @@ public class OctonidBoss : Boss
     public int minMovesInAction = 1;
     public int maxMovesInAction = 3;
 
-    [Header("Attacks")]
+    [Header("Laser Attack")]
+    public float laserLaunchSpeed;
     public float laserAttackChance = 0.5f;
     public float laserAttackCooldown = 1f;
     public float chanceForExtraLaserAttack = 0.1f;
+    public float maxLaserAngleFromCenter = 60f;
+
+    [Header("Eye Closed Parameters")]
     public float eyeClosedMinTime = 2f;
     public float eyeClosedMaxTime = 5f;
 
@@ -43,6 +53,8 @@ public class OctonidBoss : Boss
     protected override void Start()
     {
         base.Start();
+
+        Debug.LogWarning("TODO - Octonid Boss Damage player on contact");
 
         isInvincible = false;
 
@@ -127,7 +139,7 @@ public class OctonidBoss : Boss
         // Shoot the laser at the appropriate time in the animation
         yield return new WaitForSeconds(0.375f);
 
-        ShootLaser();
+        ShootLaser(toPlayer.x, toPlayer.y);
 
         yield return new WaitForSeconds(0.625f);
 
@@ -139,9 +151,43 @@ public class OctonidBoss : Boss
         else ChooseAction();
     }
 
-    private void ShootLaser()
+    private void ShootLaser(float facingX, float facingY)
     {
-        print("laser!");
+        // Fire the laser at the player, but clamp it within the Octonid's facing direction
+
+        Vector2 towardsPlayer = player.GetComponent<Collider2D>().bounds.center - transform.position;
+        towardsPlayer.Normalize();
+
+        // Get the direction that the octonid is facing
+        Vector2 facingDirection = Vector2.zero;
+
+        if (Mathf.Abs(facingX) > Mathf.Abs(facingY)) facingDirection = facingX > 0 ? Vector2.right : Vector2.left;
+        else facingDirection = facingY > 0 ? Vector2.up : Vector2.down;
+
+        // The laser should now be pointing straight downward
+        Projectile laser = Instantiate(laserBeamPrefab, rigidbody.position, Quaternion.identity).GetComponent<Projectile>();
+
+        /*
+        // Now clamp the laser's fire angle within its bounds
+        if (Vector2.Angle(facingDirection, towardsPlayer) > maxLaserAngleFromCenter)
+        {
+            print("the player is at an angle of " + Vector2.Angle(facingDirection, towardsPlayer) + " from the facing direction");
+
+            Vector2 clampedVector = Vector2.zero;
+
+            float actualAngle = maxLaserAngleFromCenter;
+
+            if (facingDirection == Vector2.left) actualAngle += 180f;
+            else if (facingDirection == Vector2.up) actualAngle += 90f;
+            else if (facingDirection == Vector2.down) actualAngle += 270f;
+                
+            // get the vector from the angle - This should be from facing straight rightward
+            clampedVector = new Vector2(Mathf.Cos(maxLaserAngleFromCenter * Mathf.Deg2Rad), Mathf.Sin(maxLaserAngleFromCenter * Mathf.Deg2Rad));
+
+            towardsPlayer = clampedVector.normalized;
+        } */
+
+        laser.Launch(towardsPlayer, laserLaunchSpeed);
     }
 
     /// <summary>

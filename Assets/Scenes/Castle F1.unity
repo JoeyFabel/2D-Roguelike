@@ -107879,7 +107879,7 @@ GameObject:
   - component: {fileID: 2047444625}
   - component: {fileID: 2047444628}
   - component: {fileID: 2047444626}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Octonid
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -108102,7 +108102,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 358ce8248d1beac419f9a10f5c9bda2f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth: 0
+  maxHealth: 10
   resistances:
     resistances:
     - attackType: 0
@@ -108117,16 +108117,18 @@ MonoBehaviour:
       resistance: 0
   damageSounds: []
   deathSounds: []
-  fireballImpactSound: {fileID: 0}
-  slashImpactSound: {fileID: 0}
-  thrustImpactSound: {fileID: 0}
-  bluntImpactSound: {fileID: 0}
-  magicImpactSound: {fileID: 0}
-  damage: 0
-  damageType: 0
-  xpForDefeating: 0
-  moneyForDefeating: 10
-  moneyDropChance: 0
+  fireballImpactSound: {fileID: 8300000, guid: dcb511a4bd58bce49b49257f8138c18f, type: 3}
+  slashImpactSound: {fileID: 8300000, guid: 38ff67d39c988c242829ac3a7cba9e87, type: 3}
+  thrustImpactSound: {fileID: 8300000, guid: 38ff67d39c988c242829ac3a7cba9e87, type: 3}
+  bluntImpactSound: {fileID: 8300000, guid: 38ff67d39c988c242829ac3a7cba9e87, type: 3}
+  magicImpactSound: {fileID: 8300000, guid: f38363f5423a5ce499f67290adeb3fa7, type: 3}
+  damage: 1
+  damageType: 3
+  xpForDefeating: 100
+  moneyForDefeating: 25
+  moneyDropChance: 1
+  laserBeamPrefab: {fileID: 5941228226941616924, guid: 78808d1a92d61b343a7d7be3fa644746, type: 3}
+  laserFireSound: {fileID: 8300000, guid: 2e1dd61aedf791442846a2dd87ac0167, type: 3}
   moveSpeed: 2
   minMoveTime: 0.75
   maxMoveTime: 2
@@ -108146,9 +108148,11 @@ MonoBehaviour:
     maxNormalAngle: 0
   minMovesInAction: 3
   maxMovesInAction: 7
-  laserAttackChance: 0.5
+  laserLaunchSpeed: 250
+  laserAttackChance: 1
   laserAttackCooldown: 1
   chanceForExtraLaserAttack: 0.1
+  maxLaserAngleFromCenter: 60
   eyeClosedMinTime: 2
   eyeClosedMaxTime: 5
   remainingMovesInAction: -1
@@ -109296,6 +109300,18 @@ PrefabInstance:
     - target: {fileID: 8179247060685021110, guid: a2854b7d0f97de34b9a6fa566461d83b, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8179247060685021111, guid: a2854b7d0f97de34b9a6fa566461d83b, type: 3}
+      propertyPath: useCustomSpawnPoint
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8179247060685021111, guid: a2854b7d0f97de34b9a6fa566461d83b, type: 3}
+      propertyPath: playerSpawnPosition.x
+      value: -40
+      objectReference: {fileID: 0}
+    - target: {fileID: 8179247060685021111, guid: a2854b7d0f97de34b9a6fa566461d83b, type: 3}
+      propertyPath: playerSpawnPosition.y
+      value: -65
       objectReference: {fileID: 0}
     - target: {fileID: 9049828098926541579, guid: a2854b7d0f97de34b9a6fa566461d83b, type: 3}
       propertyPath: m_AnchorMax.y

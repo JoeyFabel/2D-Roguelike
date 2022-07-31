@@ -38,6 +38,14 @@ public class GameManager : MonoBehaviour
     private PlayerLoadData playerLoadData;
     private Dictionary<string, WorldObjectSaveData> saveableObjectDataDictionary;
 
+#if UNITY_EDITOR
+    [Header("Testings Helpers")]
+    public bool useCustomSpawnPoint;
+    [Tooltip("Note - this ignores the save data location")]
+    public Vector3 playerSpawnPosition;
+
+#endif
+
     private void Awake()
     {
         // Create the singleton or destroy the duplicate
@@ -86,6 +94,10 @@ public class GameManager : MonoBehaviour
         if (setPlayerPosition) player.transform.position = playersLastPosition;
 
         if (playerLoadData != null) player.LoadPlayerData(playerLoadData);
+
+#if UNITY_EDITOR
+        if (useCustomSpawnPoint) player.transform.position = playerSpawnPosition;
+#endif
     }
 
     private void HandleSaveableObjects()
