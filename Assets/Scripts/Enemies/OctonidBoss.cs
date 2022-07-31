@@ -55,8 +55,6 @@ public class OctonidBoss : Boss
     {
         base.Start();
 
-        Debug.LogWarning("TODO - Figure out a way to handle player/octonid collisions without pushing the player through a wall"); 
-
         isInvincible = false;
 
         player = CharacterSelector.GetPlayerController();

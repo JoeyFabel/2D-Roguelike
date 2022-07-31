@@ -180,6 +180,8 @@ public class Slime : Enemy
 
     protected override void Death()
     {
+        // Giant slime share animator, so death has to be triggered twice to bypass the pause and go to the death anim
+        animator.SetTrigger("Death");
         animator.SetTrigger("Death");
 
         audioSource.PlayOneShot(deathSounds[Random.Range(0, deathSounds.Length)]);

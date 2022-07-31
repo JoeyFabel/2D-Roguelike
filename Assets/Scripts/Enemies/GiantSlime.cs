@@ -19,8 +19,10 @@ public class GiantSlime : Boss
     public float moveSpeed = 1f;
     public float moveSpeedDecreasePerHealth = 0.25f;
     public float launchDistance = 2f;
+    public float maxAttackMoveSpeed = 2.5f;
 
     public ContactFilter2D contactFilter;
+    public CapsuleCollider2D attackMovementCollider;
 
     [Header("Attack Info")]
     [Tooltip("How long the slime pauses after an attack or random movement")]
@@ -42,22 +44,26 @@ public class GiantSlime : Boss
     private List<Slime> createdSlimes;
 
     new CapsuleCollider2D collider;
-    Collider2D secondaryCollider;
+    CapsuleCollider2D secondaryCollider;
 
     private float mainColliderOffset;
     private float secondaryColliderOffset;
 
     private int remainingMovesBeforeAttack;
 
+    [SerializeField]
     private bool hasAction;
     private bool isInvincible;
+    private bool touchingPlayer;
 
     protected override void Start()
     {
         base.Start();
 
+        Debug.LogWarning("Prevent little slimes from spawning outside the arena");
+
         collider = GetComponent<CapsuleCollider2D>();
-        secondaryCollider = transform.GetChild(0).GetComponent<Collider2D>();
+        secondaryCollider = transform.GetChild(0).GetComponent<CapsuleCollider2D>();
 
         player = CharacterSelector.GetPlayerController();
         createdSlimes = new List<Slime>();
@@ -173,6 +179,7 @@ public class GiantSlime : Boss
     private void SpawnSlime(Vector2 jumpEndPosition, float slimeJumpSpeed)
     {
         Vector3 spawnPosition = collider.ClosestPoint((Vector2)collider.bounds.center + jumpEndPosition);
+        spawnPosition.x = collider.bounds.center.x;
 
         Slime spawnedSlime = Instantiate(slimePrefab, spawnPosition, Quaternion.identity).GetComponent<Slime>();
         spawnedSlime.Start();
@@ -192,7 +199,16 @@ public class GiantSlime : Boss
     {
         PlayerController player = collision.gameObject.GetComponent<PlayerController>();
 
-        if (player) player.TakeDamage(damage, damageType);     
+        if (player)
+        {
+            player.TakeDamage(damage, damageType);
+            touchingPlayer = true;
+        }
+    }
+
+    private void OnCollisionExit2D(Collision2D collision)
+    {
+        if (collision.collider.TryGetComponent(out PlayerController player)) touchingPlayer = false;
     }
 
     int vfxToCreate = 5;
@@ -332,6 +348,8 @@ public class GiantSlime : Boss
         hasAction = false;
     }
 
+    public float attackRaycastExtraDistance = 2f;
+
     private IEnumerator DoAttack()
     {
         hasAction = true;
@@ -357,15 +375,21 @@ public class GiantSlime : Boss
             {
                 List<RaycastHit2D> results = new List<RaycastHit2D>();
 
-                if (Physics2D.CapsuleCast(rigidbody.position, collider.size, collider.direction, 0, direction, contactFilter, results, 4.5f * moveSpeed * Time.fixedDeltaTime) > 0)
+                if (Physics2D.CapsuleCast(rigidbody.position, secondaryCollider.size, secondaryCollider.direction, 0, direction, contactFilter, results, 4.5f * Mathf.Clamp(moveSpeed, 1f, maxAttackMoveSpeed) * Time.fixedDeltaTime + attackRaycastExtraDistance) > 0)
                 {
                     // ignore collisions with oneself
                     for (int i = results.Count - 1; i >= 0; i--)
                     {
+                        print("    hit " + results[i].collider.name);
                         if (results[i].collider == collider) results.RemoveAt(i);
                     }
+                    
+                    if (results.Count > 0)
+                    {
+                        print("Giant slime hit something during attack, change direction! (" + results[0].collider.name + ")");
 
-                    if (results.Count > 0) needsDirection = true;
+                        direction = -direction;
+                    }                    
 
                 }
             }
@@ -374,12 +398,19 @@ public class GiantSlime : Boss
             {
                 direction = (player.transform.position - transform.position).normalized;
 
+                if (touchingPlayer && player.IsTouchingWall()) direction = -direction;
+                
                 needsDirection = false;
                 timeUntilNewDirection = attackTime / 3f;
             }
 
-            // move towards player
-            rigidbody.MovePosition(rigidbody.position + 4 * moveSpeed * Time.fixedDeltaTime * direction);
+            // move towards player, unless the player is cornered
+            if (touchingPlayer && player.IsTouchingWall())
+            {
+                print("Giant slime pushed player into wall!");
+                rigidbody.MovePosition(rigidbody.position + 4 * moveSpeed * Time.fixedDeltaTime * -direction);
+            }
+            else rigidbody.MovePosition(rigidbody.position + 4 * moveSpeed * Time.fixedDeltaTime * direction);
 
             yield return null;
         }

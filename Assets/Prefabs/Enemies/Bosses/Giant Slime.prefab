@@ -183,7 +183,7 @@ Animator:
   m_GameObject: {fileID: 3674672706728360556}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: d9b09c3b4c07a4743b05019c41458880, type: 2}
+  m_Controller: {fileID: 9100000, guid: d67f2d0ed7dfc0c439317c1c91f28042, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -254,6 +254,7 @@ MonoBehaviour:
     maxDepth: 0
     minNormalAngle: 0
     maxNormalAngle: 0
+  attackMovementCollider: {fileID: 0}
   pauseTime: 2
   minRandomMoveTime: 1.5
   maxRandomMoveTime: 3
@@ -262,6 +263,8 @@ MonoBehaviour:
   numMovesBeforeAttack: 2
   deathVFX: {fileID: 3751328571576430700, guid: 7406c038ab9579f4bb42c68814b48641, type: 3}
   vfxSound: {fileID: 8300000, guid: 2f8b56c696bf4f24d90446f208de8933, type: 3}
+  hasAction: 0
+  attackRaycastExtraDistance: 2
 --- !u!50 &4822716467708267170
 Rigidbody2D:
   serializedVersion: 4

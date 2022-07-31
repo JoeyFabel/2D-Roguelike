@@ -72,6 +72,7 @@ public class PlayerController : MonoBehaviour
 
     private bool isInvincible;
     private bool isInvincibleAfterDamage;
+    private bool isTouchingWall;
     float invincibleTimer;
 
     private bool loadedData = false;
@@ -499,6 +500,42 @@ public class PlayerController : MonoBehaviour
 
 
         StartCoroutine(DisableWhileInHole(2f, 0.5f, 1));
+    }
+    
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.collider.CompareTag("Ground"))
+        {
+            isTouchingWall = true;            
+        }
+    }
+
+    private void OnCollisionExit2D(Collision2D collision)
+    {
+        if (collision.collider.CompareTag("Ground"))
+        {
+            isTouchingWall = false;
+        }
+    }
+
+    public bool IsTouchingWall()
+    {
+        return isTouchingWall;
+
+        /*
+        List<ContactPoint2D> contactPoints = new List<ContactPoint2D>();
+
+        rb.GetContacts(contactPoints);
+
+        if (collider.IsTouchingLayers())
+
+        foreach (var contact in contactPoints)
+        {
+                if (contact.collider.CompareTag("Ground")) return true;
+        }
+
+        return false;
+        */
     }
 
     private IEnumerator DisableWhileInHole(float timeInHole, float movementTime, int fallDamage)
