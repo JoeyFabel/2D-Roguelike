@@ -188,12 +188,6 @@ public class GiantSlime : Boss
         moveSpeed += moveSpeedDecreasePerHealth;
     }    
 
-    private void DropXPAndMoney()
-    {
-        XPManager.GainXP(xpForDefeating, transform.position);
-        if (Random.value <= moneyDropChance) Inventory.CreateMoneyDrop(moneyForDefeating, transform.position);
-    }
-
     protected void OnCollisionStay2D(Collision2D collision)
     {
         PlayerController player = collision.gameObject.GetComponent<PlayerController>();

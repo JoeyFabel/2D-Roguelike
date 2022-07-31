@@ -109,8 +109,6 @@ public class FlameheartBoss : Boss
     protected override void Death()
     {
         // Play the death animation & effects
-        print("died!");
-
         rigidbody.simulated = false;
         landedCollider.enabled = false;
         flyingCollider.enabled = false;
@@ -167,13 +165,6 @@ public class FlameheartBoss : Boss
 
         Destroy(gameObject);
     }
-
-    private void DropXPAndMoney()
-    {
-        XPManager.GainXP(xpForDefeating, transform.position);
-        if (Random.value <= moneyDropChance) Inventory.CreateMoneyDrop(moneyForDefeating, transform.position);
-    }
-
     #endregion
 
     // Prevents XP and money from being dropped too soon

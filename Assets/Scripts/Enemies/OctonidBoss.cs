@@ -19,7 +19,8 @@ public class OctonidBoss : Boss
     public int maxMovesInAction = 3;
 
     [Header("Laser Attack")]
-    public float laserLaunchSpeed;
+    public int laserDamage = 2;
+    public float laserLaunchSpeed = 250f;
     public float laserAttackChance = 0.5f;
     public float laserAttackCooldown = 1f;
     public float chanceForExtraLaserAttack = 0.1f;
@@ -54,21 +55,82 @@ public class OctonidBoss : Boss
     {
         base.Start();
 
-        Debug.LogWarning("TODO - Octonid Boss Damage player on contact");
+        Debug.LogWarning("TODO - Figure out a way to handle player/octonid collisions without pushing the player through a wall"); 
 
         isInvincible = false;
 
         player = CharacterSelector.GetPlayerController();
         collider = GetComponent<CapsuleCollider2D>();
 
+    //    DoMovement();
+    }    
+
+    public void RespondToPlayer()
+    {        
         DoMovement();
     }
 
+    #region Overridden Damage Methods
     public override void ApplyDamage(float amount)
     {
         if (isInvincible) return;
 
-        base.ApplyDamage(amount);
+        currentHealth -= amount;
+
+        if (currentHealth <= 0f)
+        {
+            //XPManager.GainXP(xpForDefeating, transform.position);
+            //if (Random.value <= moneyDropChance) Inventory.CreateMoneyDrop(moneyForDefeating, transform.position);
+
+            Death();
+        }
+        else
+        {
+            PlayDamagedSound();
+            StartCoroutine(FlashRedOnDamage());
+        }
+    }
+
+    protected override void Death()
+    {
+        // Trigger death animation and vfx, but wait to give rewards until after
+
+        print("octonid died!");
+        rigidbody.simulated = false;
+        collider.enabled = false;
+       // enabled = false;
+
+        // This cancels whatever action the boss might have been doing
+        StopAllCoroutines();
+
+        StartCoroutine(PlayDeathVFX());
+    }
+
+    private IEnumerator PlayDeathVFX()
+    {
+        animator.SetTrigger("Death");
+        audioSource.PlayOneShot(deathSounds[Random.Range(0, deathSounds.Length)]);
+
+        print("in death coroutine!");
+
+        // Wait until the death animation is over
+        yield return new WaitForSeconds(0.833f);
+
+        DropXPAndMoney();
+
+        BossRoomTriggerOnDeath();
+
+        Destroy(gameObject);
+    }
+    #endregion
+
+    private void OnCollisionStay2D(Collision2D collision)
+    {
+        if (collision.collider.TryGetComponent(out PlayerController player))
+        {
+            // Note - This boss does not have a specified damage type
+            player.TakeDamage(damage);
+        }
     }
 
     /// <summary>
@@ -166,6 +228,7 @@ public class OctonidBoss : Boss
 
         // The laser should now be pointing straight downward
         Projectile laser = Instantiate(laserBeamPrefab, rigidbody.position, Quaternion.identity).GetComponent<Projectile>();
+        laser.damage = laserDamage;
 
         /*
         // Now clamp the laser's fire angle within its bounds

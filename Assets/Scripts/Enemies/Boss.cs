@@ -25,4 +25,10 @@ public class Boss : Enemy
     {
         bossTrigger = trigger;
     }
+
+    protected void DropXPAndMoney()
+    {
+        XPManager.GainXP(xpForDefeating, transform.position);
+        if (Random.value <= moneyDropChance) Inventory.CreateMoneyDrop(moneyForDefeating, transform.position);
+    }
 }

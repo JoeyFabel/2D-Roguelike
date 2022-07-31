@@ -48,6 +48,8 @@ public class GameManager : MonoBehaviour
 
     private void Awake()
     {
+        Debug.LogWarning("TODO - Give some sort of HUD indicator of what item is gained when gained (like from a chest)");
+
         // Create the singleton or destroy the duplicate
         if (instance == null)
         {
