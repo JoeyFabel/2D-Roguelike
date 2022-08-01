@@ -155,7 +155,7 @@ public class GiantSlime : Boss
         {
             PlayDamagedSound();
             StartCoroutine(FlashRedOnDamage());
-        
+
             Vector2 playerTowardsCenter = transform.position - player.transform.position;
 
             float jumpDistance = launchDistance * Mathf.Max(1f, amount);
@@ -205,7 +205,7 @@ public class GiantSlime : Boss
         transform.localScale = newScale;
 
         moveSpeed += moveSpeedDecreasePerHealth;
-    }    
+    }
 
     protected void OnCollisionStay2D(Collision2D collision)
     {
@@ -238,7 +238,7 @@ public class GiantSlime : Boss
                 Vector3 vfxPosition = transform.position + (Vector3)Random.insideUnitCircle * collider.bounds.size.x;
 
                 // should destroy itself
-                Instantiate(deathVFX, vfxPosition, Quaternion.identity).transform.localScale = Vector3.one * 0.5f;                
+                Instantiate(deathVFX, vfxPosition, Quaternion.identity).transform.localScale = Vector3.one * 0.5f;
 
                 audioSource.PlayOneShot(vfxSound);
 
@@ -362,8 +362,30 @@ public class GiantSlime : Boss
                 print("Giant slime outside of arena!");
 
                 // put the slime back in the arena and move a different direction
-                rigidbody.position = arenaConfiner.ClosestPoint(rigidbody.position) - direction * moveSpeed * Time.fixedDeltaTime;
+                rigidbody.position = arenaConfiner.ClosestPoint(rigidbody.position);
 
+                Vector2 desiredMoveDirection = Vector2.zero;
+
+                if (arenaConfiner.bounds.max.x < collider.bounds.max.x || arenaConfiner.bounds.max.x < secondaryCollider.bounds.max.x) desiredMoveDirection = Vector2.left;
+                else if (arenaConfiner.bounds.min.x > collider.bounds.min.x || arenaConfiner.bounds.min.x > secondaryCollider.bounds.min.x) desiredMoveDirection = Vector2.right;
+                else if (arenaConfiner.bounds.max.y < collider.bounds.max.y || arenaConfiner.bounds.max.y < secondaryCollider.bounds.max.y) desiredMoveDirection = Vector2.down;
+                else if (arenaConfiner.bounds.min.y > collider.bounds.min.y || arenaConfiner.bounds.min.y > secondaryCollider.bounds.min.y) desiredMoveDirection = Vector2.up;
+                else
+                {
+                    Debug.LogWarning("Warning - It is unknown which direction the Giant Slime should be moved in");
+                    desiredMoveDirection = ((Vector2)arenaConfiner.bounds.center - rigidbody.position).normalized;
+                }
+
+                while (!PlayerController.InsideCol(collider, arenaConfiner) || !PlayerController.InsideCol(secondaryCollider, arenaConfiner))
+                {
+                    //rigidbody.position -= direction * moveSpeed * Time.fixedDeltaTime;
+
+                    // Figure out the side of OB and move opposite of that
+
+                    rigidbody.position += desiredMoveDirection * Time.fixedDeltaTime;
+                }
+
+                // Get a new direction of movement
                 int newX;
                 if (direction.x == 0) newX = Random.Range(-1, 2);
                 else newX = direction.x > 0 ? Random.Range(-1, 1) : Random.Range(0, 2);
@@ -389,8 +411,8 @@ public class GiantSlime : Boss
             yield return null;
         }
 
-        // Player is always detected
-        hasAction = false;
+    // Player is always detected
+    hasAction = false;
     }
 
     private IEnumerator DoAttack()
@@ -494,8 +516,28 @@ public class GiantSlime : Boss
             {
                 print("THe Giant slime moved outside of the arena bounds during its attack!");
 
-                rigidbody.position = arenaConfiner.ClosestPoint(transform.position) - 4 * Mathf.Clamp(moveSpeed, 1f, maxAttackMoveSpeed) * Time.fixedDeltaTime * direction;                
+                rigidbody.position = arenaConfiner.ClosestPoint(transform.position);
 
+                Vector2 desiredMoveDirection = Vector2.zero;
+
+                if (arenaConfiner.bounds.max.x < collider.bounds.max.x || arenaConfiner.bounds.max.x < secondaryCollider.bounds.max.x) desiredMoveDirection = Vector2.left;
+                else if (arenaConfiner.bounds.min.x > collider.bounds.min.x || arenaConfiner.bounds.min.x > secondaryCollider.bounds.min.x) desiredMoveDirection = Vector2.right;
+                else if (arenaConfiner.bounds.max.y < collider.bounds.max.y || arenaConfiner.bounds.max.y < secondaryCollider.bounds.max.y) desiredMoveDirection = Vector2.down;
+                else if (arenaConfiner.bounds.min.y > collider.bounds.min.y || arenaConfiner.bounds.min.y > secondaryCollider.bounds.min.y) desiredMoveDirection = Vector2.up;
+                else
+                {
+                    Debug.LogWarning("Warning - It is unknown which direction the Giant Slime should be moved in");
+                    desiredMoveDirection = ((Vector2)arenaConfiner.bounds.center - rigidbody.position).normalized;
+                }
+
+                while (!PlayerController.InsideCol(collider, arenaConfiner) || !PlayerController.InsideCol(secondaryCollider, arenaConfiner))
+                {
+                    //rigidbody.position -= 4 * Mathf.Clamp(moveSpeed, 1f, maxAttackMoveSpeed) * Time.fixedDeltaTime * direction;
+
+                    rigidbody.position += desiredMoveDirection * Time.fixedDeltaTime;
+                }
+
+                /*
                 // Find a new direction that can be moved for the remaining time without hitting a wall
                 List<RaycastHit2D> results = new List<RaycastHit2D>();
 
@@ -512,10 +554,13 @@ public class GiantSlime : Boss
                     }
 
                     angle += 22.5f;
-                }
+                } 
 
                 print("Giant slime now moving in " + possibleDirection);
                 direction = possibleDirection.normalized;
+                */
+
+                direction = ((Vector2)arenaConfiner.bounds.center - rigidbody.position).normalized;
 
                 hitWall = false;
             }

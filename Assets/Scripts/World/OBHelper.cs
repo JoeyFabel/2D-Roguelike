@@ -22,14 +22,32 @@ public class OBHelper : MonoBehaviour
             // move the player back into bounds
             Collider2D playerCollider = player.GetComponent<Collider2D>();
 
-            Vector2 desiredPosition = obCollider.ClosestPoint((Vector2)player.transform.position + validGroundDirection);
-            if (validGroundDirection.x > 0) desiredPosition.x += playerCollider.bounds.extents.x;
-            else if (validGroundDirection.x < 0) desiredPosition.x -= playerCollider.bounds.extents.x;
-            if (validGroundDirection.y > 0) desiredPosition.y += playerCollider.bounds.extents.y;
-            else if (validGroundDirection.y < 0) desiredPosition.y -= playerCollider.bounds.extents.y;
+            Vector2 desiredPosition = Vector2.zero;
 
-            print("Player is OB");
-            player.transform.position = desiredPosition;
+            if (validGroundDirection.x > 0)
+            {
+                desiredPosition.y = player.transform.position.y;
+                desiredPosition.x = obCollider.bounds.max.x + playerCollider.bounds.size.x;
+            }
+            else if (validGroundDirection.x < 0)
+            {
+                desiredPosition.y = player.transform.position.y;
+                desiredPosition.x = obCollider.bounds.min.x - playerCollider.bounds.size.x;
+            }
+            if (validGroundDirection.y > 0)
+            {
+                desiredPosition.x = player.transform.position.x;
+                desiredPosition.y = obCollider.bounds.max.y + playerCollider.bounds.size.y;
+            }
+            else if (validGroundDirection.y < 0)
+            {
+                desiredPosition.x = player.transform.position.x;
+                desiredPosition.y = obCollider.bounds.min.y - playerCollider.bounds.size.y;
+                print("bounds min: " + obCollider.bounds.min.y + ", player bounds size: " + playerCollider.bounds.size.y);
+            }
+
+            //print("Player is OB - moving player to " + desiredPosition);
+            player.GetComponent<Rigidbody2D>().position = desiredPosition;
         }
         else if (collision.TryGetComponent(out Enemy enemy))
         {
