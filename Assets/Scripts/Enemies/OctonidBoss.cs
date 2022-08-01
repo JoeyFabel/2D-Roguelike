@@ -38,6 +38,7 @@ public class OctonidBoss : Boss
 
     private bool justMoved;
     private bool isInvincible;
+    private bool touchingPlayer;
 
 #if UNITY_EDITOR    
     private string currentAction;
@@ -56,6 +57,7 @@ public class OctonidBoss : Boss
         base.Start();
 
         isInvincible = false;
+        touchingPlayer = false;
 
         player = CharacterSelector.GetPlayerController();
         collider = GetComponent<CapsuleCollider2D>();
@@ -128,7 +130,13 @@ public class OctonidBoss : Boss
         {
             // Note - This boss does not have a specified damage type
             player.TakeDamage(damage);
+            touchingPlayer = true;
         }
+    }
+
+    private void OnCollisionExit2D(Collision2D collision)
+    {
+        if (collision.collider.TryGetComponent(out PlayerController player)) touchingPlayer = false;
     }
 
     /// <summary>
@@ -325,8 +333,9 @@ public class OctonidBoss : Boss
                 }
             }
 
-            // Do the movement
-            rigidbody.MovePosition(rigidbody.position + moveSpeed * Time.fixedDeltaTime * direction);
+            // Do the movement (if the player is not corned into a wall
+            if (!touchingPlayer || !player.IsTouchingWall()) rigidbody.MovePosition(rigidbody.position + moveSpeed * Time.fixedDeltaTime * direction);
+
             animator.SetFloat("Movement X", direction.x);
             animator.SetFloat("Movement Y", direction.y);
 

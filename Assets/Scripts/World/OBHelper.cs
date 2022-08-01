@@ -28,7 +28,7 @@ public class OBHelper : MonoBehaviour
             if (validGroundDirection.y > 0) desiredPosition.y += playerCollider.bounds.extents.y;
             else if (validGroundDirection.y < 0) desiredPosition.y -= playerCollider.bounds.extents.y;
 
-
+            print("Player is OB");
             player.transform.position = desiredPosition;
         }
         else if (collision.TryGetComponent(out Enemy enemy))

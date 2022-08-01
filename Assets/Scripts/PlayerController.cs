@@ -278,7 +278,7 @@ public class PlayerController : MonoBehaviour
     {
         if (isInvincibleAfterDamage || isInvincible) return;
 
-        print("Player taking " + amount + " damage");
+        //print("Player taking " + amount + " damage");
         currentHealth -= amount;
 
         if (currentHealth > 0)

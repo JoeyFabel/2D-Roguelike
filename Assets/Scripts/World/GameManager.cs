@@ -50,7 +50,6 @@ public class GameManager : MonoBehaviour
     {
         Debug.LogWarning("TODO - Give some sort of HUD indicator of what item is gained when gained (like from a chest)");
         Debug.LogWarning("TODO - Finish Working on Giant Slime");
-        Debug.LogWarning("TODO - Figure out a way to handle player/octonid collisions without pushing the player through a wall");
         Debug.LogWarning("TODO - Add some NPC quests");
         Debug.LogWarning("TODO - Add a shop");
 
