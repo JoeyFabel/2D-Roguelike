@@ -273,8 +273,6 @@ public class GiantSlime : Boss
         isInvincible = false;
     }
 
-    public float attackRaycastExtraDistance = 2f;
-
     /// <summary>
     /// Have the slime move in the specified direction. However, you can do a random direction if Vector2.zero is specified.
     /// </summary>
