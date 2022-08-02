@@ -202,6 +202,8 @@ public abstract class WeaponController : MonoBehaviour
             }
             else damageable.ApplyDamage(damage, damageType);
 
+            if (damageable.GetWeaponHitSound(damageType) == null) Debug.Log(damageable.name + " has no hit sound for damage type of " + damageType, damageable);
+
             // Will play multiple sounds if multiple enemies hit - see if this sounds good or if only last hit enemy should play sound
             PlaySound(damageable.GetWeaponHitSound(damageType));
         }
