@@ -18,6 +18,8 @@ public class LockedDoor : SaveableObject, IInteractable
     private AudioSource audioSource;
     private Animator animator;
 
+    public GameObject associatedCameraCollider;
+
     protected override void Start()
     {
         if (started) return;
@@ -27,6 +29,8 @@ public class LockedDoor : SaveableObject, IInteractable
 
         if (saveData == null) isLocked = true;
 
+        if (associatedCameraCollider) associatedCameraCollider.SetActive(!isLocked);
+
         started = true;
     }
 
@@ -34,7 +38,7 @@ public class LockedDoor : SaveableObject, IInteractable
     {
         animator.SetTrigger("Open");
 
-        print("door opening");
+        if (associatedCameraCollider) associatedCameraCollider?.SetActive(true);
 
         StartCoroutine(WaitForDoorToOpen());
     }
@@ -46,8 +50,6 @@ public class LockedDoor : SaveableObject, IInteractable
             yield return null;
             print(animator.GetCurrentAnimatorStateInfo(0).normalizedTime);
         }
-
-        print("door opened!");
 
         foreach (var collider in GetComponents<Collider2D>()) collider.enabled = false;
     }
@@ -89,8 +91,6 @@ public class LockedDoor : SaveableObject, IInteractable
 
             OpenDoor();
 
-            Inventory.LoseItem(requiredKey);
-            Inventory.LoseItem(requiredKey);
             Inventory.LoseItem(requiredKey);
         }
         else audioSource.PlayOneShot(failedOpenSound);

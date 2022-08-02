@@ -6515,6 +6515,8 @@ MonoBehaviour:
   fadeTime: 0.75
   settings: {fileID: 7530411453466834406}
   lastSceneName: 
+  useCustomSpawnPoint: 0
+  playerSpawnPosition: {x: 0, y: 0, z: 0}
 --- !u!114 &8179247060685021108
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6552,6 +6554,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 0c43c3f49033c2a418d954627a9ee250, type: 2}
   - {fileID: 11400000, guid: d560a78583bde0a43ad1cebfa80e8d2d, type: 2}
   - {fileID: 11400000, guid: 0fb7adeab5cff7f418adfa8391a0ee3e, type: 2}
+  - {fileID: 11400000, guid: 9071f5de22bdcb74fbed2a95ebe11eb7, type: 2}
   moneyDrop: {fileID: 3551276138215652021, guid: 88981dac6d75a4c419b31debc2a90483, type: 3}
 --- !u!114 &7530411453466834406
 MonoBehaviour:
