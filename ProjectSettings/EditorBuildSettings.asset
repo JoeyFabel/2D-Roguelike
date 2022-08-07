@@ -18,6 +18,12 @@ EditorBuildSettings:
     path: Assets/Scenes/Castle F2.unity
     guid: dc75926564fc52d4bab9b43abcd9254b
   - enabled: 1
+    path: Assets/Scenes/Castle Boss Floor.unity
+    guid: fd4b6c14fc43e9c409a3543bfc28dd88
+  - enabled: 1
+    path: Assets/Scenes/Castle Basement.unity
+    guid: c669563a5ed12a64eb9bed346f7f1cc8
+  - enabled: 1
     path: Assets/Scenes/Forest.unity
     guid: c9164646d075ee94dbfaf54ad6f5888c
   - enabled: 1

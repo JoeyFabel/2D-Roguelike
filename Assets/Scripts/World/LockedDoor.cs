@@ -33,7 +33,7 @@ public class LockedDoor : SaveableObject, IInteractable
 
         started = true;
     }
-
+        
     public void OpenDoor()
     {
         animator.SetTrigger("Open");

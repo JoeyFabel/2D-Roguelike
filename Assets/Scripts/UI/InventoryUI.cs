@@ -16,6 +16,16 @@ public class InventoryUI : MonoBehaviour
 
     public Text moneyText;
 
+    [Header("Item Gained Display")]
+    public Image gainedItemImage;
+    public Text gainedItemText;
+    public Text gainOrLossText;
+    public CanvasGroup itemGainedCanvasGroup;
+    public float fadeTime = 0.75f;
+    public float activeDuration = 2f;
+    public Color itemGainedTextColor = Color.green;
+    public Color itemLostTextColor = Color.red;
+
     private List<InventoryCell> inventoryCells;
 
     private PlayerController player;
@@ -31,6 +41,7 @@ public class InventoryUI : MonoBehaviour
 
         gameObject.SetActive(false);
         settingsPanel.SetActive(false);
+        itemGainedCanvasGroup.gameObject.SetActive(false);
     }       
 
     public void UpdateItemUI(Item item, int newQuantity)
@@ -54,8 +65,56 @@ public class InventoryUI : MonoBehaviour
             cellToModify.SetItem(item, newQuantity);
 
             inventoryCells.Add(cellToModify);
-        }
+        }        
     }
+
+    public IEnumerator DisplayItemGained(Item gainedItem, int quantity)
+    {        
+        if (quantity > 0)
+        {
+            gainOrLossText.text = "Item Gained:";
+
+            gainOrLossText.color = itemGainedTextColor;
+            gainedItemText.color = itemGainedTextColor;
+        }
+        else
+        {
+            gainOrLossText.text = "Item Lost:";
+
+            gainOrLossText.color = itemLostTextColor;
+            gainedItemText.color = itemLostTextColor;
+        }
+
+        gainedItemImage.sprite = gainedItem.icon;
+        gainedItemText.text = gainedItem.itemName;
+
+        if (quantity > 1) gainedItemText.text += " (" + quantity + "x)";
+        else if (quantity < -1) gainedItemText.text += "(" + (-quantity) + "x)";
+
+        itemGainedCanvasGroup.alpha = 0;
+        itemGainedCanvasGroup.gameObject.SetActive(true);
+
+        while (itemGainedCanvasGroup.alpha < 1)
+        {
+            itemGainedCanvasGroup.alpha += 1 / fadeTime * Time.deltaTime;
+
+            yield return null;
+        }
+
+        itemGainedCanvasGroup.alpha = 1f;
+
+        yield return new WaitForSeconds(activeDuration);
+
+        while (itemGainedCanvasGroup.alpha > 0.01f)
+        {
+            itemGainedCanvasGroup.alpha -= 1 / fadeTime * Time.deltaTime;
+
+            yield return null;
+        }
+
+        itemGainedCanvasGroup.alpha = 0;
+        itemGainedCanvasGroup.gameObject.SetActive(false);
+    }   
 
     public void CloseInventoryUI()
     {

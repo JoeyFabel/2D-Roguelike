@@ -48,8 +48,6 @@ public class GameManager : MonoBehaviour
 
     private void Awake()
     {
-        Debug.LogWarning("TODO - Give some sort of HUD indicator of what item is gained when gained (like from a chest)");
-        Debug.LogWarning("TODO - Finish Working on Giant Slime");
         Debug.LogWarning("TODO - Add some NPC quests");
         Debug.LogWarning("TODO - Add a shop");
 
