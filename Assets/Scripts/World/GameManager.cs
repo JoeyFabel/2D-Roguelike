@@ -99,7 +99,11 @@ public class GameManager : MonoBehaviour
         if (playerLoadData != null) player.LoadPlayerData(playerLoadData);
 
 #if UNITY_EDITOR
-        if (useCustomSpawnPoint) player.transform.position = playerSpawnPosition;
+        if (useCustomSpawnPoint)
+        {
+            player.transform.position = playerSpawnPosition;
+            useCustomSpawnPoint = false;
+        }
 #endif
     }
 
