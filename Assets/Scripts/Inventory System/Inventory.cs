@@ -46,6 +46,9 @@ public class Inventory : MonoBehaviour
         else instance.inventory.Add(itemToGain, quantity);
 
         inventoryUI.UpdateItemUI(itemToGain, instance.inventory[itemToGain]);
+
+        instance.StopAllCoroutines();
+        instance.StartCoroutine(inventoryUI.DisplayItemGained(itemToGain, quantity));
     }
 
     /// <summary>
@@ -64,7 +67,9 @@ public class Inventory : MonoBehaviour
             instance.inventory.Remove(itemToLose);
             inventoryUI.UpdateItemUI(itemToLose, 0);
         }
-        
+
+        instance.StopAllCoroutines();
+        instance.StartCoroutine(inventoryUI.DisplayItemGained(itemToLose, -1));
     }
 
     public static bool PlayerHasItem(Item itemToCheck)

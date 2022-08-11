@@ -84,24 +84,24 @@ public class DwarfThundererWeapon : WeaponController
         }
         else if (lookDirection == Vector2.right)
         {
-            startingOffset = new Vector2(0.5f, 0.6f);
+            startingOffset = new Vector2(0.5f, 0.6f - 0.4f);
             muzzleFlashDirection = MuzzleFlash.direction.SouthEast;
         }
         else if (lookDirection == Vector2.left)
         {
-            startingOffset = new Vector2(-0.5f, 0.6f);
+            startingOffset = new Vector2(-0.5f, 0.6f - 0.4f);
             muzzleFlashDirection = MuzzleFlash.direction.SouthWest;
         }
         else if (lookDirection.x >= 0)
         {
             if (lookDirection.y > 0)
             {
-                startingOffset = new Vector2(0.3f, 1.05f); // NE
+                startingOffset = new Vector2(0.3f + 0.2f, 1.05f - 0.2f); // NE
                 muzzleFlashDirection = MuzzleFlash.direction.NorthEast;
             }
             else
             {
-                startingOffset = new Vector2(0.5f, 0.5f); // SE
+                startingOffset = new Vector2(0.5f, 0.5f - 0.55f); // SE
                 muzzleFlashDirection = MuzzleFlash.direction.SouthEast;
             }
         }
@@ -109,12 +109,12 @@ public class DwarfThundererWeapon : WeaponController
         {
             if (lookDirection.y > 0)
             {
-                startingOffset = new Vector2(-0.3f, 1.05f); // NW
+                startingOffset = new Vector2(-0.3f - 0.2f, 1.05f - 0.2f); // NW
                 muzzleFlashDirection = MuzzleFlash.direction.NorthWest;
             }
             else
             {
-                startingOffset = new Vector2(-0.5f, 0.5f); // SW
+                startingOffset = new Vector2(-0.5f, 0.5f - 0.55f); // SW
                 muzzleFlashDirection = MuzzleFlash.direction.SouthWest;
             }
         }

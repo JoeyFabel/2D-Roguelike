@@ -38,8 +38,21 @@ public class GameManager : MonoBehaviour
     private PlayerLoadData playerLoadData;
     private Dictionary<string, WorldObjectSaveData> saveableObjectDataDictionary;
 
+#if UNITY_EDITOR
+    [Header("Testings Helpers")]
+    public bool useCustomSpawnPoint;
+    [Tooltip("Note - this ignores the save data location")]
+    public Vector3 playerSpawnPosition;
+
+#endif
+
     private void Awake()
     {
+        Debug.LogWarning("TODO - Add some NPC quests");
+        Debug.LogWarning("TODO - Add a shop");
+        Debug.LogWarning("TODO - Enable skeleton character only after the quest has been completed (json or extra setting file controlling available characters)");
+        Debug.LogWarning("TODO - Add 1x buy of water in a store");
+
         // Create the singleton or destroy the duplicate
         if (instance == null)
         {
@@ -86,6 +99,14 @@ public class GameManager : MonoBehaviour
         if (setPlayerPosition) player.transform.position = playersLastPosition;
 
         if (playerLoadData != null) player.LoadPlayerData(playerLoadData);
+
+#if UNITY_EDITOR
+        if (useCustomSpawnPoint)
+        {
+            player.transform.position = playerSpawnPosition;
+            useCustomSpawnPoint = false;
+        }
+#endif
     }
 
     private void HandleSaveableObjects()

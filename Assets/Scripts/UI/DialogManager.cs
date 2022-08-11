@@ -57,7 +57,7 @@ public class DialogManager : MonoBehaviour
             //foreach (var option in forkedNode.nextNodes)
             for (int i = 0; i < forkedNode.nextNodes.Length; i++)
             {
-                if (Inventory.PlayerHasItem(forkedNode.nextNodes[i].requiredItem))
+                if (forkedNode.nextNodes[i].requiredItem == null || Inventory.PlayerHasItem(forkedNode.nextNodes[i].requiredItem))
                 {
                     DialogOption choiceButton = Instantiate(instance.dialogOptionPrefab, instance.choiceOptionParent).GetComponent<DialogOption>();
 
@@ -65,9 +65,9 @@ public class DialogManager : MonoBehaviour
 
                     instance.dialogOptions.Add(choiceButton);
                 }
-
-                instance.dialogOptions[0].Select();
             }
+            
+            instance.dialogOptions[0].Select();
         }                 
     }
 

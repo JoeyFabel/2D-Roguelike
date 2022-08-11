@@ -9,8 +9,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1194329665416938050}
-  - component: {fileID: 1194329665416938051}
   - component: {fileID: 1194329665416938048}
+  - component: {fileID: 958890128618544417}
   m_Layer: 10
   m_Name: Collider
   m_TagString: Untagged
@@ -33,22 +33,6 @@ Transform:
   m_Father: {fileID: 6458492809676698781}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!70 &1194329665416938051
-CapsuleCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1194329665416938053}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: -0.0829871, y: 0.15297796}
-  m_Size: {x: 0.73161614, y: 0.24709807}
-  m_Direction: 1
 --- !u!114 &1194329665416938048
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -83,6 +67,22 @@ MonoBehaviour:
   magicImpactSound: {fileID: 0}
   objectToDamage: {fileID: 3674672706728360557}
   damageMultiplier: 1
+--- !u!70 &958890128618544417
+CapsuleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1194329665416938053}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0.09453611, y: 0.39354247}
+  m_Size: {x: 0.6190724, y: 0.73861885}
+  m_Direction: 0
 --- !u!1 &3674672706728360556
 GameObject:
   m_ObjectHideFlags: 0
@@ -97,7 +97,7 @@ GameObject:
   - component: {fileID: 3674672706728360557}
   - component: {fileID: 4822716467708267170}
   - component: {fileID: 4822716467708267171}
-  - component: {fileID: 3674672706728360554}
+  - component: {fileID: 4183590708431569076}
   m_Layer: 10
   m_Name: Giant Slime
   m_TagString: Untagged
@@ -183,7 +183,7 @@ Animator:
   m_GameObject: {fileID: 3674672706728360556}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: d9b09c3b4c07a4743b05019c41458880, type: 2}
+  m_Controller: {fileID: 9100000, guid: d67f2d0ed7dfc0c439317c1c91f28042, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -219,7 +219,7 @@ MonoBehaviour:
     - attackType: 4
       resistance: -0.25
   damageSounds:
-  - {fileID: 8300000, guid: 3224aefc0347f6647b6f391f2c3ea714, type: 3}
+  - {fileID: 8300000, guid: 7aa91548dc295ab4488decdab438cb19, type: 3}
   deathSounds:
   - {fileID: 8300000, guid: 7aa91548dc295ab4488decdab438cb19, type: 3}
   fireballImpactSound: {fileID: 8300000, guid: dcb511a4bd58bce49b49257f8138c18f, type: 3}
@@ -240,8 +240,9 @@ MonoBehaviour:
   moveSpeed: 1
   moveSpeedDecreasePerHealth: 0.25
   launchDistance: 1
+  maxAttackMoveSpeed: 2.5
   contactFilter:
-    useTriggers: 1
+    useTriggers: 0
     useLayerMask: 1
     useDepth: 0
     useOutsideDepth: 0
@@ -254,6 +255,7 @@ MonoBehaviour:
     maxDepth: 0
     minNormalAngle: 0
     maxNormalAngle: 0
+  attackMovementCollider: {fileID: 958890128618544417}
   pauseTime: 2
   minRandomMoveTime: 1.5
   maxRandomMoveTime: 3
@@ -262,6 +264,10 @@ MonoBehaviour:
   numMovesBeforeAttack: 2
   deathVFX: {fileID: 3751328571576430700, guid: 7406c038ab9579f4bb42c68814b48641, type: 3}
   vfxSound: {fileID: 8300000, guid: 2f8b56c696bf4f24d90446f208de8933, type: 3}
+  hasAction: 0
+  arenaConfiner: {fileID: 0}
+  currentActionDisplay: 'Current Action: '
+  remainingPauseTime: 0
 --- !u!50 &4822716467708267170
 Rigidbody2D:
   serializedVersion: 4
@@ -379,7 +385,7 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
---- !u!70 &3674672706728360554
+--- !u!70 &4183590708431569076
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -392,6 +398,6 @@ CapsuleCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.09453611, y: 0.39354247}
-  m_Size: {x: 0.6190724, y: 0.73861885}
-  m_Direction: 0
+  m_Offset: {x: -0.0829871, y: 0.15297796}
+  m_Size: {x: 0.73161614, y: 0.24709807}
+  m_Direction: 1

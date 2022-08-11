@@ -9,7 +9,6 @@ public class DialogTree : SaveableObject, IInteractable
 
     public Sprite speakerIcon;
 
-    public GameObject speechBubble;
     private Text text;
 
     private DialogNode currentNode;
@@ -52,6 +51,11 @@ public class DialogTree : SaveableObject, IInteractable
                 startingNode = currentNode;
                 Debug.Log("changing starting node!");
             }
+            else if (currentNode is EventNode)
+            {
+                EventNode eventNode = currentNode as EventNode;
+                eventNode?.action?.Invoke();
+            }
         }
         else if (DialogManager.isTyping)
         {
@@ -81,6 +85,11 @@ public class DialogTree : SaveableObject, IInteractable
                     print(currentNodeID + ", " + currentNode.id);
                     startingNode = currentNode;
                     Debug.Log("changing starting node!");
+                }
+                else if (currentNode is EventNode)
+                {
+                    EventNode eventNode = currentNode as EventNode;
+                    eventNode?.action?.Invoke();
                 }
             }
             else
@@ -128,13 +137,13 @@ public class DialogTree : SaveableObject, IInteractable
 
         foreach (var node in possibleNodes)
         {
-            print("    searching for starting node");
+           // print("    searching for starting node");
             if (node.isPrimaryNode && node.id == data.startingPrimaryNodeID)
             {
                 startingNode = node;
                 currentNode = node;
 
-                print("    Found the starting dialog node (" + node.dialog + ")");
+               // print("    Found the starting dialog node (" + node.dialog + ")");
 
                 break;
             }
@@ -169,6 +178,16 @@ public class DialogTree : SaveableObject, IInteractable
         possibleNodes.RemoveAll((DialogNode node) => !node.isPrimaryNode);
 
         for (int i = 0; i < possibleNodes.Count; i++) possibleNodes[i].id = i;
+    }
+
+    private void Reset()
+    {
+        Debug.Log("Dialog Tree added to " + gameObject.name + ", Initializing!");
+
+        GameObject dialogHelper = new GameObject("Dialog Helper", typeof(DialogNode));
+        dialogHelper.transform.SetParent(transform);
+
+        startingNode = dialogHelper.GetComponent<DialogNode>();
     }
 #endif
 }

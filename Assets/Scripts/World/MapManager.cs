@@ -68,6 +68,12 @@ public class MapManager : MonoBehaviour
     {
         TileBase groundTile = tileMap.GetTile(tileMap.WorldToCell(position));
 
+        if (groundTile == null)
+        {
+            Debug.LogWarning("There is no tile at position " + position);
+            return null;
+        }
+
         if (dataFromTiles.ContainsKey(groundTile)) return dataFromTiles[groundTile].footstepSounds[Random.Range(0, dataFromTiles[groundTile].footstepSounds.Length)];
         else return null;
     }
@@ -75,6 +81,12 @@ public class MapManager : MonoBehaviour
     public float getMovementMultiplier(Vector2 position)
     {
         TileBase groundTile = tileMap.GetTile(tileMap.WorldToCell(position));
+
+        if (groundTile == null)
+        {
+            Debug.LogWarning("There is no tile at position " + position);
+            return 1f;
+        }
 
         if (dataFromTiles.ContainsKey(groundTile))
         {
