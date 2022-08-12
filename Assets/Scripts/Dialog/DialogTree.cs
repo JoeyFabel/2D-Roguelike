@@ -1,34 +1,89 @@
-using System.Collections;
+    using System;
+    using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class DialogTree : SaveableObject, IInteractable
 {
+    [Tooltip("The initial dialog node.")]
     public DialogNode startingNode;
 
+    [Tooltip("The icon to be displayed while the character is talking")]
     public Sprite speakerIcon;
 
+    [Header("Ready to Talk Options")]
+    public GameObject speechBubbleIcon;
+    public bool faceTowardsPlayer = true;
+    
     private Text text;
 
     private DialogNode currentNode;
     [SerializeField]
     private int currentNodeID = -1;
 
-    PlayerController player;
-
+    private SpriteRenderer sprite;
+    private PlayerController player;
+    private static readonly int toPlayerYProperty = Animator.StringToHash("To Player Y");
+    private Coroutine watchPlayerRoutine;
+    
     // Start is called before the first frame update
     protected override void Start()
     {
         if (started) return;
 
         player = CharacterSelector.GetPlayerController();
+        sprite = GetComponent<SpriteRenderer>();
+        
+        if (saveData == null) currentNode = startingNode;        
 
-        if (saveData == null) currentNode = startingNode;
+        speechBubbleIcon.SetActive(false);
 
         started = true;
     }
 
+    public void SetSpeechBubblePosition(Transform newPosition)
+    {
+        speechBubbleIcon.transform.position = newPosition.position;
+    }
+
+    private void OnTriggerEnter2D(Collider2D col)
+    {
+        if (col.TryGetComponent(out PlayerController player))
+        {
+            speechBubbleIcon.SetActive((true));
+            watchPlayerRoutine = StartCoroutine((WatchPlayer()));
+        }
+    }
+
+    private void OnTriggerExit2D(Collider2D other)
+    {
+        if (other.TryGetComponent(out PlayerController player))
+        {
+            speechBubbleIcon.SetActive(false);
+            StopCoroutine(watchPlayerRoutine);
+        }
+    }
+
+    public void SetFacePlayer(bool enabled)
+    {
+        faceTowardsPlayer = enabled;
+    }
+
+    private IEnumerator WatchPlayer()
+    {
+        // Face towards the player if enabled
+        while (faceTowardsPlayer)
+        {
+            Vector2 towardsPlayer = player.transform.position - transform.position;
+
+            sprite.flipX = towardsPlayer.x < 0;
+            sprite.GetComponent<Animator>().SetFloat(toPlayerYProperty, towardsPlayer.y);
+            
+            yield return null;
+        }
+    }
+    
     public void Interact()
     {
         // If the dialog bubble is closed, open the current starting dialog node
@@ -137,17 +192,16 @@ public class DialogTree : SaveableObject, IInteractable
 
         foreach (var node in possibleNodes)
         {
-           // print("    searching for starting node");
-            if (node.isPrimaryNode && node.id == data.startingPrimaryNodeID)
-            {
-                startingNode = node;
-                currentNode = node;
+            // print("    searching for starting node");
+            if (!node.isPrimaryNode || node.id != data.startingPrimaryNodeID) continue;
+            
+            startingNode = node;
+            currentNode = node;
 
-               // print("    Found the starting dialog node (" + node.dialog + ")");
+            // print("    Found the starting dialog node (" + node.dialog + ")");
 
-                break;
-            }
-        }
+            break;
+        }        
 
         isDoneLoading = true;
     }

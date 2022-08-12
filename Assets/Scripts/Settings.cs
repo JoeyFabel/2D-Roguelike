@@ -39,21 +39,27 @@ public class Settings : MonoBehaviour
     {
         persistentPath = Application.persistentDataPath + Path.AltDirectorySeparatorChar + SettingsFileName;
 
-        using StreamReader reader = new StreamReader(persistentPath);
-        string json = reader.ReadToEnd();
+        // errors if this cant find the file
 
-        SettingsSaveData data = JsonUtility.FromJson<SettingsSaveData>(json);
-
-        if (data != null)
+        if (File.Exists(persistentPath)) 
         {
-            masterVolumePercentage = data.masterVolume;
-            musicVolumePercentage = data.musicVolume;
-            soundFXVolumePercentage = data.soundFXVolume;
+            using StreamReader reader = new StreamReader(persistentPath);
 
-            masterVolumeSlider.value = masterVolumePercentage;
-            musicVolumeSlider.value = musicVolumePercentage;
-            soundFXVolumeSlider.value = soundFXVolumePercentage;
-        }
+            string json = reader.ReadToEnd();        
+
+            SettingsSaveData data = JsonUtility.FromJson<SettingsSaveData>(json);
+
+            if (data != null)
+            {
+                masterVolumePercentage = data.masterVolume;
+                musicVolumePercentage = data.musicVolume;
+                soundFXVolumePercentage = data.soundFXVolume;
+
+                masterVolumeSlider.value = masterVolumePercentage;
+                musicVolumeSlider.value = musicVolumePercentage;
+                soundFXVolumeSlider.value = soundFXVolumePercentage;
+            }
+        }        
 
         StartCoroutine(LoadVolumeSettingsIntoMixer());
     }
