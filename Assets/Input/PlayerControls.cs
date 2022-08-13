@@ -80,6 +80,15 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Use Quick Item"",
+                    ""type"": ""Button"",
+                    ""id"": ""bc791c24-6e34-4321-a596-cc77b4dcd4c9"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -256,6 +265,17 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": ""Keyboard and Mouse"",
                     ""action"": ""Open Inventory"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""98482498-7b97-4b04-ade8-f939dcedadb7"",
+                    ""path"": ""<Keyboard>/f"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard and Mouse"",
+                    ""action"": ""Use Quick Item"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -478,6 +498,7 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
         m_Player_SpecialAttack = m_Player.FindAction("Special Attack", throwIfNotFound: true);
         m_Player_CycleSpell = m_Player.FindAction("Cycle Spell", throwIfNotFound: true);
         m_Player_OpenInventory = m_Player.FindAction("Open Inventory", throwIfNotFound: true);
+        m_Player_UseQuickItem = m_Player.FindAction("Use Quick Item", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_Move = m_UI.FindAction("Move", throwIfNotFound: true);
@@ -548,6 +569,7 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_SpecialAttack;
     private readonly InputAction m_Player_CycleSpell;
     private readonly InputAction m_Player_OpenInventory;
+    private readonly InputAction m_Player_UseQuickItem;
     public struct PlayerActions
     {
         private @PlayerControls m_Wrapper;
@@ -558,6 +580,7 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
         public InputAction @SpecialAttack => m_Wrapper.m_Player_SpecialAttack;
         public InputAction @CycleSpell => m_Wrapper.m_Player_CycleSpell;
         public InputAction @OpenInventory => m_Wrapper.m_Player_OpenInventory;
+        public InputAction @UseQuickItem => m_Wrapper.m_Player_UseQuickItem;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -585,6 +608,9 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                 @OpenInventory.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnOpenInventory;
                 @OpenInventory.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnOpenInventory;
                 @OpenInventory.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnOpenInventory;
+                @UseQuickItem.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnUseQuickItem;
+                @UseQuickItem.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnUseQuickItem;
+                @UseQuickItem.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnUseQuickItem;
             }
             m_Wrapper.m_PlayerActionsCallbackInterface = instance;
             if (instance != null)
@@ -607,6 +633,9 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                 @OpenInventory.started += instance.OnOpenInventory;
                 @OpenInventory.performed += instance.OnOpenInventory;
                 @OpenInventory.canceled += instance.OnOpenInventory;
+                @UseQuickItem.started += instance.OnUseQuickItem;
+                @UseQuickItem.performed += instance.OnUseQuickItem;
+                @UseQuickItem.canceled += instance.OnUseQuickItem;
             }
         }
     }
@@ -677,6 +706,7 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
         void OnSpecialAttack(InputAction.CallbackContext context);
         void OnCycleSpell(InputAction.CallbackContext context);
         void OnOpenInventory(InputAction.CallbackContext context);
+        void OnUseQuickItem(InputAction.CallbackContext context);
     }
     public interface IUIActions
     {

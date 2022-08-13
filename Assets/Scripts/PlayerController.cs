@@ -44,13 +44,14 @@ public class PlayerController : MonoBehaviour
     public AudioClip splashSound;
 
     // Input stuff
-    PlayerInput playerInput;
-    InputAction moveAction;
-    InputAction regularAttackAction;
-    InputAction specialAttackAction;
-    InputAction interactAction;
-    InputAction cycleSpellAction;
-    InputAction inventoryToggleAction;
+    private PlayerInput playerInput;
+    private InputAction moveAction;
+    private InputAction regularAttackAction;
+    private InputAction specialAttackAction;
+    private InputAction interactAction;
+    private InputAction cycleSpellAction;
+    private InputAction inventoryToggleAction;
+    private InputAction useQuickItemAction;
 
     // Stored Inputs
     Vector2 movementVector = Vector2.zero;
@@ -94,6 +95,7 @@ public class PlayerController : MonoBehaviour
         interactAction = playerInput.actions["Interact"];
         cycleSpellAction = playerInput.actions["Cycle Spell"];
         inventoryToggleAction = playerInput.actions["Open Inventory"];
+        useQuickItemAction = playerInput.actions["Use Quick Item"];
 
         playerWeapon = GetComponent<WeaponController>();
 
@@ -122,6 +124,8 @@ public class PlayerController : MonoBehaviour
 
         inventoryToggleAction.performed -= ToggleInventory;
 
+        useQuickItemAction.performed -= UseQuickItem;
+
         XPManager.OnLevelUp -= GetMaxHPFromLevel;
     }
 
@@ -145,6 +149,7 @@ public class PlayerController : MonoBehaviour
         interactAction.performed += Interact;
         cycleSpellAction.performed += AttemptSpellCycle;
         inventoryToggleAction.performed += ToggleInventory;
+        useQuickItemAction.performed += UseQuickItem;
         XPManager.OnLevelUp += GetMaxHPFromLevel;
 
         GetMaxHPFromLevel();
@@ -407,7 +412,40 @@ public class PlayerController : MonoBehaviour
     {
         Inventory.ToggleInventoryUI();
     }
+
+    private void UseQuickItem(InputAction.CallbackContext context)
+    {
+        Consumable quickItem = Inventory.GetQuickItem() as Consumable;
+
+        if (quickItem == null) return;
+
+        print("using " + quickItem.itemName);
+        
+        // Inventory.LoseItem(quickItem);
+        
+        if (quickItem.objectToSpawn)
+        {
+            GameObject spawnedObject = Instantiate(quickItem.objectToSpawn, rb.position, Quaternion.identity);
+            
+            if (quickItem.throwObject) ThrowItem(spawnedObject);
+        }   
+        
+        if (quickItem.healthToGain > 0) GainHealth(quickItem.healthToGain);
+        if (quickItem.manaToGain > 0 && playerWeapon is SaurianAugurWeapon augurWeapon)
+        {
+            augurWeapon.GainMana(quickItem.manaToGain);
+        }
+    }
 #endregion
+
+    /// <summary>
+    /// Applies movement to the object, simulating it being thrown by the character
+    /// </summary>
+    /// <param name="objectToThrow">The object being thrown</param>
+    public void ThrowItem(GameObject objectToThrow)
+    {
+        
+    }
 
     public void DisableControlsForUI()
     {

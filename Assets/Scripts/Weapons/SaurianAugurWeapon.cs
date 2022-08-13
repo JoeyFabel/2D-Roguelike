@@ -56,6 +56,13 @@ public class SaurianAugurWeapon : WeaponController
         UpdateMagicQuantity();
     }
 
+    public void GainMana(float amount)
+    {
+        currentMagic += amount;
+
+        if (currentMagic > maxMagic) currentMagic = maxMagic;
+    }
+    
     private void OnDestroy()
     {
         XPManager.OnLevelUp -= CalculateMaxMPFromLevel;

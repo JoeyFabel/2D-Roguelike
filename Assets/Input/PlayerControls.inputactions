@@ -11,7 +11,8 @@
                     "id": "c68c5a67-4497-414c-b6ec-c0bf5ae98831",
                     "expectedControlType": "Vector2",
                     "processors": "",
-                    "interactions": ""
+                    "interactions": "",
+                    "initialStateCheck": true
                 },
                 {
                     "name": "Attack",
@@ -19,7 +20,8 @@
                     "id": "f364e95e-ca96-4acf-a6d0-22ad249b9b35",
                     "expectedControlType": "Button",
                     "processors": "",
-                    "interactions": ""
+                    "interactions": "",
+                    "initialStateCheck": false
                 },
                 {
                     "name": "Interact",
@@ -27,7 +29,8 @@
                     "id": "9e1eb8dd-a9c8-4eeb-aa9f-9133c25b1075",
                     "expectedControlType": "Button",
                     "processors": "",
-                    "interactions": ""
+                    "interactions": "",
+                    "initialStateCheck": false
                 },
                 {
                     "name": "Special Attack",
@@ -35,7 +38,8 @@
                     "id": "74020637-f4cf-45f0-be3e-120a2a04fd4c",
                     "expectedControlType": "Button",
                     "processors": "",
-                    "interactions": ""
+                    "interactions": "",
+                    "initialStateCheck": false
                 },
                 {
                     "name": "Cycle Spell",
@@ -43,7 +47,8 @@
                     "id": "0b8726b9-6c6d-4f8a-916b-1a7d83f27fa7",
                     "expectedControlType": "Button",
                     "processors": "",
-                    "interactions": ""
+                    "interactions": "",
+                    "initialStateCheck": false
                 },
                 {
                     "name": "Open Inventory",
@@ -51,7 +56,17 @@
                     "id": "be668916-14a3-47f6-b2fb-3f6ea3771957",
                     "expectedControlType": "Button",
                     "processors": "",
-                    "interactions": ""
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Use Quick Item",
+                    "type": "Button",
+                    "id": "bc791c24-6e34-4321-a596-cc77b4dcd4c9",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -230,6 +245,17 @@
                     "action": "Open Inventory",
                     "isComposite": false,
                     "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "98482498-7b97-4b04-ade8-f939dcedadb7",
+                    "path": "<Keyboard>/f",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard and Mouse",
+                    "action": "Use Quick Item",
+                    "isComposite": false,
+                    "isPartOfComposite": false
                 }
             ]
         },
@@ -243,7 +269,8 @@
                     "id": "49e6bd32-2ac7-4786-b82b-1809720cd498",
                     "expectedControlType": "Vector2",
                     "processors": "",
-                    "interactions": ""
+                    "interactions": "",
+                    "initialStateCheck": true
                 },
                 {
                     "name": "Submit",
@@ -251,7 +278,8 @@
                     "id": "0cf97bd9-f6e7-452e-9c8a-a26d03fcc3ca",
                     "expectedControlType": "Button",
                     "processors": "",
-                    "interactions": ""
+                    "interactions": "",
+                    "initialStateCheck": false
                 },
                 {
                     "name": "Cancel",
@@ -259,7 +287,8 @@
                     "id": "79600874-61e0-4f9f-81cc-b80ed277d8ff",
                     "expectedControlType": "Button",
                     "processors": "",
-                    "interactions": ""
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [

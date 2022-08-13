@@ -8,6 +8,8 @@ public class Inventory : MonoBehaviour
 
     public GameObject moneyDrop;
 
+    [Header("Item Prefabs")] public GameObject bombPrefab;
+
     /// <summary>
     /// A dictionary representing the player's inventory.
     /// The Key represents the item in the inventory, so there can only be one item of each kind displayed at a time.
@@ -57,6 +59,13 @@ public class Inventory : MonoBehaviour
     /// <param name="itemToLose">The item to be lost</param>
     public static void LoseItem(Item itemToLose)
     {
+        if (!instance.inventory.ContainsKey(itemToLose))
+        {
+            Debug.LogError("The item " + itemToLose.itemName + " was not found in the inventory, not losing one!");
+            
+            return;
+        }
+        
         if (instance.inventory[itemToLose] > 1)
         {
             instance.inventory[itemToLose]--;
@@ -105,6 +114,12 @@ public class Inventory : MonoBehaviour
         MoneyDrop moneyDrop = Instantiate(instance.moneyDrop, position, Quaternion.identity).GetComponent<MoneyDrop>();
 
         moneyDrop.SetMoney(money);
+    }
+
+    public static Item GetQuickItem()
+    {
+        // TODO - implement quick item HUD
+        return instance.itemDatabase.Find(item => item.itemName.Equals("Bomb"));
     }
 
     public void LoadInventoryFromData(Dictionary<int, int> inventoryData, int currentMoney)
