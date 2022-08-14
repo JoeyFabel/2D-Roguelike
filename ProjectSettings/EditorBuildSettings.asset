@@ -12,7 +12,7 @@ EditorBuildSettings:
     path: Assets/Scenes/Shrine.unity
     guid: 243075174779a1640b3e9b1aa07baf8d
   - enabled: 1
-    path: Assets/Scenes/PathwayToCastle.unity
+    path: Assets/Scenes/Pathway To Castle.unity
     guid: d53f9352126f672ef857e45411dd2501
   - enabled: 1
     path: Assets/Scenes/Castle F1.unity
