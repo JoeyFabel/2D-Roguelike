@@ -61,7 +61,7 @@ public class DialogTree : SaveableObject, IInteractable
         if (other.TryGetComponent(out PlayerController player))
         {
             speechBubbleIcon.SetActive(false);
-            StopCoroutine(watchPlayerRoutine);
+            if (watchPlayerRoutine != null) StopCoroutine(watchPlayerRoutine);
         }
     }
 
