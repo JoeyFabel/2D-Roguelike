@@ -51,7 +51,6 @@ public class GameManager : MonoBehaviour
     {
         Debug.LogWarning("TODO - Add some NPC quests");
         Debug.LogWarning("TODO - Add a  shop");
-        Debug.LogWarning("TODO - Enable skeleton character only after the quest has been completed (json or extra setting file controlling available characters)");
         Debug.LogWarning("TODO - Add 1x buy of water in a store");
         Debug.LogWarning("TODO - Add quick item HUD");
         Debug.LogWarning("TODO - Let projectiles destroy bombs early");
