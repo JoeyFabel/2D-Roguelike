@@ -55,6 +55,7 @@ public class GameManager : MonoBehaviour
         Debug.LogWarning("TODO - Add 1x buy of water in a store");
         Debug.LogWarning("TODO - Add quick item HUD");
         Debug.LogWarning("TODO - Let projectiles destroy bombs early");
+        Debug.LogWarning("TODO - Allow user to change keybindings from settings");
         
         // Create the singleton or destroy the duplicate
         if (instance == null)

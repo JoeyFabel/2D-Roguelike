@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.UI;
 
 public class InventoryUI : MonoBehaviour
@@ -30,6 +31,8 @@ public class InventoryUI : MonoBehaviour
 
     private PlayerController player;
 
+    private bool returnToMenu;
+    
     public void InitializeUI()
     {
         for (var i = inventoryGrid.transform.childCount - 1; i >= 0; i--)
@@ -42,6 +45,7 @@ public class InventoryUI : MonoBehaviour
         gameObject.SetActive(false);
         settingsPanel.SetActive(false);
         itemGainedCanvasGroup.gameObject.SetActive(false);
+        returnToMenu = true;
     }       
 
     public void UpdateItemUI(Item item, int newQuantity)
@@ -124,13 +128,36 @@ public class InventoryUI : MonoBehaviour
         player.EnableControlsAfterUI();
     }
 
+    public void EnableQuitToMenu()
+    {
+        returnToMenu = true;
+    }
+
+    public void EnableQuitToDesktop()
+    {
+        returnToMenu = false;
+    }
+    
     public void QuitGame()
     {
+        if (returnToMenu)
+        {
+            
 #if UNITY_EDITOR
+        Debug.Log("TODO - Exit to main menu");
         UnityEditor.EditorApplication.isPlaying = false;
 #else
         Application.Quit();
 #endif
+        }
+        else
+        {
+            #if UNITY_EDITOR
+            UnityEditor.EditorApplication.isPlaying = false;
+#else
+            Application.Quit();
+#endif
+        }
     }
 
     public void OpenSettingsMenu()
