@@ -55,7 +55,9 @@ public class GameManager : MonoBehaviour
         Debug.LogWarning("TODO - Add quick item HUD");
         Debug.LogWarning("TODO - Let projectiles destroy bombs early");
         Debug.LogWarning("TODO - Allow user to change keybindings from settings");
-
+        Debug.LogWarning("TODO - Allow projectiles to pass over ground-to-water collisions (tile collision data exists, use it)");
+        Debug.LogWarning("TODO - EvilRose AI");
+        
         // Create the singleton or destroy the duplicate
         if (instance == null)
         {

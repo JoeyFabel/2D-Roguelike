@@ -44,6 +44,11 @@ public class Projectile : Spell
         Launch(lookDirection, spellLaunchSpeed);
     }
 
+    /// <summary>
+    /// Launches the projectile in the specified direction with the specified force.
+    /// </summary>
+    /// <param name="direction">The direction to launch the projectile</param>
+    /// <param name="force">The force with which the projectile is launched</param>
     public void Launch(Vector2 direction, float force)
     {
         rb.AddForce(direction * force);
