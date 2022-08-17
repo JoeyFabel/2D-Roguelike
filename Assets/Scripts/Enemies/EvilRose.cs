@@ -5,6 +5,9 @@ using UnityEngine;
 public class EvilRose : Enemy
 {
     public float hideInShellTime = 3f;
+
+    public float maxDistanceToShootThorns = 6f;
+    public float thornFireRechargeTime = 3f;
     
     public GameObject thornProjectilePrefab;
     public float launchSpreadAngle;
@@ -12,15 +15,68 @@ public class EvilRose : Enemy
     private const int NumProjectilesPerLaunch = 3;
     
     private static readonly int AnimatorDamageTriggerID = Animator.StringToHash("Death");
-
+    private static readonly int AnimatorShootTriggerID = Animator.StringToHash("Shoot Thorn");
+    private static readonly int AnimatorToPlayerXID = Animator.StringToHash("To Player X");
+    private static readonly int AnimatorToPlayerYID = Animator.StringToHash("To Player Y");
+    
     private bool hidingInShell = false;
     private bool isInvincible = false;
+    [SerializeField]
+    private bool canShootThorns = true;
     
+    private PlayerController player;
+
+    protected override void Start()
+    {
+        base.Start();
+
+        player = CharacterSelector.GetPlayerController();
+
+        canShootThorns = true;
+    }
+
+    private void Update()
+    {
+        if (canShootThorns && Vector3.Distance(player.transform.position, transform.position) <= maxDistanceToShootThorns) ShootThorns();
+    }
+
+    /// <summary>
+    /// Triggers the animator to shoot thorns towards the player.
+    /// </summary>
+    private void ShootThorns()
+    {
+        // Get the direction towards the player for the animator's use
+        Vector2 toPlayer = (player.transform.position - transform.position);
+        if (Mathf.Abs(toPlayer.x) > Mathf.Abs(toPlayer.y)) toPlayer.y = 0;
+        else toPlayer.x = 0;
+
+        animator.SetFloat(AnimatorToPlayerXID, toPlayer.x);
+        animator.SetFloat(AnimatorToPlayerYID, toPlayer.y);
+
+        animator.SetTrigger(AnimatorShootTriggerID);
+
+        StartCoroutine(RechargeThornAttack());
+    }
+
+    private IEnumerator RechargeThornAttack()
+    {
+        canShootThorns = false;
+
+        yield return new WaitForSeconds(thornFireRechargeTime);
+
+        canShootThorns = true;
+    }
+
     public override void ApplyDamage(float amount)
     {
         if (isInvincible) return;
 
-        if (!hidingInShell) StartCoroutine(HideInShell());
+        if (!hidingInShell)
+        {
+            audioSource.PlayOneShot(damageSounds[0]);
+            
+            StartCoroutine(HideInShell());
+        }
         else Death();
     }
 
@@ -57,11 +113,24 @@ public class EvilRose : Enemy
     {
         // animator.SetTrigger(AnimatorDamageTriggerID);
         
-        Destroy(gameObject);
+        audioSource.PlayOneShot(deathSounds[Random.Range(0, deathSounds.Length)]);
+
+        XPManager.GainXP(xpForDefeating, transform.position);
+        if (Random.value <= moneyDropChance) Inventory.CreateMoneyDrop(moneyForDefeating, transform.position);
         
-        // Maybe sprout back up later
+        audioSource.PlayOneShot(deathSounds[0]);
+
+        sprite.enabled = false;
+        enabled = false;
+        
+        Destroy(gameObject, 0.422f);
     }
 
+    /// <summary>
+    /// Creates and launches three thorn projectiles that fire in the specified direction.
+    /// Called from an animator event.
+    /// </summary>
+    /// <param name="direction">The direction that the thorns should be fired in</param>
     public void FireThornMissiles(ShootDirection direction)
     {
         Projectile[] launchedThorns = new Projectile[3];
@@ -118,4 +187,12 @@ public class EvilRose : Enemy
         Down,
         Left
     }
+    
+    #if UNITY_EDITOR
+    private void OnDrawGizmosSelected()
+    {
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(transform.position, maxDistanceToShootThorns);
+    }
+#endif
 }
