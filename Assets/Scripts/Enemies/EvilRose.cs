@@ -73,7 +73,8 @@ public class EvilRose : Enemy
         if (direction == ShootDirection.Up)
         {
             launchPosition = transform.position;
-            
+            launchPosition.y += 1.15f;
+                
             // change this to the launch position
             launchedThorns[0] = Instantiate(thornProjectilePrefab, launchPosition, Quaternion.identity)
                 .GetComponent<Projectile>();
@@ -87,6 +88,8 @@ public class EvilRose : Enemy
         else if (direction == ShootDirection.Left)
         {
             launchPosition = transform.position;
+            launchPosition.y += 0.55f;
+            launchPosition.x -= 0.3f;
             
             // change this to the launch position
             launchedThorns[0] = Instantiate(thornProjectilePrefab, launchPosition, Quaternion.Euler(0f, 0f, 90f))
@@ -101,6 +104,7 @@ public class EvilRose : Enemy
         else if (direction == ShootDirection.Down)
         {
             launchPosition = transform.position;
+            launchPosition.y += 0.8f;
             
             // change this to the launch position
             launchedThorns[0] = Instantiate(thornProjectilePrefab, launchPosition, Quaternion.Euler(0f, 0f, 180f))
@@ -115,6 +119,8 @@ public class EvilRose : Enemy
         else if (direction == ShootDirection.Right)
         {
             launchPosition = transform.position;
+            launchPosition.y += 0.55f;
+            launchPosition.x += 0.3f;
             
             // change this to the launch position
             launchedThorns[0] = Instantiate(thornProjectilePrefab, launchPosition, Quaternion.Euler(0f, 0f, 270f))

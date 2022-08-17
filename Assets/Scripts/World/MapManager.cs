@@ -100,11 +100,17 @@ public class MapManager : MonoBehaviour
         }
     }
 
-    public TileCollisionData getTileCollisionData(Vector2 position)
+    public TileCollisionData GetTileCollisionData(Vector2 position)
     {
         TileBase hitTile = tileMap.GetTile(tileMap.WorldToCell(position));
+        if (hitTile is null) return null;
+        
 
-        if (collisionDataFromTiles.ContainsKey(hitTile)) return collisionDataFromTiles[hitTile];
+        if (collisionDataFromTiles.ContainsKey(hitTile))
+        {
+            print("hit tile: " + hitTile.name);
+            return collisionDataFromTiles[hitTile];
+        }
         else return null;
     }
 
