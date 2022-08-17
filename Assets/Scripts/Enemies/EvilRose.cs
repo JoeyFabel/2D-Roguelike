@@ -64,74 +64,49 @@ public class EvilRose : Enemy
 
     public void FireThornMissiles(ShootDirection direction)
     {
-        print("launching thorns in direction " + direction);
-        
         Projectile[] launchedThorns = new Projectile[3];
-        Vector3 launchPosition;
+        Vector3 launchPosition = transform.position;
+        float startingRotation = 0f;
         
-        // Rotations on Z-Axis go counter-clockwise as the angle increases
-        if (direction == ShootDirection.Up)
+        switch (direction)
         {
-            launchPosition = transform.position;
-            launchPosition.y += 1.15f;
+            // Rotations on Z-Axis go counter-clockwise as the angle increases
+            case ShootDirection.Up:
+                launchPosition.y += 1.15f;
+
+                startingRotation = 0f;
                 
-            // change this to the launch position
-            launchedThorns[0] = Instantiate(thornProjectilePrefab, launchPosition, Quaternion.identity)
-                .GetComponent<Projectile>();
+                break;
+            case ShootDirection.Left:
+                launchPosition.y += 0.55f;
+                launchPosition.x -= 0.3f;
 
-            launchedThorns[1] = Instantiate(thornProjectilePrefab, launchPosition, Quaternion.Euler(0f, 0f, launchSpreadAngle))
-                    .GetComponent<Projectile>();
+                startingRotation = 90f;
+                
+                break;
+            case ShootDirection.Down:
+                launchPosition.y += 0.8f;
 
-            launchedThorns[2] = Instantiate(thornProjectilePrefab, launchPosition, Quaternion.Euler(0f, 0f, -launchSpreadAngle))
-                .GetComponent<Projectile>();
+                startingRotation = 180f;
+                
+                break;
+            case ShootDirection.Right:
+                launchPosition.y += 0.55f;
+                launchPosition.x += 0.3f;
+
+                startingRotation = 270f;
+                
+                break;
         }
-        else if (direction == ShootDirection.Left)
-        {
-            launchPosition = transform.position;
-            launchPosition.y += 0.55f;
-            launchPosition.x -= 0.3f;
-            
-            // change this to the launch position
-            launchedThorns[0] = Instantiate(thornProjectilePrefab, launchPosition, Quaternion.Euler(0f, 0f, 90f))
-                .GetComponent<Projectile>();
+        
+        launchedThorns[0] = Instantiate(thornProjectilePrefab, launchPosition, Quaternion.Euler(0f, 0f, startingRotation))
+            .GetComponent<Projectile>();
 
-            launchedThorns[1] = Instantiate(thornProjectilePrefab, launchPosition, Quaternion.Euler(0f, 0f, 90f + launchSpreadAngle))
-                .GetComponent<Projectile>();
+        launchedThorns[1] = Instantiate(thornProjectilePrefab, launchPosition, Quaternion.Euler(0f, 0f, startingRotation + launchSpreadAngle))
+            .GetComponent<Projectile>();
 
-            launchedThorns[2] = Instantiate(thornProjectilePrefab, launchPosition, Quaternion.Euler(0f, 0f, 90f - launchSpreadAngle))
-                .GetComponent<Projectile>();
-        }
-        else if (direction == ShootDirection.Down)
-        {
-            launchPosition = transform.position;
-            launchPosition.y += 0.8f;
-            
-            // change this to the launch position
-            launchedThorns[0] = Instantiate(thornProjectilePrefab, launchPosition, Quaternion.Euler(0f, 0f, 180f))
-                .GetComponent<Projectile>();
-
-            launchedThorns[1] = Instantiate(thornProjectilePrefab, launchPosition, Quaternion.Euler(0f, 0f, 180f + launchSpreadAngle))
-                .GetComponent<Projectile>();
-
-            launchedThorns[2] = Instantiate(thornProjectilePrefab, launchPosition, Quaternion.Euler(0f, 0f, 180f - launchSpreadAngle))
-                .GetComponent<Projectile>();
-        }
-        else if (direction == ShootDirection.Right)
-        {
-            launchPosition = transform.position;
-            launchPosition.y += 0.55f;
-            launchPosition.x += 0.3f;
-            
-            // change this to the launch position
-            launchedThorns[0] = Instantiate(thornProjectilePrefab, launchPosition, Quaternion.Euler(0f, 0f, 270f))
-                .GetComponent<Projectile>();
-
-            launchedThorns[1] = Instantiate(thornProjectilePrefab, launchPosition, Quaternion.Euler(0f, 0f, 270f + launchSpreadAngle))
-                .GetComponent<Projectile>();
-
-            launchedThorns[2] = Instantiate(thornProjectilePrefab, launchPosition, Quaternion.Euler(0f, 0f, 270f - launchSpreadAngle))
-                .GetComponent<Projectile>();
-        }
+        launchedThorns[2] = Instantiate(thornProjectilePrefab, launchPosition, Quaternion.Euler(0f, 0f, startingRotation - launchSpreadAngle))
+            .GetComponent<Projectile>();
         
         foreach (var projectile in launchedThorns) projectile.Launch(projectile.transform.up, launchSpeed);
     }
