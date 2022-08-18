@@ -388,7 +388,7 @@ public class PlayerController : MonoBehaviour
         {
             currentInteractable.Interact();
 
-            if (currentInteractable is not DialogTree) currentInteractable = null;
+            if (currentInteractable is not DialogTree && currentInteractable is not ShopItem) currentInteractable = null;
             DisableInteractSymbol();
         }
     }

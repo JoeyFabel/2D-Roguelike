@@ -23,9 +23,11 @@ public class DialogTree : SaveableObject, IInteractable
     private int currentNodeID = -1;
 
     private SpriteRenderer sprite;
-    private PlayerController player;
+    protected PlayerController player;
     private static readonly int toPlayerYProperty = Animator.StringToHash("To Player Y");
     private Coroutine watchPlayerRoutine;
+
+    private Animator animator;
     
     // Start is called before the first frame update
     protected override void Start()
@@ -34,6 +36,7 @@ public class DialogTree : SaveableObject, IInteractable
 
         player = CharacterSelector.GetPlayerController();
         sprite = GetComponent<SpriteRenderer>();
+        animator = GetComponent<Animator>();
         
         if (saveData == null) currentNode = startingNode;        
 
@@ -78,7 +81,7 @@ public class DialogTree : SaveableObject, IInteractable
             Vector2 towardsPlayer = player.transform.position - transform.position;
 
             sprite.flipX = towardsPlayer.x < 0;
-            sprite.GetComponent<Animator>().SetFloat(toPlayerYProperty, towardsPlayer.y);
+            animator.SetFloat(toPlayerYProperty, towardsPlayer.y);
             
             yield return null;
         }

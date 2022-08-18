@@ -100,18 +100,18 @@ public class InventoryUI : MonoBehaviour
 
         while (itemGainedCanvasGroup.alpha < 1)
         {
-            itemGainedCanvasGroup.alpha += 1 / fadeTime * Time.deltaTime;
+            itemGainedCanvasGroup.alpha += 1 / fadeTime * Time.unscaledDeltaTime;
 
             yield return null;
         }
 
         itemGainedCanvasGroup.alpha = 1f;
 
-        yield return new WaitForSeconds(activeDuration);
+        yield return new WaitForSecondsRealtime(activeDuration);
 
         while (itemGainedCanvasGroup.alpha > 0.01f)
         {
-            itemGainedCanvasGroup.alpha -= 1 / fadeTime * Time.deltaTime;
+            itemGainedCanvasGroup.alpha -= 1 / fadeTime * Time.unscaledDeltaTime;
 
             yield return null;
         }

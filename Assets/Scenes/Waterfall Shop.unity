@@ -2293,6 +2293,123 @@ PrefabInstance:
       objectReference: {fileID: 8300000, guid: 268b3ab418c2861419b2c4e91bbdcaed, type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3de040b0533f7aa4284397a93281d32c, type: 3}
+--- !u!1 &1102042128
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1102042130}
+  - component: {fileID: 1102042129}
+  - component: {fileID: 1102042131}
+  - component: {fileID: 1102042132}
+  m_Layer: 0
+  m_Name: Bomb For Sale
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!212 &1102042129
+SpriteRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1102042128}
+  m_Enabled: 1
+  m_CastShadows: 0
+  m_ReceiveShadows: 0
+  m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 0
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_Sprite: {fileID: 21300000, guid: b3880014deb545746a29834cf67f0950, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_FlipX: 0
+  m_FlipY: 0
+  m_DrawMode: 0
+  m_Size: {x: 0.72, y: 0.72}
+  m_AdaptiveModeThreshold: 0.5
+  m_SpriteTileMode: 0
+  m_WasSpriteAssigned: 1
+  m_MaskInteraction: 0
+  m_SpriteSortPoint: 0
+--- !u!4 &1102042130
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1102042128}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -4.674143, y: -2.812241, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 8
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1102042131
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1102042128}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3bd4769535542fd68865593aa9f88f87, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  shopOwner: {fileID: 1397360479}
+  itemForSale: {fileID: 11400000, guid: 258559494ba2df9e298fe9c8a794b655, type: 2}
+  price: 0
+--- !u!58 &1102042132
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1102042128}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0.1}
+  serializedVersion: 2
+  m_Radius: 0.75
 --- !u!1 &1177348123
 GameObject:
   m_ObjectHideFlags: 0
@@ -5135,6 +5252,54 @@ TilemapCollider2D:
   m_Offset: {x: 0, y: 0}
   m_MaximumTileChangeCount: 1000
   m_ExtrusionFactor: 0.00001
+--- !u!1 &1301778217
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1301778219}
+  - component: {fileID: 1301778218}
+  m_Layer: 9
+  m_Name: Not Enough Money Dialog
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1301778218
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1301778217}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a617dc184590bf1428448d1d0d582492, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  dialog: You don't have enough gold!
+  nextNode: {fileID: 0}
+  isPrimaryNode: 0
+  id: 0
+--- !u!4 &1301778219
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1301778217}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1397360475}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1397360472
 GameObject:
   m_ObjectHideFlags: 0
@@ -5147,8 +5312,8 @@ GameObject:
   - component: {fileID: 1397360474}
   - component: {fileID: 1397360473}
   - component: {fileID: 1397360476}
-  - component: {fileID: 1397360477}
   - component: {fileID: 1397360478}
+  - component: {fileID: 1397360479}
   m_Layer: 9
   m_Name: Shopowner
   m_TagString: Untagged
@@ -5242,6 +5407,8 @@ Transform:
   m_Children:
   - {fileID: 1669190782}
   - {fileID: 180160741}
+  - {fileID: 2032663679}
+  - {fileID: 1301778219}
   m_Father: {fileID: 0}
   m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -5271,24 +5438,6 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.64999735, y: 0.4516096}
   m_EdgeRadius: 0
---- !u!114 &1397360477
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1397360472}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 204717e8f575dc74a8a6624871f7a133, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  saveIDNumber: 0
-  startingNode: {fileID: 1669190779}
-  speakerIcon: {fileID: 21300000, guid: ca26d14e56d48836ea7bf4ae5a92c675, type: 3}
-  speechBubbleIcon: {fileID: 136744527}
-  faceTowardsPlayer: 1
-  currentNodeID: -1
 --- !u!58 &1397360478
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -5305,6 +5454,26 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0.4}
   serializedVersion: 2
   m_Radius: 2
+--- !u!114 &1397360479
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1397360472}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b39fbf5f94fd655ab845a9772c699d23, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  saveIDNumber: 0
+  startingNode: {fileID: 1669190779}
+  speakerIcon: {fileID: 21300000, guid: ca26d14e56d48836ea7bf4ae5a92c675, type: 3}
+  speechBubbleIcon: {fileID: 136744527}
+  faceTowardsPlayer: 1
+  currentNodeID: -1
+  itemPurchaseDialogNode: {fileID: 2032663683}
+  notEnoughMoneyNode: {fileID: 1301778218}
 --- !u!1 &1595348482
 GameObject:
   m_ObjectHideFlags: 0
@@ -7309,3 +7478,97 @@ MonoBehaviour:
   m_CameraActivatedEvent:
     m_PersistentCalls:
       m_Calls: []
+--- !u!1 &2032663678
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2032663679}
+  - component: {fileID: 2032663683}
+  - component: {fileID: 2032663682}
+  - component: {fileID: 2032663681}
+  m_Layer: 9
+  m_Name: Purchase Dialog
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2032663679
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2032663678}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1397360475}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2032663681
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2032663678}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a617dc184590bf1428448d1d0d582492, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  dialog: Come back if you change your mind.
+  nextNode: {fileID: 0}
+  isPrimaryNode: 0
+  id: 0
+--- !u!114 &2032663682
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2032663678}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bafbdea37910f594e95618c3499f7817, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  dialog: Here you go!
+  nextNode: {fileID: 0}
+  isPrimaryNode: 0
+  id: 0
+  action:
+    m_PersistentCalls:
+      m_Calls: []
+--- !u!114 &2032663683
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2032663678}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b29a76777bef4734e9b2245f9f055736, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  dialog: You want the {itemName}? That will be {price} gold.
+  nextNode: {fileID: 0}
+  isPrimaryNode: 0
+  id: 0
+  nextNodes:
+  - nextNode: {fileID: 2032663682}
+    requiredItem: {fileID: 0}
+    spendItemOnUse: 0
+    displayText: Yes
+  - nextNode: {fileID: 2032663681}
+    requiredItem: {fileID: 0}
+    spendItemOnUse: 0
+    displayText: No

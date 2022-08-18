@@ -27,4 +27,9 @@ public class ForkingNode : DialogNode
     {
         currentSelectedOption = optionIndex;
     }
+
+    public int GetCurrentSelectedOption()
+    {
+        return currentSelectedOption;
+    }
 }
