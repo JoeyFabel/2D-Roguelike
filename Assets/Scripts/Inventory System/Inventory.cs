@@ -22,6 +22,9 @@ public class Inventory : MonoBehaviour
 
     private static InventoryUI inventoryUI;
 
+    private Coroutine itemGainedHUDRoutine;
+    private Coroutine goldGainedHUDRoutine;
+
     private int money;
 
     public void InitializeInventory()
@@ -49,8 +52,8 @@ public class Inventory : MonoBehaviour
 
         inventoryUI.UpdateItemUI(itemToGain, instance.inventory[itemToGain]);
 
-        instance.StopAllCoroutines();
-        instance.StartCoroutine(inventoryUI.DisplayItemGained(itemToGain, quantity));
+        if (instance.itemGainedHUDRoutine != null) instance.StopCoroutine(instance.itemGainedHUDRoutine);
+        instance.itemGainedHUDRoutine = instance.StartCoroutine(inventoryUI.DisplayItemGained(itemToGain, quantity, instance));
     }
 
     /// <summary>
@@ -77,8 +80,8 @@ public class Inventory : MonoBehaviour
             inventoryUI.UpdateItemUI(itemToLose, 0);
         }
 
-        instance.StopAllCoroutines();
-        instance.StartCoroutine(inventoryUI.DisplayItemGained(itemToLose, -1));
+        if (instance.itemGainedHUDRoutine != null) instance.StopCoroutine(instance.itemGainedHUDRoutine);
+        instance.itemGainedHUDRoutine = instance.StartCoroutine(inventoryUI.DisplayItemGained(itemToLose, -1, instance));
     }
 
     public static bool PlayerHasItem(Item itemToCheck)
@@ -93,6 +96,9 @@ public class Inventory : MonoBehaviour
         instance.money += amount;
 
         inventoryUI.UpdateMoneyText(instance.money);
+        
+        if (instance.goldGainedHUDRoutine != null) instance.StopCoroutine(instance.goldGainedHUDRoutine);
+        instance.goldGainedHUDRoutine = instance.StartCoroutine(inventoryUI.DisplayGoldGained(amount, instance));
     }
 
     public static void LoseMoney(int amount)
@@ -100,6 +106,9 @@ public class Inventory : MonoBehaviour
         instance.money -= amount;
 
         inventoryUI.UpdateMoneyText(instance.money);
+        
+        if (instance.goldGainedHUDRoutine != null) instance.StopCoroutine(instance.goldGainedHUDRoutine);
+        instance.goldGainedHUDRoutine = instance.StartCoroutine(inventoryUI.DisplayGoldGained(-amount, instance));
     }
 
     public static int GetCurrentMoney()

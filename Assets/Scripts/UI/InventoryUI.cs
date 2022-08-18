@@ -27,6 +27,13 @@ public class InventoryUI : MonoBehaviour
     public Color itemGainedTextColor = Color.green;
     public Color itemLostTextColor = Color.red;
 
+    [Header("Gold Gained Display")] public CanvasGroup goldGainedCanvasGroup;
+    public Text goldGainedHeaderText;
+    public Text goldAmountText;
+    public Color goldGainedTextColor = Color.yellow;
+    public Color goldLostTextColor = Color.red;
+    public int itemGainedHeight = 200;
+    
     private List<InventoryCell> inventoryCells;
 
     private PlayerController player;
@@ -45,6 +52,7 @@ public class InventoryUI : MonoBehaviour
         gameObject.SetActive(false);
         settingsPanel.SetActive(false);
         itemGainedCanvasGroup.gameObject.SetActive(false);
+        goldGainedCanvasGroup.gameObject.SetActive(false);
         returnToMenu = true;
     }       
 
@@ -72,7 +80,45 @@ public class InventoryUI : MonoBehaviour
         }        
     }
 
-    public IEnumerator DisplayItemGained(Item gainedItem, int quantity)
+    public IEnumerator DisplayGoldGained(int amount, MonoBehaviour coroutineParent)
+    {
+        if (amount > 0)
+        {
+            // Gold was gained
+            goldGainedHeaderText.text = "Gold Gained";
+            goldGainedHeaderText.color = goldGainedTextColor;
+
+            goldAmountText.text = amount + "     Gained";
+            goldAmountText.color = goldGainedTextColor;
+        }
+        else
+        {
+            // Gold was lost
+            goldGainedHeaderText.text = "Gold Lost";
+            goldGainedHeaderText.color = goldLostTextColor;
+
+            goldAmountText.text = Mathf.Abs(amount) + "        Lost";
+            goldAmountText.color = goldLostTextColor;
+        }
+
+        coroutineParent.StartCoroutine(FadeCanvasInAndOut(goldGainedCanvasGroup));
+        yield return coroutineParent.StartCoroutine(ControlGoldGainedHUDPosition());
+    }
+
+    private IEnumerator ControlGoldGainedHUDPosition()
+    {
+        RectTransform rect = goldGainedCanvasGroup.GetComponent<RectTransform>();
+        
+        while (goldGainedCanvasGroup.gameObject.activeSelf)
+        {
+            if (!itemGainedCanvasGroup.gameObject.activeSelf) rect.anchoredPosition = Vector2.zero;
+            else rect.anchoredPosition = new Vector2(0f, -itemGainedHeight);
+
+            yield return null;
+        }
+    }
+    
+    public IEnumerator DisplayItemGained(Item gainedItem, int quantity, MonoBehaviour coroutineParent)
     {        
         if (quantity > 0)
         {
@@ -95,31 +141,36 @@ public class InventoryUI : MonoBehaviour
         if (quantity > 1) gainedItemText.text += " (" + quantity + "x)";
         else if (quantity < -1) gainedItemText.text += "(" + (-quantity) + "x)";
 
-        itemGainedCanvasGroup.alpha = 0;
-        itemGainedCanvasGroup.gameObject.SetActive(true);
+        yield return coroutineParent.StartCoroutine(FadeCanvasInAndOut(itemGainedCanvasGroup));
+    }
 
-        while (itemGainedCanvasGroup.alpha < 1)
+    private IEnumerator FadeCanvasInAndOut(CanvasGroup canvasGroup)
+    {
+        canvasGroup.alpha = 0;
+        canvasGroup.gameObject.SetActive(true);
+
+        while (canvasGroup.alpha < 1)
         {
-            itemGainedCanvasGroup.alpha += 1 / fadeTime * Time.unscaledDeltaTime;
+            canvasGroup.alpha += 1 / fadeTime * Time.unscaledDeltaTime;
 
             yield return null;
         }
 
-        itemGainedCanvasGroup.alpha = 1f;
+        canvasGroup.alpha = 1;
 
         yield return new WaitForSecondsRealtime(activeDuration);
 
-        while (itemGainedCanvasGroup.alpha > 0.01f)
+        while (canvasGroup.alpha > 0.01f)
         {
-            itemGainedCanvasGroup.alpha -= 1 / fadeTime * Time.unscaledDeltaTime;
+            canvasGroup.alpha -= 1 / fadeTime * Time.unscaledDeltaTime;
 
             yield return null;
         }
 
-        itemGainedCanvasGroup.alpha = 0;
-        itemGainedCanvasGroup.gameObject.SetActive(false);
-    }   
-
+        canvasGroup.alpha = 0;
+        canvasGroup.gameObject.SetActive(false);
+    }
+    
     public void CloseInventoryUI()
     {
         gameObject.SetActive(false);
