@@ -93,6 +93,8 @@ public class Inventory : MonoBehaviour
 
     public static void GainMoney(int amount)
     {
+        if (amount == 0) return;
+        
         instance.money += amount;
 
         inventoryUI.UpdateMoneyText(instance.money);
@@ -103,6 +105,8 @@ public class Inventory : MonoBehaviour
 
     public static void LoseMoney(int amount)
     {
+        if (amount == 0) return;
+        
         instance.money -= amount;
 
         inventoryUI.UpdateMoneyText(instance.money);

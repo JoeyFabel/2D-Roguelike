@@ -33,9 +33,10 @@ public class InventoryUI : MonoBehaviour
     public Color goldGainedTextColor = Color.yellow;
     public Color goldLostTextColor = Color.red;
     public int itemGainedHeight = 200;
+    private RectTransform goldGainedRect;
     
     private List<InventoryCell> inventoryCells;
-
+    
     private PlayerController player;
 
     private bool returnToMenu;
@@ -53,6 +54,10 @@ public class InventoryUI : MonoBehaviour
         settingsPanel.SetActive(false);
         itemGainedCanvasGroup.gameObject.SetActive(false);
         goldGainedCanvasGroup.gameObject.SetActive(false);
+
+        goldGainedRect = goldGainedCanvasGroup.GetComponent<RectTransform>();
+        goldGainedRect.anchoredPosition = Vector2.zero;
+
         returnToMenu = true;
     }       
 
@@ -101,23 +106,10 @@ public class InventoryUI : MonoBehaviour
             goldAmountText.color = goldLostTextColor;
         }
 
-        coroutineParent.StartCoroutine(FadeCanvasInAndOut(goldGainedCanvasGroup));
-        yield return coroutineParent.StartCoroutine(ControlGoldGainedHUDPosition());
+        yield return coroutineParent.StartCoroutine(FadeCanvasInAndOut(goldGainedCanvasGroup));
+        //yield return coroutineParent.StartCoroutine(ControlGoldGainedHUDPosition());
     }
 
-    private IEnumerator ControlGoldGainedHUDPosition()
-    {
-        RectTransform rect = goldGainedCanvasGroup.GetComponent<RectTransform>();
-        
-        while (goldGainedCanvasGroup.gameObject.activeSelf)
-        {
-            if (!itemGainedCanvasGroup.gameObject.activeSelf) rect.anchoredPosition = Vector2.zero;
-            else rect.anchoredPosition = new Vector2(0f, -itemGainedHeight);
-
-            yield return null;
-        }
-    }
-    
     public IEnumerator DisplayItemGained(Item gainedItem, int quantity, MonoBehaviour coroutineParent)
     {        
         if (quantity > 0)
@@ -141,7 +133,9 @@ public class InventoryUI : MonoBehaviour
         if (quantity > 1) gainedItemText.text += " (" + quantity + "x)";
         else if (quantity < -1) gainedItemText.text += "(" + (-quantity) + "x)";
 
+        goldGainedRect.anchoredPosition = new Vector2(0f, -itemGainedHeight);
         yield return coroutineParent.StartCoroutine(FadeCanvasInAndOut(itemGainedCanvasGroup));
+        goldGainedRect.anchoredPosition = Vector2.zero;
     }
 
     private IEnumerator FadeCanvasInAndOut(CanvasGroup canvasGroup)
