@@ -1,9 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class Inventory : MonoBehaviour
 {
+    private const int EmptyBottleID = 7;
+    
     public List<Item> itemDatabase;
 
     public GameObject moneyDrop;
@@ -25,6 +28,8 @@ public class Inventory : MonoBehaviour
     private Coroutine itemGainedHUDRoutine;
     private Coroutine goldGainedHUDRoutine;
 
+    private Item emptyBottleItem;
+    
     private int money;
 
     public void InitializeInventory()
@@ -33,6 +38,8 @@ public class Inventory : MonoBehaviour
         inventory = new Dictionary<Item, int>();
         inventoryUI = GetComponentInChildren<InventoryUI>();
 
+        emptyBottleItem = GetItemFromID(EmptyBottleID);
+        
         inventoryUI.InitializeUI();
     }
 
@@ -54,6 +61,28 @@ public class Inventory : MonoBehaviour
 
         if (instance.itemGainedHUDRoutine != null) instance.StopCoroutine(instance.itemGainedHUDRoutine);
         instance.itemGainedHUDRoutine = instance.StartCoroutine(inventoryUI.DisplayItemGained(itemToGain, quantity, instance));
+    }
+
+    public static void GainEmptyBottle()
+    {
+        if (instance.inventory.ContainsKey(instance.emptyBottleItem)) instance.inventory[instance.emptyBottleItem]++;
+        else instance.inventory.Add(instance.emptyBottleItem, 1);
+        
+        inventoryUI.UpdateItemUI(instance.emptyBottleItem, instance.inventory[instance.emptyBottleItem]);
+    }
+
+    public static void LoseEmptyBottle()
+    {
+        if (instance.inventory[instance.emptyBottleItem] > 1)
+        {
+            instance.inventory[instance.emptyBottleItem]--;
+            inventoryUI.UpdateItemUI(instance.emptyBottleItem,instance.inventory[instance.emptyBottleItem]);
+        }
+        else
+        {
+            instance.inventory.Remove(instance.emptyBottleItem);
+            inventoryUI.UpdateItemUI(instance.emptyBottleItem, 0);
+        }
     }
 
     /// <summary>
@@ -91,6 +120,11 @@ public class Inventory : MonoBehaviour
         return instance.inventory.ContainsKey(itemToCheck);
     }
 
+    public static bool PlayerHasEmptyBottle()
+    {
+        return instance.inventory.ContainsKey(instance.emptyBottleItem);
+    }
+    
     public static void GainMoney(int amount)
     {
         if (amount == 0) return;

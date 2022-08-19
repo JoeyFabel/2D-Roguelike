@@ -8494,6 +8494,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   itemDatabase:
+  - {fileID: 11400000, guid: b7d830b204ed2e31991d94b227823213, type: 2}
   - {fileID: 11400000, guid: 61f3c03e5fbb23e48aeef3056d6b1cdf, type: 2}
   - {fileID: 11400000, guid: 70260ff118b074c4eaf8e9117d2253f4, type: 2}
   - {fileID: 11400000, guid: 258559494ba2df9e298fe9c8a794b655, type: 2}

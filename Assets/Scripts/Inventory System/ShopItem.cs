@@ -9,9 +9,10 @@ public class ShopItem : MonoBehaviour, IInteractable
 
     public Item itemForSale;
     public int price;
+    public bool requiresBottle;
 
     public void Interact()
     {
-        shopOwner.DisplayPurchaseDialog(itemForSale, price);
+        shopOwner.DisplayPurchaseDialog(itemForSale, price, requiresBottle);
     }
 }

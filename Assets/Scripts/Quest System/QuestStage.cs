@@ -13,6 +13,9 @@ public class QuestStage : MonoBehaviour
      
      [Tooltip("Anything that should be performed in addition to saving the quest data.")]
      public UnityEvent OnQuestStageCompleted;
+
+     public Item[] itemsToGain;
+     
      
      private void Start()
      {
@@ -24,6 +27,8 @@ public class QuestStage : MonoBehaviour
           GameManager.SaveQuest((int)quest, activeQuestStageNumber + 1);
           
           OnQuestStageCompleted?.Invoke();
+
+          foreach (var item in itemsToGain) Inventory.GainItem(item);
      }
 
      public enum Quests

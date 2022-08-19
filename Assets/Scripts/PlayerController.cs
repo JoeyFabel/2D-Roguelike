@@ -435,6 +435,7 @@ public class PlayerController : MonoBehaviour
         {
             augurWeapon.GainMana(quickItem.manaToGain);
         }
+        if (quickItem.getEmptyBottleOnUse) Inventory.GainEmptyBottle();
     }
 #endregion
 

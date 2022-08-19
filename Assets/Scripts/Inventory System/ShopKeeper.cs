@@ -6,7 +6,8 @@ public class ShopKeeper : DialogTree
 
     public ForkingNode itemPurchaseDialogNode;
     public DialogNode notEnoughMoneyNode;
-
+    public DialogNode missingBottleNode;
+    
     private string initialDialogText;
 
     private DialogNode currenShopNode;
@@ -18,7 +19,7 @@ public class ShopKeeper : DialogTree
         initialDialogText = itemPurchaseDialogNode.dialog;
     }
 
-    public void DisplayPurchaseDialog(Item item, int itemPrice)
+    public void DisplayPurchaseDialog(Item item, int itemPrice, bool requiresBottle)
     {
         // Set the dialog text
         itemPurchaseDialogNode.dialog = initialDialogText.Replace(ItemNameSignifier, item.itemName).Replace(ItemPriceSignifier, itemPrice.ToString());
@@ -55,12 +56,21 @@ public class ShopKeeper : DialogTree
                 if (itemPurchaseDialogNode.nextNodes[itemPurchaseDialogNode.GetCurrentSelectedOption()].displayText
                     .Equals("Yes"))
                 {
+                    if (requiresBottle && !Inventory.PlayerHasEmptyBottle())
+                    {
+                        currenShopNode = missingBottleNode;
+                        DialogManager.DisplayDialog(currenShopNode);
+                        
+                        return;
+                    }
+                    
                     if (Inventory.GetCurrentMoney() >= itemPrice)
                     {
                         // The item was purchased
                         Inventory.GainItem(item);
 
                         Inventory.LoseMoney(itemPrice);
+                        if (requiresBottle) Inventory.LoseEmptyBottle();
                     }
                     else
                     {
