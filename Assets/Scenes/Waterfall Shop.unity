@@ -2247,6 +2247,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 967154694119642437, guid: 6cd9fb8352c80034e960f74ba4d3dc5e, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1418681096190692747, guid: 6cd9fb8352c80034e960f74ba4d3dc5e, type: 3}
       propertyPath: m_Pivot.x
       value: 0
@@ -2338,6 +2342,34 @@ PrefabInstance:
     - target: {fileID: 1418681096190692751, guid: 6cd9fb8352c80034e960f74ba4d3dc5e, type: 3}
       propertyPath: m_IsActive
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2747277843793248971, guid: 6cd9fb8352c80034e960f74ba4d3dc5e, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6753525912199463659, guid: 6cd9fb8352c80034e960f74ba4d3dc5e, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6753525912199463659, guid: 6cd9fb8352c80034e960f74ba4d3dc5e, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6753525912199463659, guid: 6cd9fb8352c80034e960f74ba4d3dc5e, type: 3}
+      propertyPath: m_AnchorMin.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6753525912199463659, guid: 6cd9fb8352c80034e960f74ba4d3dc5e, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6753525912199463659, guid: 6cd9fb8352c80034e960f74ba4d3dc5e, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 123.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6753525912199463659, guid: 6cd9fb8352c80034e960f74ba4d3dc5e, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -425
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6cd9fb8352c80034e960f74ba4d3dc5e, type: 3}
@@ -7410,6 +7442,7 @@ MonoBehaviour:
   OnQuestStageCompleted:
     m_PersistentCalls:
       m_Calls: []
+  itemsToGain: []
 --- !u!1 &1669190778
 GameObject:
   m_ObjectHideFlags: 0

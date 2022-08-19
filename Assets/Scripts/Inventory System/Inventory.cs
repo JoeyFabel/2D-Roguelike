@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Inventory : MonoBehaviour
 {
@@ -29,6 +30,7 @@ public class Inventory : MonoBehaviour
     private Coroutine goldGainedHUDRoutine;
 
     private Item emptyBottleItem;
+    private Consumable currentQuickItem;
     
     private int money;
 
@@ -41,6 +43,7 @@ public class Inventory : MonoBehaviour
         emptyBottleItem = GetItemFromID(EmptyBottleID);
         
         inventoryUI.InitializeUI();
+        inventoryUI.UpdateQuickItemDisplay(null);
     }
 
     /// <summary>
@@ -107,6 +110,13 @@ public class Inventory : MonoBehaviour
         {
             instance.inventory.Remove(itemToLose);
             inventoryUI.UpdateItemUI(itemToLose, 0);
+
+            // If a consumable was used and it was the last one, set the current quick item to null
+            if (itemToLose.itemID == instance.currentQuickItem.itemID)
+            {
+                instance.currentQuickItem = null;
+                inventoryUI.UpdateQuickItemDisplay(null);
+            }
         }
 
         if (instance.itemGainedHUDRoutine != null) instance.StopCoroutine(instance.itemGainedHUDRoutine);
@@ -163,12 +173,31 @@ public class Inventory : MonoBehaviour
         moneyDrop.SetMoney(money);
     }
 
-    public static Item GetQuickItem()
+    public static Consumable GetQuickItem()
     {
         // TODO - implement quick item HUD
-        return instance.itemDatabase.Find(item => item.itemName.Equals("Bomb"));
+        return instance.currentQuickItem;
     }
 
+    public static void DisplayItemName(Vector3 itemCellPosition, int itemID)
+    {
+        print("TODO - display item name!");
+    }
+
+    public static void TrySetQuickItem(int itemID)
+    {
+        Item potentialQuickItem = instance.GetItemFromID(itemID);
+
+        if (potentialQuickItem is Consumable quickItem)
+        {
+            instance.currentQuickItem = quickItem;   
+            
+            inventoryUI.UpdateQuickItemDisplay(quickItem);
+            
+            ToggleInventoryUI();
+        }
+    }
+    
     public void LoadInventoryFromData(Dictionary<int, int> inventoryData, int currentMoney)
     {
         inventory = new Dictionary<Item, int>();

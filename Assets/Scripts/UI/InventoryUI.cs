@@ -34,6 +34,9 @@ public class InventoryUI : MonoBehaviour
     public Color goldLostTextColor = Color.red;
     public int itemGainedHeight = 200;
     private RectTransform goldGainedRect;
+
+    [Header("Quick Item Display")] 
+    public Image quickItemImage;
     
     private List<InventoryCell> inventoryCells;
     
@@ -57,10 +60,22 @@ public class InventoryUI : MonoBehaviour
 
         goldGainedRect = goldGainedCanvasGroup.GetComponent<RectTransform>();
         goldGainedRect.anchoredPosition = Vector2.zero;
+        
+        UpdateQuickItemDisplay(null);
 
         returnToMenu = true;
-    }       
+    }
 
+    public void UpdateQuickItemDisplay(Item quickItem)
+    {
+        if (quickItem == null) quickItemImage.transform.parent.gameObject.SetActive(false);
+        else
+        {
+            quickItemImage.transform.parent.gameObject.SetActive(true);
+            quickItemImage.sprite = quickItem.icon;
+        }
+    }
+    
     public void UpdateItemUI(Item item, int newQuantity)
     {
         InventoryCell cellToModify = inventoryCells.Find((InventoryCell cell) => cell.GetItemID() == item.itemID);

@@ -415,13 +415,14 @@ public class PlayerController : MonoBehaviour
 
     private void UseQuickItem(InputAction.CallbackContext context)
     {
-        Consumable quickItem = Inventory.GetQuickItem() as Consumable;
+        Consumable quickItem = Inventory.GetQuickItem();
 
         if (quickItem == null) return;
 
         print("using " + quickItem.itemName);
         
-        // Inventory.LoseItem(quickItem);
+        Inventory.LoseItem(quickItem);
+        if (!Inventory.PlayerHasItem(quickItem)) Inventory.TrySetQuickItem(-1);
         
         if (quickItem.objectToSpawn)
         {
