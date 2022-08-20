@@ -2056,6 +2056,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sceneName: Castle F1
+  isShopScene: 0
   loadIntoShrine: 0
   loadOutOfShrine: 0
   playerOffset: {x: 0, y: 0}
@@ -2296,6 +2297,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sceneName: Overworld
+  isShopScene: 0
   loadIntoShrine: 0
   loadOutOfShrine: 0
   playerOffset: {x: 0, y: 0}
@@ -2312,7 +2314,7 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -1.6991291, y: -2.143787}
+  m_Offset: {x: -1.7986755, y: -2.143787}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -2323,7 +2325,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.7367439, y: 5.287574}
+  m_Size: {x: 0.53765106, y: 5.287574}
   m_EdgeRadius: 0
 --- !u!4 &1019632807
 Transform:

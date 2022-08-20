@@ -7,6 +7,7 @@ public class LoadSceneOnTrigger : MonoBehaviour
     [Header("Pick ONLY one")]
     [Tooltip("The name of the scene to load")]
     public string sceneName;
+    public bool isShopScene;
     [Tooltip("Check this if this will load the player into the shrine")]
     public bool loadIntoShrine;
     [Tooltip("Check this if this is in the shrine loading the player into the last active scene")]
@@ -21,6 +22,7 @@ public class LoadSceneOnTrigger : MonoBehaviour
         {
             if (loadIntoShrine) GameManager.LoadIntoShrine(collision.transform.position + Vector3.down, player.GetPlayerLoadData()); // subtracts 1 from y axis to load player below shrine
             else if (loadOutOfShrine) GameManager.LoadOutOfShrine();
+            else if (isShopScene) GameManager.LoadIntoShop(collision.transform.position + Vector3.down, player.GetPlayerLoadData(), sceneName); 
             else GameManager.LoadScene(sceneName, playerOffset);
         }
     }

@@ -165,6 +165,17 @@ public class GameManager : MonoBehaviour
         instance.StartCoroutine(LoadSceneAfterFade("Shrine"));
     }
 
+    public static void LoadIntoShop(Vector3 playerPosition, PlayerLoadData playerData, string sceneName)
+    {
+        instance.lastSceneName = SceneManager.GetActiveScene().name;
+        instance.playersLastPosition = playerPosition;
+        instance.setPlayerPosition = false;
+        instance.playerLoadData = playerData;
+        instance.SaveWorldObjects();
+
+        instance.StartCoroutine(LoadSceneAfterFade(sceneName));
+    }
+    
     public static void LoadOutOfShrine()
     {
         instance.setPlayerPosition = true;
