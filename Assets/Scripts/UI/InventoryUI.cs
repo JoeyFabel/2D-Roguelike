@@ -272,6 +272,10 @@ public class InventoryUI : MonoBehaviour
             else // the main inventory is open
             {
                 gameObject.SetActive(false);
+                
+                // Display the quick item when the inventory closes
+                UpdateQuickItemDisplay(Inventory.GetQuickItem());
+                
                 Time.timeScale = 1.0f;
             }
             player.EnableControlsAfterUI();
@@ -284,6 +288,9 @@ public class InventoryUI : MonoBehaviour
             UnityEngine.EventSystems.EventSystem.current.SetSelectedGameObject(null);                       
             firstSelectedOnOpen.Select();
 
+            // Hide the quick item when the inventory is open
+            UpdateQuickItemDisplay(null);
+            
             player.DisableControlsForUI();
         }
     }

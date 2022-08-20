@@ -108,7 +108,6 @@ public class MapManager : MonoBehaviour
 
         if (collisionDataFromTiles.ContainsKey(hitTile))
         {
-            print("hit tile: " + hitTile.name);
             return collisionDataFromTiles[hitTile];
         }
         else return null;

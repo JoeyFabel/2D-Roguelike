@@ -37,6 +37,8 @@ public abstract class WeaponController : MonoBehaviour
 
     protected bool loadedData = false;
 
+    protected static readonly int AnimatorAttackingID = Animator.StringToHash("Attacking");
+
     protected virtual void Start()
     {
         animator = GetComponent<Animator>();
@@ -179,9 +181,9 @@ public abstract class WeaponController : MonoBehaviour
         // An empty function in case a unit has no ranged weapon, but here for the animator behavior
     }
 
-    protected virtual bool CanAttack()
+    public virtual bool CanAttack()
     {
-        return !animator.GetBool("Attacking");
+        return !animator.GetBool(AnimatorAttackingID);
     }
 
     protected void PlaySound(AudioClip clip)

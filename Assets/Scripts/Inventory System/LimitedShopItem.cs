@@ -24,8 +24,6 @@ public class LimitedShopItem : SaveableObject, IInteractable
 
     public void Interact()
     {
-        print("Interacting with limited shop item");
-        
         shopOwner.DisplayPurchaseDialog(itemForSale, price, requiresBottle);
     }
     

@@ -1,4 +1,6 @@
+using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.UI;
 
 public class ShopKeeper : DialogTree
 {
@@ -9,6 +11,10 @@ public class ShopKeeper : DialogTree
     public ForkingNode itemPurchaseDialogNode;
     public DialogNode notEnoughMoneyNode;
     public DialogNode missingBottleNode;
+
+    [Header("Shop HUD")] 
+    public GameObject shopHUDParent;
+    public Text moneyAmountText;
     
     private string initialDialogText;
 
@@ -21,6 +27,7 @@ public class ShopKeeper : DialogTree
         base.Start();
         
         initialDialogText = itemPurchaseDialogNode.dialog;
+        shopHUDParent.SetActive(false);
     }
 
     public void DisplayPurchaseDialog(Item item, int itemPrice, bool requiresBottle)
@@ -37,21 +44,25 @@ public class ShopKeeper : DialogTree
             currenShopNode = itemPurchaseDialogNode;
             
             player.DisableControlsForDialog();
+            
+            moneyAmountText.text = Inventory.GetCurrentMoney().ToString();
+            shopHUDParent.SetActive(true);
         }
         else if (DialogManager.isTyping)
         {
             DialogManager.FinishDialogLine();
         }
-        else
+        else // Some dialog is already displayed
         {
-            // Purchase option!
-
             currenShopNode = currenShopNode.GetNextNode();
 
+            // There is no next node to go to, close the dialog
             if (currenShopNode == null)
             {
                 DialogManager.CloseDialog();
 
+                shopHUDParent.SetActive(false);
+                
                 player.EnableControlsAfterUI();
             }
             else
@@ -77,6 +88,8 @@ public class ShopKeeper : DialogTree
                         if (requiresBottle) Inventory.LoseEmptyBottle();
                         
                         OnItemBought?.Invoke(item);
+
+                        moneyAmountText.text = Inventory.GetCurrentMoney().ToString();
                     }
                     else
                     {

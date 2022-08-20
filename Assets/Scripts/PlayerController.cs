@@ -415,11 +415,11 @@ public class PlayerController : MonoBehaviour
 
     private void UseQuickItem(InputAction.CallbackContext context)
     {
+        if (!playerWeapon.CanAttack()) return;
+        
         Consumable quickItem = Inventory.GetQuickItem();
 
         if (quickItem == null) return;
-
-        print("using " + quickItem.itemName);
         
         Inventory.LoseItem(quickItem);
         if (!Inventory.PlayerHasItem(quickItem)) Inventory.TrySetQuickItem(-1);
@@ -446,7 +446,40 @@ public class PlayerController : MonoBehaviour
     /// <param name="objectToThrow">The object being thrown</param>
     public void ThrowItem(GameObject objectToThrow)
     {
+        // Best values based on testing
+        float gravTime = 0.25f;
+        float throwStrength = 7.5f;
+
+        Rigidbody2D rigidbody = objectToThrow.GetComponent<Rigidbody2D>();
         
+        //rigidbody.position = collider.ClosestPoint(rigidbody.position + movementVector) + movementVector * 0.25f;
+
+        Vector2 throwStartPosition = objectToThrow.transform.position;
+        
+        if (movementVector.x > 0) throwStartPosition.x += collider.bounds.size.x;
+        else if (movementVector.x < 0) throwStartPosition.x -= collider.bounds.size.x;
+
+        if (movementVector.y >= 0) throwStartPosition.y += collider.bounds.size.y * 2;
+
+        objectToThrow.transform.position = throwStartPosition;
+
+       // Vector2 throwForce = (movementVector + Vector2.up).normalized;
+       Vector2 throwForce = movementVector;
+       if (movementVector == Vector2.zero) throwForce = sprite.flipX ? Vector2.left : Vector2.right;
+       
+       if (movementVector != Vector2.down && movementVector != Vector2.up)  StartCoroutine(ApplyGravityDuringThrow(gravTime, rigidbody));
+        
+       // From testing, 7.5 is the best throw strength multiplier
+        rigidbody.AddForce(throwForce * throwStrength, ForceMode2D.Impulse);
+    }
+
+    private IEnumerator ApplyGravityDuringThrow(float throwTime, Rigidbody2D rigidbody)
+    {
+        rigidbody.gravityScale = 1f;
+
+        yield return new WaitForSeconds(throwTime);
+
+        rigidbody.gravityScale = 0f;
     }
 
     public void DisableControlsForUI()

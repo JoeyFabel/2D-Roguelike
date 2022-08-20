@@ -53,7 +53,7 @@ public abstract class SaveableObject : MonoBehaviour
             doneLoading = doneLoading && saveable.isDoneLoading;
         }
 
-        print("is it done loading? " + doneLoading);
+        // print("is it done loading? " + doneLoading);
         return !doneLoading;
     }
 
