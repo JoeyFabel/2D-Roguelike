@@ -14,7 +14,7 @@ public class InventoryCell : Button
 
     private static float InitialDisplayDelay = 1f;
     
-    public void Awake()
+    public new void Awake()
     {
         additionalAmountText = additionalAmountGameObject.GetComponentInChildren<Text>();
 
@@ -40,7 +40,6 @@ public class InventoryCell : Button
         if (newQuantity == 1) additionalAmountGameObject.SetActive(false);
         else
         {
-            print("updating quantity");
             additionalAmountGameObject.SetActive(true);
 
             additionalAmountText.text = "x" + newQuantity;
@@ -71,7 +70,7 @@ public class InventoryCell : Button
     {
         base.OnDeselect(eventData);
         
-        StopAllCoroutines();     
+        Inventory.HideItemName(); 
     } 
 
     private IEnumerator DisplayItemName()

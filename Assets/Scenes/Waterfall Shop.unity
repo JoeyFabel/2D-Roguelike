@@ -1512,6 +1512,30 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3138552463167985731, guid: a2854b7d0f97de34b9a6fa566461d83b, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3138552463167985731, guid: a2854b7d0f97de34b9a6fa566461d83b, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3138552463167985731, guid: a2854b7d0f97de34b9a6fa566461d83b, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3138552463167985731, guid: a2854b7d0f97de34b9a6fa566461d83b, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3138552463167985731, guid: a2854b7d0f97de34b9a6fa566461d83b, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3138552463167985731, guid: a2854b7d0f97de34b9a6fa566461d83b, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3383190934748217958, guid: a2854b7d0f97de34b9a6fa566461d83b, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -5573,6 +5597,9 @@ MonoBehaviour:
   itemPurchaseDialogNode: {fileID: 2032663683}
   notEnoughMoneyNode: {fileID: 1301778218}
   missingBottleNode: {fileID: 493496781}
+  OnItemBought:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &1595348482
 GameObject:
   m_ObjectHideFlags: 0
@@ -7289,10 +7316,9 @@ GameObject:
   m_Component:
   - component: {fileID: 1660500923}
   - component: {fileID: 1660500922}
-  - component: {fileID: 1660500921}
   - component: {fileID: 1660500920}
   - component: {fileID: 1660500919}
-  - component: {fileID: 1660500924}
+  - component: {fileID: 1660500926}
   m_Layer: 0
   m_Name: Water For Sale
   m_TagString: Untagged
@@ -7342,22 +7368,6 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0.23040003}
   serializedVersion: 2
   m_Radius: 0.75
---- !u!114 &1660500921
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1660500918}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3bd4769535542fd68865593aa9f88f87, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  shopOwner: {fileID: 1397360479}
-  itemForSale: {fileID: 11400000, guid: 4012938f3259ec44892abdfae0efe672, type: 2}
-  price: 25
-  requiresBottle: 0
 --- !u!212 &1660500922
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -7425,7 +7435,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 11
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1660500924
+--- !u!114 &1660500926
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -7434,15 +7444,15 @@ MonoBehaviour:
   m_GameObject: {fileID: 1660500918}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c71e11a4a6f8f427f8fa4244843266c7, type: 3}
+  m_Script: {fileID: 11500000, guid: 2ae01ae1b6326ca54b46f04bfe4f7aee, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  quest: 0
-  activeQuestStageNumber: -1
-  OnQuestStageCompleted:
-    m_PersistentCalls:
-      m_Calls: []
-  itemsToGain: []
+  saveIDNumber: 0
+  amountInStock: 1
+  shopOwner: {fileID: 1397360479}
+  itemForSale: {fileID: 11400000, guid: 4012938f3259ec44892abdfae0efe672, type: 2}
+  price: 25
+  requiresBottle: 0
 --- !u!1 &1669190778
 GameObject:
   m_ObjectHideFlags: 0

@@ -108,3 +108,47 @@ public abstract class SaveableObject : MonoBehaviour
 #endif
     #endregion
 }
+
+/*
+public interface ISaveable
+{
+    public int SaveIdNumber
+    {
+        get;
+        set;
+    }
+
+    public WorldObjectSaveData SaveData
+    {
+        get;
+        set;
+    }
+}
+
+
+public int SaveIdNumber
+{ get; set; }
+
+public WorldObjectSaveData SaveData
+{
+    get { return GetSaveData(); }
+    set { saveData = value; }
+}
+    
+#if UNITY_EDITOR
+[ContextMenu("Set Save Interface ID")]
+public void SetSaveInterfaceID()
+{
+    MonoBehaviour[] monoBehaviours = FindObjectsOfType<MonoBehaviour>();
+
+    List<ISaveable> saveableInterfaces = new List<ISaveable>();
+        
+    foreach (var mono in monoBehaviours) saveableInterfaces.AddRange(mono.GetComponentsInChildren<ISaveable>());
+
+    int currentSaveID = 0;
+
+    foreach (var saveable in saveableInterfaces) saveable.SaveIdNumber = currentSaveID++;
+        
+    foreach (var saveable in saveableInterfaces) Debug.Log(saveable.ToString() + " has an id of " + saveable.SaveIdNumber);
+}
+#endif */

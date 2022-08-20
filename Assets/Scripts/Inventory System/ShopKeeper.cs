@@ -1,3 +1,5 @@
+using UnityEngine.Events;
+
 public class ShopKeeper : DialogTree
 {
     private const string ItemNameSignifier = "{itemName}";
@@ -11,6 +13,8 @@ public class ShopKeeper : DialogTree
     private string initialDialogText;
 
     private DialogNode currenShopNode;
+
+    public UnityEvent<Item> OnItemBought;
 
     protected override void Start()
     {
@@ -71,6 +75,8 @@ public class ShopKeeper : DialogTree
 
                         Inventory.LoseMoney(itemPrice);
                         if (requiresBottle) Inventory.LoseEmptyBottle();
+                        
+                        OnItemBought?.Invoke(item);
                     }
                     else
                     {

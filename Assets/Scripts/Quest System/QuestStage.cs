@@ -33,6 +33,6 @@ public class QuestStage : MonoBehaviour
 
      public enum Quests
      {
-          Skeleton
+          Skeleton,
      }
 }

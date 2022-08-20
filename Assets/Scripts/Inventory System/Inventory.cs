@@ -181,9 +181,14 @@ public class Inventory : MonoBehaviour
 
     public static void DisplayItemName(Vector3 itemCellPosition, int itemID)
     {
-        print("TODO - display item name!");
+        inventoryUI.DisplayItemName(instance.GetItemFromID(itemID).itemName, itemCellPosition);
     }
 
+    public static void HideItemName()
+    {
+        inventoryUI.HideItemName();
+    }    
+    
     public static void TrySetQuickItem(int itemID)
     {
         Item potentialQuickItem = instance.GetItemFromID(itemID);
@@ -242,7 +247,6 @@ public class Inventory : MonoBehaviour
     /// <summary>
     /// Toggle the Inventory UI on or off.
     /// </summary>
-    /// <returns>True if the UI is now enabled, false if it is now disabled</returns>
     public static void ToggleInventoryUI()
     {
         if (!XPManager.gamePausedForLevelUp) inventoryUI.Toggle();

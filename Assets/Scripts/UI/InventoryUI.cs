@@ -37,6 +37,10 @@ public class InventoryUI : MonoBehaviour
 
     [Header("Quick Item Display")] 
     public Image quickItemImage;
+
+    [Header("Item Name Display")] 
+    public RectTransform itemNameTextHolderParent;
+    private Text itemNameText;
     
     private List<InventoryCell> inventoryCells;
     
@@ -60,6 +64,9 @@ public class InventoryUI : MonoBehaviour
 
         goldGainedRect = goldGainedCanvasGroup.GetComponent<RectTransform>();
         goldGainedRect.anchoredPosition = Vector2.zero;
+
+        itemNameText = itemNameTextHolderParent.GetComponentInChildren<Text>();
+        itemNameTextHolderParent.gameObject.SetActive(false);
         
         UpdateQuickItemDisplay(null);
 
@@ -98,6 +105,20 @@ public class InventoryUI : MonoBehaviour
 
             inventoryCells.Add(cellToModify);
         }        
+    }
+
+    public void DisplayItemName(string itemName, Vector2 itemCellPosition)
+    {
+        itemNameText.text = itemName;
+
+        itemNameTextHolderParent.position = itemCellPosition + new Vector2(-100, 150);
+        
+        itemNameTextHolderParent.gameObject.SetActive(true);
+    }
+
+    public void HideItemName()
+    {
+        itemNameTextHolderParent.gameObject.SetActive(false);
     }
 
     public IEnumerator DisplayGoldGained(int amount, MonoBehaviour coroutineParent)
@@ -238,6 +259,8 @@ public class InventoryUI : MonoBehaviour
     {
         if (player == null) player = CharacterSelector.GetPlayerController();
 
+        HideItemName();
+        
         // If the inventory is open
         if (gameObject.activeSelf)
         {
