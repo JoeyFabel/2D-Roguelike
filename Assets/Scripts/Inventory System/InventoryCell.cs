@@ -70,6 +70,7 @@ public class InventoryCell : Button
     {
         base.OnDeselect(eventData);
         
+        StopAllCoroutines();
         Inventory.HideItemName(); 
     } 
 

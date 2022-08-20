@@ -53,6 +53,7 @@ public class GameManager : MonoBehaviour
         Debug.LogWarning("TODO - Let projectiles destroy bombs early");
         Debug.LogWarning("TODO - Allow user to change keybindings from settings");
         Debug.LogWarning("TODO - Display current gold when in shop");
+        Debug.LogWarning("TODO - Implement bomb throw");
         
         // Create the singleton or destroy the duplicate
         if (instance == null)
