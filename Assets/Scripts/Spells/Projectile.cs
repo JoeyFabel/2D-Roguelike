@@ -68,6 +68,7 @@ public class Projectile : Spell
     {
         MapManager.TileCollisionData collisionData = mapManager.GetTileCollisionData(rb.position);
 
+        
         if (collisionData != null)
         {
             /*
@@ -107,8 +108,7 @@ public class Projectile : Spell
         }
         
         AudioClip impactSound = defaultImpactSound;
-
-
+        
         if (damageRadius <= 0)
         {
             if (collision.gameObject.TryGetComponent(out Damageable damageable))
@@ -127,8 +127,11 @@ public class Projectile : Spell
         {
             Collider2D[] hitColliders = Physics2D.OverlapCircleAll(rb.position, damageRadius);
 
-            List<Damageable> hitDamageables = new List<Damageable>();
+            List<Damageable> hitDamageables = new List<Damageable>(); ;
 
+            // Do the check on the hit object too to prevent errorswww
+            if (collision.collider.TryGetComponent(out Damageable damageable)) hitDamageables.Add(damageable);
+            
             foreach (var hitCollider in hitColliders) if (hitCollider.TryGetComponent(out Damageable damagedObject)) hitDamageables.Add(damagedObject);
 
             foreach (var damageObject in hitDamageables) damageObject.ApplyDamage(damage, damageType);
