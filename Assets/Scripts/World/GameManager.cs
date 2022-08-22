@@ -37,6 +37,7 @@ public class GameManager : MonoBehaviour
     
     private PlayerLoadData playerLoadData;
     private Dictionary<string, WorldObjectSaveData> saveableObjectDataDictionary;
+    private Dictionary<int, int> questDataDictionary;
 
 #if UNITY_EDITOR
     [Header("Testings Helpers")]
@@ -49,10 +50,8 @@ public class GameManager : MonoBehaviour
     private void Awake()
     {
         Debug.LogWarning("TODO - Add some NPC quests");
-        Debug.LogWarning("TODO - Add a shop");
-        Debug.LogWarning("TODO - Enable skeleton character only after the quest has been completed (json or extra setting file controlling available characters)");
-        Debug.LogWarning("TODO - Add 1x buy of water in a store");
-
+        Debug.LogWarning("TODO - Allow user to change keybindings from settings");
+        
         // Create the singleton or destroy the duplicate
         if (instance == null)
         {
@@ -71,6 +70,8 @@ public class GameManager : MonoBehaviour
 
             playerLoadData = null;
             saveableObjectDataDictionary = new Dictionary<string, WorldObjectSaveData>();
+
+            questDataDictionary = new Dictionary<int, int>();
 
             SceneManager.sceneLoaded += OnSceneLoaded;
 
@@ -130,13 +131,13 @@ public class GameManager : MonoBehaviour
         //newBGMusic.SetMusicToTime(oldBgName, oldBgTimestamp);
     }
 
-    public static void LoadScene(string sceneName)
+    public static void LoadScene(string sceneName, Vector2 playerOffset)
     {
         instance.lastSceneName = SceneManager.GetActiveScene().name;
 
         PlayerController player = CharacterSelector.GetPlayerController();
 
-        instance.playersLastPosition = player.transform.position;
+        instance.playersLastPosition = player.transform.position + (Vector3)playerOffset;
         // Notice -- This should be used for transitions not involving the shrine (world-to-world)
         // This means that the trigger to load into one world should be positioned such that when entering it, you would not spawn inside the trigger in the new scene
         // E.g. Scene 1:                <->[trigger]   |
@@ -161,6 +162,17 @@ public class GameManager : MonoBehaviour
         instance.StartCoroutine(LoadSceneAfterFade("Shrine"));
     }
 
+    public static void LoadIntoShop(Vector3 playerPosition, PlayerLoadData playerData, string sceneName)
+    {
+        instance.lastSceneName = SceneManager.GetActiveScene().name;
+        instance.playersLastPosition = playerPosition;
+        instance.setPlayerPosition = false;
+        instance.playerLoadData = playerData;
+        instance.SaveWorldObjects();
+
+        instance.StartCoroutine(LoadSceneAfterFade(sceneName));
+    }
+    
     public static void LoadOutOfShrine()
     {
         instance.setPlayerPosition = true;
@@ -211,6 +223,8 @@ public class GameManager : MonoBehaviour
         instance.SaveWorldObjects();
         data.worldObjectSaves = instance.saveableObjectDataDictionary;
 
+        data.questSaves = instance.questDataDictionary;
+        
         data.inventoryData = instance.playerInventory.GetInventorySaveData();
         data.currentMoney = Inventory.GetCurrentMoney();
 
@@ -271,6 +285,7 @@ public class GameManager : MonoBehaviour
             lastSceneName = saveData.lastActiveSceneName;
             playersLastPosition = saveData.playersLastPosition;
             instance.saveableObjectDataDictionary = saveData.worldObjectSaves;
+            instance.questDataDictionary = saveData.questSaves;
             instance.playerInventory.LoadInventoryFromData(saveData.inventoryData, saveData.currentMoney);
             XPManager.LoadXPData(saveData.xpData);
         }
@@ -278,6 +293,7 @@ public class GameManager : MonoBehaviour
         {
             print("No save found!");
             instance.saveableObjectDataDictionary = new Dictionary<string, WorldObjectSaveData>();
+            instance.questDataDictionary = new Dictionary<int, int>();
 #if UNITY_EDITOR
             // instance.characterSelector.SetCharacterName("Dwarvish Thunderer");
             instance.characterSelector.UseDefaultCharacter();
@@ -285,6 +301,25 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Get the current phase of the specified quest.
+    /// Returns -1 if the quest does not exist in the save data yet.
+    /// </summary>
+    /// <param name="quest">The quest to check</param>
+    /// <returns>The current phase that the quest is in</returns>
+    public static int GetQuestPhase(int quest)
+    {
+        if (instance.questDataDictionary.ContainsKey(quest))
+            return instance.questDataDictionary[quest];
+        else return -1;
+    }
+
+    public static void SaveQuest(int quest, int questPhase)
+    {
+        if (instance.questDataDictionary.ContainsKey(quest)) instance.questDataDictionary[quest] = questPhase;
+        else instance.questDataDictionary.Add(quest, questPhase);
+    }
+    
     private static IEnumerator LoadSceneAfterFade(string sceneName)
     {
         Time.timeScale = 0;

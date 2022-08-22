@@ -249,6 +249,7 @@ MonoBehaviour:
   sceneName: 
   loadIntoShrine: 0
   loadOutOfShrine: 1
+  playerOffset: {x: 0, y: 0}
 --- !u!61 &317247925
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -775,246 +776,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e67a7e105efae9a4484cc3157eaf5bc3, type: 3}
---- !u!1 &1117599902
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1117599907}
-  - component: {fileID: 1117599903}
-  - component: {fileID: 1117599904}
-  - component: {fileID: 1117599905}
-  - component: {fileID: 1117599916}
-  - component: {fileID: 1117599909}
-  - component: {fileID: 1117599908}
-  - component: {fileID: 1117599912}
-  - component: {fileID: 1117599911}
-  - component: {fileID: 1117599915}
-  - component: {fileID: 1117599914}
-  - component: {fileID: 1117599913}
-  m_Layer: 0
-  m_Name: Dialog Helper
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &1117599903
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1117599902}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a617dc184590bf1428448d1d0d582492, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  dialog: Hello
-  nextNode: {fileID: 1117599904}
-  isPrimaryNode: 0
-  id: 0
---- !u!114 &1117599904
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1117599902}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a617dc184590bf1428448d1d0d582492, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  dialog: What is up my dude
-  nextNode: {fileID: 1117599905}
-  isPrimaryNode: 0
-  id: 0
---- !u!114 &1117599905
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1117599902}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f4db970b18661a74f87d46fac2410ce9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  dialog: See ya soon!
-  nextNode: {fileID: 1117599916}
-  isPrimaryNode: 0
-  id: 0
---- !u!4 &1117599907
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1117599902}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 1659833424}
-  m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1117599908
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1117599902}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b29a76777bef4734e9b2245f9f055736, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  dialog: How many do you want?
-  nextNode: {fileID: 0}
-  isPrimaryNode: 0
-  id: 0
-  nextNodes:
-  - nextNode: {fileID: 1117599912}
-    requiredItem: {fileID: 0}
-    spendItemOnUse: 0
-    displayText: One!
-  - nextNode: {fileID: 1117599911}
-    requiredItem: {fileID: 11400000, guid: 61f3c03e5fbb23e48aeef3056d6b1cdf, type: 2}
-    spendItemOnUse: 0
-    displayText: Two!
-  - nextNode: {fileID: 1117599915}
-    requiredItem: {fileID: 0}
-    spendItemOnUse: 0
-    displayText: Three!
---- !u!114 &1117599909
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1117599902}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a617dc184590bf1428448d1d0d582492, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  dialog: See ya!
-  nextNode: {fileID: 0}
-  isPrimaryNode: 0
-  id: 0
---- !u!114 &1117599911
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1117599902}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a617dc184590bf1428448d1d0d582492, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  dialog: Here come's two!
-  nextNode: {fileID: 0}
-  isPrimaryNode: 0
-  id: 0
---- !u!114 &1117599912
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1117599902}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a617dc184590bf1428448d1d0d582492, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  dialog: One it is!
-  nextNode: {fileID: 0}
-  isPrimaryNode: 0
-  id: 0
---- !u!114 &1117599913
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1117599902}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a617dc184590bf1428448d1d0d582492, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  dialog: Come back if you change your mind.
-  nextNode: {fileID: 0}
-  isPrimaryNode: 0
-  id: 0
---- !u!114 &1117599914
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1117599902}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a617dc184590bf1428448d1d0d582492, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  dialog: "Alright! \nHere you go!"
-  nextNode: {fileID: 0}
-  isPrimaryNode: 0
-  id: 0
---- !u!114 &1117599915
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1117599902}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b29a76777bef4734e9b2245f9f055736, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  dialog: Are you sure you want three?
-  nextNode: {fileID: 0}
-  isPrimaryNode: 0
-  id: 0
-  nextNodes:
-  - nextNode: {fileID: 1117599914}
-    requiredItem: {fileID: 0}
-    spendItemOnUse: 0
-    displayText: Yes!
-  - nextNode: {fileID: 1117599913}
-    requiredItem: {fileID: 0}
-    spendItemOnUse: 0
-    displayText: No!
---- !u!114 &1117599916
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1117599902}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a617dc184590bf1428448d1d0d582492, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  dialog: Hi!
-  nextNode: {fileID: 1117599908}
-  isPrimaryNode: 1
-  id: 0
 --- !u!1 &1177348123
 GameObject:
   m_ObjectHideFlags: 0
@@ -11276,136 +11037,6 @@ Tilemap:
     e31: 0
     e32: 0
     e33: 1
---- !u!1 &1659833420
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1659833424}
-  - component: {fileID: 1659833423}
-  - component: {fileID: 1659833422}
-  - component: {fileID: 1659833421}
-  m_Layer: 0
-  m_Name: Dialog Test Character
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &1659833421
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1659833420}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 204717e8f575dc74a8a6624871f7a133, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  saveIDNumber: 0
-  startingNode: {fileID: 1117599903}
-  speakerIcon: {fileID: 21300000, guid: 53a9ebb736be34d42bd51f99ec52c6ca, type: 3}
-  speechBubble: {fileID: 0}
-  currentNodeID: -1
---- !u!61 &1659833422
-BoxCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1659833420}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 1}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0}
-    oldSize: {x: 2, y: 2}
-    newSize: {x: 2, y: 2}
-    adaptiveTilingThreshold: 0.5
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  serializedVersion: 2
-  m_Size: {x: 2, y: 2}
-  m_EdgeRadius: 0
---- !u!212 &1659833423
-SpriteRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1659833420}
-  m_Enabled: 1
-  m_CastShadows: 0
-  m_ReceiveShadows: 0
-  m_DynamicOccludee: 1
-  m_StaticShadowCaster: 0
-  m_MotionVectors: 1
-  m_LightProbeUsage: 1
-  m_ReflectionProbeUsage: 1
-  m_RayTracingMode: 0
-  m_RayTraceProcedural: 0
-  m_RenderingLayerMask: 1
-  m_RendererPriority: 0
-  m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
-  m_StaticBatchInfo:
-    firstSubMesh: 0
-    subMeshCount: 0
-  m_StaticBatchRoot: {fileID: 0}
-  m_ProbeAnchor: {fileID: 0}
-  m_LightProbeVolumeOverride: {fileID: 0}
-  m_ScaleInLightmap: 1
-  m_ReceiveGI: 1
-  m_PreserveUVs: 0
-  m_IgnoreNormalsForChartDetection: 0
-  m_ImportantGI: 0
-  m_StitchLightmapSeams: 1
-  m_SelectedEditorRenderState: 0
-  m_MinimumChartSize: 4
-  m_AutoUVMaxDistance: 0.5
-  m_AutoUVMaxAngle: 89
-  m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: efeb48a0cdca2da4f9f6d5525b37bba4, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_FlipX: 0
-  m_FlipY: 0
-  m_DrawMode: 0
-  m_Size: {x: 2, y: 2}
-  m_AdaptiveModeThreshold: 0.5
-  m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
-  m_MaskInteraction: 0
-  m_SpriteSortPoint: 0
---- !u!4 &1659833424
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1659833420}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.15081805, y: 5.2013483, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 1117599907}
-  m_Father: {fileID: 0}
-  m_RootOrder: 17
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1664772071
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -12997,7 +12628,7 @@ BoxCollider2D:
   m_Offset: {x: 0.03820257, y: 0.55430186}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0}
+    pivot: {x: 0.5, y: 0.225}
     oldSize: {x: 2, y: 2}
     newSize: {x: 2, y: 2}
     adaptiveTilingThreshold: 0.5
@@ -13023,7 +12654,7 @@ BoxCollider2D:
   m_Offset: {x: 0.03820257, y: 0.55430186}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0}
+    pivot: {x: 0.5, y: 0.2}
     oldSize: {x: 2, y: 2}
     newSize: {x: 1, y: 1}
     adaptiveTilingThreshold: 0.5
@@ -13326,7 +12957,7 @@ BoxCollider2D:
   m_Offset: {x: 0.030115485, y: 0.6084986}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0}
+    pivot: {x: 0.5, y: 0.225}
     oldSize: {x: 2, y: 2}
     newSize: {x: 2, y: 2}
     adaptiveTilingThreshold: 0.5
@@ -13492,7 +13123,7 @@ BoxCollider2D:
   m_Offset: {x: 0.030115485, y: 0.6084986}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0}
+    pivot: {x: 0.5, y: 0.225}
     oldSize: {x: 2, y: 2}
     newSize: {x: 2, y: 2}
     adaptiveTilingThreshold: 0.5
@@ -13587,6 +13218,7 @@ GameObject:
   - component: {fileID: 7981993638263238801}
   - component: {fileID: 7981993638263238813}
   - component: {fileID: 7981993638263238803}
+  - component: {fileID: 7981993638263238816}
   m_Layer: 6
   m_Name: Skeleton Selectable
   m_TagString: Untagged
@@ -13623,7 +13255,7 @@ BoxCollider2D:
   m_Offset: {x: 0, y: 0.61}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0}
+    pivot: {x: 0.5, y: 0.225}
     oldSize: {x: 2, y: 2}
     newSize: {x: 2, y: 2}
     adaptiveTilingThreshold: 0.5
@@ -13648,3 +13280,20 @@ Transform:
   m_Father: {fileID: 228451088}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &7981993638263238816
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7981993638263238802}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c71e11a4a6f8f427f8fa4244843266c7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  quest: 0
+  activeQuestStageNumber: 0
+  OnQuestStageCompleted:
+    m_PersistentCalls:
+      m_Calls: []

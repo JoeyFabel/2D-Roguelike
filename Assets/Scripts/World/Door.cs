@@ -9,15 +9,17 @@ public class Door : MonoBehaviour
     public float moveSpeed;
     // Note - start door in closed position   
 
+    public bool startClosed = false;
+    
     private Vector3 closedPosition;
     private Vector3 openPosition;
 
     private void Start()
     {
         closedPosition = transform.position;
-        openPosition = transform.position + moveDistance;
+        openPosition = closedPosition + moveDistance;
 
-        transform.position = openPosition;
+        if (!startClosed) transform.position = openPosition;
     }
 
     public void CloseDoor()

@@ -17,6 +17,7 @@ public class SkeletonWeapon : WeaponController
     private float playDeadTimeAvailable;
 
     private PlayerController player;
+    private static readonly int AnimatorPlayingDeadID = Animator.StringToHash("Playing Dead");
 
     protected override void Start()
     {
@@ -57,9 +58,9 @@ public class SkeletonWeapon : WeaponController
         PlayDead();
     }
 
-    protected override bool CanAttack()
+    public override bool CanAttack()
     {
-        return (!animator.GetBool("Attacking") && !animator.GetBool("Playing Dead"));
+        return (!animator.GetBool(AnimatorAttackingID) && !animator.GetBool(AnimatorPlayingDeadID));
     }
 
     private void PlayDead()

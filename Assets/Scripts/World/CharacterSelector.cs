@@ -19,7 +19,6 @@ public class CharacterSelector : MonoBehaviour
         {
             if (character.name.Equals(playerCharacterName))
             {
-                print("Spawning a " + playerCharacterName);
                 playerCharacter = Instantiate(character);
                 break;
             }

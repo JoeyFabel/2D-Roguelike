@@ -1,12 +1,18 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Inventory : MonoBehaviour
 {
+    private const int EmptyBottleID = 7;
+    
     public List<Item> itemDatabase;
 
     public GameObject moneyDrop;
+
+    [Header("Item Prefabs")] public GameObject bombPrefab;
 
     /// <summary>
     /// A dictionary representing the player's inventory.
@@ -20,6 +26,12 @@ public class Inventory : MonoBehaviour
 
     private static InventoryUI inventoryUI;
 
+    private Coroutine itemGainedHUDRoutine;
+    private Coroutine goldGainedHUDRoutine;
+
+    private Item emptyBottleItem;
+    private Consumable currentQuickItem;
+    
     private int money;
 
     public void InitializeInventory()
@@ -28,7 +40,10 @@ public class Inventory : MonoBehaviour
         inventory = new Dictionary<Item, int>();
         inventoryUI = GetComponentInChildren<InventoryUI>();
 
+        emptyBottleItem = GetItemFromID(EmptyBottleID);
+        
         inventoryUI.InitializeUI();
+        inventoryUI.UpdateQuickItemDisplay(null);
     }
 
     /// <summary>
@@ -47,8 +62,30 @@ public class Inventory : MonoBehaviour
 
         inventoryUI.UpdateItemUI(itemToGain, instance.inventory[itemToGain]);
 
-        instance.StopAllCoroutines();
-        instance.StartCoroutine(inventoryUI.DisplayItemGained(itemToGain, quantity));
+        if (instance.itemGainedHUDRoutine != null) instance.StopCoroutine(instance.itemGainedHUDRoutine);
+        instance.itemGainedHUDRoutine = instance.StartCoroutine(inventoryUI.DisplayItemGained(itemToGain, quantity, instance));
+    }
+
+    public static void GainEmptyBottle()
+    {
+        if (instance.inventory.ContainsKey(instance.emptyBottleItem)) instance.inventory[instance.emptyBottleItem]++;
+        else instance.inventory.Add(instance.emptyBottleItem, 1);
+        
+        inventoryUI.UpdateItemUI(instance.emptyBottleItem, instance.inventory[instance.emptyBottleItem]);
+    }
+
+    public static void LoseEmptyBottle()
+    {
+        if (instance.inventory[instance.emptyBottleItem] > 1)
+        {
+            instance.inventory[instance.emptyBottleItem]--;
+            inventoryUI.UpdateItemUI(instance.emptyBottleItem,instance.inventory[instance.emptyBottleItem]);
+        }
+        else
+        {
+            instance.inventory.Remove(instance.emptyBottleItem);
+            inventoryUI.UpdateItemUI(instance.emptyBottleItem, 0);
+        }
     }
 
     /// <summary>
@@ -57,6 +94,13 @@ public class Inventory : MonoBehaviour
     /// <param name="itemToLose">The item to be lost</param>
     public static void LoseItem(Item itemToLose)
     {
+        if (!instance.inventory.ContainsKey(itemToLose))
+        {
+            Debug.LogError("The item " + itemToLose.itemName + " was not found in the inventory, not losing one!");
+            
+            return;
+        }
+        
         if (instance.inventory[itemToLose] > 1)
         {
             instance.inventory[itemToLose]--;
@@ -66,10 +110,17 @@ public class Inventory : MonoBehaviour
         {
             instance.inventory.Remove(itemToLose);
             inventoryUI.UpdateItemUI(itemToLose, 0);
+
+            // If a consumable was used and it was the last one, set the current quick item to null
+            if (itemToLose.itemID == instance.currentQuickItem.itemID)
+            {
+                instance.currentQuickItem = null;
+                inventoryUI.UpdateQuickItemDisplay(null);
+            }
         }
 
-        instance.StopAllCoroutines();
-        instance.StartCoroutine(inventoryUI.DisplayItemGained(itemToLose, -1));
+        if (instance.itemGainedHUDRoutine != null) instance.StopCoroutine(instance.itemGainedHUDRoutine);
+        instance.itemGainedHUDRoutine = instance.StartCoroutine(inventoryUI.DisplayItemGained(itemToLose, -1, instance));
     }
 
     public static bool PlayerHasItem(Item itemToCheck)
@@ -79,18 +130,33 @@ public class Inventory : MonoBehaviour
         return instance.inventory.ContainsKey(itemToCheck);
     }
 
+    public static bool PlayerHasEmptyBottle()
+    {
+        return instance.inventory.ContainsKey(instance.emptyBottleItem);
+    }
+    
     public static void GainMoney(int amount)
     {
+        if (amount == 0) return;
+        
         instance.money += amount;
 
         inventoryUI.UpdateMoneyText(instance.money);
+        
+        if (instance.goldGainedHUDRoutine != null) instance.StopCoroutine(instance.goldGainedHUDRoutine);
+        instance.goldGainedHUDRoutine = instance.StartCoroutine(inventoryUI.DisplayGoldGained(amount, instance));
     }
 
     public static void LoseMoney(int amount)
     {
+        if (amount == 0) return;
+        
         instance.money -= amount;
 
         inventoryUI.UpdateMoneyText(instance.money);
+        
+        if (instance.goldGainedHUDRoutine != null) instance.StopCoroutine(instance.goldGainedHUDRoutine);
+        instance.goldGainedHUDRoutine = instance.StartCoroutine(inventoryUI.DisplayGoldGained(-amount, instance));
     }
 
     public static int GetCurrentMoney()
@@ -107,6 +173,36 @@ public class Inventory : MonoBehaviour
         moneyDrop.SetMoney(money);
     }
 
+    public static Consumable GetQuickItem()
+    {
+        // TODO - implement quick item HUD
+        return instance.currentQuickItem;
+    }
+
+    public static void DisplayItemName(Vector3 itemCellPosition, int itemID)
+    {
+        inventoryUI.DisplayItemName(instance.GetItemFromID(itemID).itemName, itemCellPosition);
+    }
+
+    public static void HideItemName()
+    {
+        inventoryUI.HideItemName();
+    }    
+    
+    public static void TrySetQuickItem(int itemID)
+    {
+        Item potentialQuickItem = instance.GetItemFromID(itemID);
+
+        if (potentialQuickItem is Consumable quickItem)
+        {
+            instance.currentQuickItem = quickItem;   
+            
+            inventoryUI.UpdateQuickItemDisplay(quickItem);
+            
+            ToggleInventoryUI();
+        }
+    }
+    
     public void LoadInventoryFromData(Dictionary<int, int> inventoryData, int currentMoney)
     {
         inventory = new Dictionary<Item, int>();
@@ -151,7 +247,6 @@ public class Inventory : MonoBehaviour
     /// <summary>
     /// Toggle the Inventory UI on or off.
     /// </summary>
-    /// <returns>True if the UI is now enabled, false if it is now disabled</returns>
     public static void ToggleInventoryUI()
     {
         if (!XPManager.gamePausedForLevelUp) inventoryUI.Toggle();

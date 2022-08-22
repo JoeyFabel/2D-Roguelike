@@ -9,9 +9,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 071f8f4d6bb863944b8da5aa76fa3058, type: 3}
+  m_Script: {fileID: 11500000, guid: 4ea1871361ef86a57a07c2f12bdbf2bd, type: 3}
   m_Name: Health Potion
   m_EditorClassIdentifier: 
-  icon: {fileID: 21300000, guid: 9ecc7b1aa49ee774aaf5e27d3d1b3a2c, type: 3}
+  icon: {fileID: 21300000, guid: b67624a98a5f61c48ba8c2c1ffc757e5, type: 3}
   itemName: Health Potion
   itemID: 2
+  objectToSpawn: {fileID: 0}
+  throwObject: 0
+  healthToGain: 5
+  manaToGain: 0
+  getEmptyBottleOnUse: 1

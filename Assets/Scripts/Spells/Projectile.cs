@@ -44,6 +44,11 @@ public class Projectile : Spell
         Launch(lookDirection, spellLaunchSpeed);
     }
 
+    /// <summary>
+    /// Launches the projectile in the specified direction with the specified force.
+    /// </summary>
+    /// <param name="direction">The direction to launch the projectile</param>
+    /// <param name="force">The force with which the projectile is launched</param>
     public void Launch(Vector2 direction, float force)
     {
         rb.AddForce(direction * force);
@@ -61,9 +66,49 @@ public class Projectile : Spell
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
+        MapManager.TileCollisionData collisionData = mapManager.GetTileCollisionData(rb.position);
+
+        
+        if (collisionData != null)
+        {
+            /*
+             * If moving upward, bottom side collision counts but not top side collision
+             * If moving downward, only top side collisions count
+             * If moving rightward, only left side collisions count
+             * If moving leftward, only right side collisions count
+             *
+             * E.G. A left-side collision means that collisions on the left side of the collider are ignored
+             */
+
+            Vector2 movementDirection = collision.relativeVelocity;
+            movementDirection *= -1;
+            
+            bool hitSomething = false;
+
+            if (!collisionData.noCollisions)
+            {
+                if (movementDirection.x > 0 && collisionData.rightSideCollision) hitSomething = true;
+                else if (movementDirection.x < 0 && collisionData.leftSideCollisions) hitSomething = true;
+                if (movementDirection.y > 0 && collisionData.topSideCollisions) hitSomething = true;
+                else if (movementDirection.y < 0 && collisionData.bottomSideCollisions) hitSomething = true;
+            }
+
+            if (!hitSomething || collisionData.noCollisions)
+            {
+                Physics2D.IgnoreCollision(collision.otherCollider, collision.collider);
+
+                rb.isKinematic = true;
+                rb.velocity = movementDirection;
+                rb.angularVelocity = 0f;
+
+                StartCoroutine(WaitForHeightColliderExit(collision.collider, collision.otherCollider));
+
+                return;
+            }
+        }
+        
         AudioClip impactSound = defaultImpactSound;
-
-
+        
         if (damageRadius <= 0)
         {
             if (collision.gameObject.TryGetComponent(out Damageable damageable))
@@ -82,8 +127,11 @@ public class Projectile : Spell
         {
             Collider2D[] hitColliders = Physics2D.OverlapCircleAll(rb.position, damageRadius);
 
-            List<Damageable> hitDamageables = new List<Damageable>();
+            List<Damageable> hitDamageables = new List<Damageable>(); ;
 
+            // Do the check on the hit object too to prevent errorswww
+            if (collision.collider.TryGetComponent(out Damageable damageable)) hitDamageables.Add(damageable);
+            
             foreach (var hitCollider in hitColliders) if (hitCollider.TryGetComponent(out Damageable damagedObject)) hitDamageables.Add(damagedObject);
 
             foreach (var damageObject in hitDamageables) damageObject.ApplyDamage(damage, damageType);
@@ -137,24 +185,34 @@ public class Projectile : Spell
             }
         }
         */
-
+        
         OnImpact(impactSound);
     }
 
-    private IEnumerator WaitForHeightColliderExit()
+    private IEnumerator WaitForHeightColliderExit(Collider2D hitHeightObject, Collider2D projectileCollider)
     {
+        yield return null;
+        rb.isKinematic = false;
+        
         // Phase 1 is while inside the height collider. ends when the other edge is reached, but not crossed
-        while (mapManager.getTileCollisionData(rb.position) == null) yield return null;
+        while (mapManager.GetTileCollisionData(rb.position) == null) yield return null;
+        
+      //  print("just entered into a collision data tile");
+        
         // Phase 2 continues until that tile is left, meaning a tile with no collision data is found
-        while (mapManager.getTileCollisionData(rb.position) != null) yield return null;
+        while (mapManager.GetTileCollisionData(rb.position) != null) yield return null;
 
-        print("no longer in " + hitHeightObject.name);
-        Physics2D.IgnoreCollision(GetComponent<Collider2D>(), hitHeightObject, false);
+     //  while (projectileCollider.IsTouching(hitHeightObject)) yield return null;
+
+       yield return null;
+       
+        Physics2D.IgnoreCollision(projectileCollider, hitHeightObject, false);
 
     }
+    
+    
 
-    Collider2D hitHeightObject;
-
+    /*
     private void OnTriggerExit2D(Collider2D collision)
     {
         if (collision.Equals(hitHeightObject))
@@ -163,6 +221,7 @@ public class Projectile : Spell
             GetComponent<Collider2D>().isTrigger = false;
         }
     }
+    */
 
     protected IEnumerator RotateWithVelocity()
     {

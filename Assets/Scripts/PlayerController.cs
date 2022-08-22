@@ -44,13 +44,14 @@ public class PlayerController : MonoBehaviour
     public AudioClip splashSound;
 
     // Input stuff
-    PlayerInput playerInput;
-    InputAction moveAction;
-    InputAction regularAttackAction;
-    InputAction specialAttackAction;
-    InputAction interactAction;
-    InputAction cycleSpellAction;
-    InputAction inventoryToggleAction;
+    private PlayerInput playerInput;
+    private InputAction moveAction;
+    private InputAction regularAttackAction;
+    private InputAction specialAttackAction;
+    private InputAction interactAction;
+    private InputAction cycleSpellAction;
+    private InputAction inventoryToggleAction;
+    private InputAction useQuickItemAction;
 
     // Stored Inputs
     Vector2 movementVector = Vector2.zero;
@@ -94,6 +95,7 @@ public class PlayerController : MonoBehaviour
         interactAction = playerInput.actions["Interact"];
         cycleSpellAction = playerInput.actions["Cycle Spell"];
         inventoryToggleAction = playerInput.actions["Open Inventory"];
+        useQuickItemAction = playerInput.actions["Use Quick Item"];
 
         playerWeapon = GetComponent<WeaponController>();
 
@@ -122,6 +124,8 @@ public class PlayerController : MonoBehaviour
 
         inventoryToggleAction.performed -= ToggleInventory;
 
+        useQuickItemAction.performed -= UseQuickItem;
+
         XPManager.OnLevelUp -= GetMaxHPFromLevel;
     }
 
@@ -145,6 +149,7 @@ public class PlayerController : MonoBehaviour
         interactAction.performed += Interact;
         cycleSpellAction.performed += AttemptSpellCycle;
         inventoryToggleAction.performed += ToggleInventory;
+        useQuickItemAction.performed += UseQuickItem;
         XPManager.OnLevelUp += GetMaxHPFromLevel;
 
         GetMaxHPFromLevel();
@@ -383,7 +388,7 @@ public class PlayerController : MonoBehaviour
         {
             currentInteractable.Interact();
 
-            if (currentInteractable is not DialogTree) currentInteractable = null;
+            if (currentInteractable is not DialogTree && currentInteractable is not ShopItem && currentInteractable is not LimitedShopItem) currentInteractable = null;
             DisableInteractSymbol();
         }
     }
@@ -407,7 +412,75 @@ public class PlayerController : MonoBehaviour
     {
         Inventory.ToggleInventoryUI();
     }
+
+    private void UseQuickItem(InputAction.CallbackContext context)
+    {
+        if (!playerWeapon.CanAttack()) return;
+        
+        Consumable quickItem = Inventory.GetQuickItem();
+
+        if (quickItem == null) return;
+        
+       // Inventory.LoseItem(quickItem);
+        if (!Inventory.PlayerHasItem(quickItem)) Inventory.TrySetQuickItem(-1);
+        
+        if (quickItem.objectToSpawn)
+        {
+            GameObject spawnedObject = Instantiate(quickItem.objectToSpawn, rb.position, Quaternion.identity);
+            
+            if (quickItem.throwObject) ThrowItem(spawnedObject);
+        }   
+        
+        if (quickItem.healthToGain > 0) GainHealth(quickItem.healthToGain);
+        if (quickItem.manaToGain > 0 && playerWeapon is SaurianAugurWeapon augurWeapon)
+        {
+            augurWeapon.GainMana(quickItem.manaToGain);
+        }
+        if (quickItem.getEmptyBottleOnUse) Inventory.GainEmptyBottle();
+    }
 #endregion
+
+    /// <summary>
+    /// Applies movement to the object, simulating it being thrown by the character
+    /// </summary>
+    /// <param name="objectToThrow">The object being thrown</param>
+    public void ThrowItem(GameObject objectToThrow)
+    {
+        // Best values based on testing
+        float gravTime = 0.25f;
+        float throwStrength = 7.5f;
+
+        Rigidbody2D rigidbody = objectToThrow.GetComponent<Rigidbody2D>();
+        
+        //rigidbody.position = collider.ClosestPoint(rigidbody.position + movementVector) + movementVector * 0.25f;
+
+        Vector2 throwStartPosition = objectToThrow.transform.position;
+        
+        if (movementVector.x > 0) throwStartPosition.x += collider.bounds.size.x;
+        else if (movementVector.x < 0) throwStartPosition.x -= collider.bounds.size.x;
+
+        if (movementVector.y >= 0) throwStartPosition.y += collider.bounds.size.y * 2;
+
+        objectToThrow.transform.position = throwStartPosition;
+
+       // Vector2 throwForce = (movementVector + Vector2.up).normalized;
+       Vector2 throwForce = movementVector;
+       if (movementVector == Vector2.zero) throwForce = sprite.flipX ? Vector2.left : Vector2.right;
+       
+       if (movementVector != Vector2.down && movementVector != Vector2.up)  StartCoroutine(ApplyGravityDuringThrow(gravTime, rigidbody));
+        
+       // From testing, 7.5 is the best throw strength multiplier
+        rigidbody.AddForce(throwForce * throwStrength, ForceMode2D.Impulse);
+    }
+
+    private IEnumerator ApplyGravityDuringThrow(float throwTime, Rigidbody2D rigidbody)
+    {
+        rigidbody.gravityScale = 1f;
+
+        yield return new WaitForSeconds(throwTime);
+
+        rigidbody.gravityScale = 0f;
+    }
 
     public void DisableControlsForUI()
     {

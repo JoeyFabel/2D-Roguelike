@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.UI;
 
 public class InventoryUI : MonoBehaviour
@@ -26,10 +27,27 @@ public class InventoryUI : MonoBehaviour
     public Color itemGainedTextColor = Color.green;
     public Color itemLostTextColor = Color.red;
 
-    private List<InventoryCell> inventoryCells;
+    [Header("Gold Gained Display")] public CanvasGroup goldGainedCanvasGroup;
+    public Text goldGainedHeaderText;
+    public Text goldAmountText;
+    public Color goldGainedTextColor = Color.yellow;
+    public Color goldLostTextColor = Color.red;
+    public int itemGainedHeight = 200;
+    private RectTransform goldGainedRect;
 
+    [Header("Quick Item Display")] 
+    public Image quickItemImage;
+
+    [Header("Item Name Display")] 
+    public RectTransform itemNameTextHolderParent;
+    private Text itemNameText;
+    
+    private List<InventoryCell> inventoryCells;
+    
     private PlayerController player;
 
+    private bool returnToMenu;
+    
     public void InitializeUI()
     {
         for (var i = inventoryGrid.transform.childCount - 1; i >= 0; i--)
@@ -42,8 +60,29 @@ public class InventoryUI : MonoBehaviour
         gameObject.SetActive(false);
         settingsPanel.SetActive(false);
         itemGainedCanvasGroup.gameObject.SetActive(false);
-    }       
+        goldGainedCanvasGroup.gameObject.SetActive(false);
 
+        goldGainedRect = goldGainedCanvasGroup.GetComponent<RectTransform>();
+        goldGainedRect.anchoredPosition = Vector2.zero;
+
+        itemNameText = itemNameTextHolderParent.GetComponentInChildren<Text>();
+        itemNameTextHolderParent.gameObject.SetActive(false);
+        
+        UpdateQuickItemDisplay(null);
+
+        returnToMenu = true;
+    }
+
+    public void UpdateQuickItemDisplay(Item quickItem)
+    {
+        if (quickItem == null) quickItemImage.transform.parent.gameObject.SetActive(false);
+        else
+        {
+            quickItemImage.transform.parent.gameObject.SetActive(true);
+            quickItemImage.sprite = quickItem.icon;
+        }
+    }
+    
     public void UpdateItemUI(Item item, int newQuantity)
     {
         InventoryCell cellToModify = inventoryCells.Find((InventoryCell cell) => cell.GetItemID() == item.itemID);
@@ -68,7 +107,46 @@ public class InventoryUI : MonoBehaviour
         }        
     }
 
-    public IEnumerator DisplayItemGained(Item gainedItem, int quantity)
+    public void DisplayItemName(string itemName, Vector2 itemCellPosition)
+    {
+        itemNameText.text = itemName;
+
+        itemNameTextHolderParent.position = itemCellPosition + new Vector2(-100, 150);
+        
+        itemNameTextHolderParent.gameObject.SetActive(true);
+    }
+
+    public void HideItemName()
+    {
+        itemNameTextHolderParent.gameObject.SetActive(false);
+    }
+
+    public IEnumerator DisplayGoldGained(int amount, MonoBehaviour coroutineParent)
+    {
+        if (amount > 0)
+        {
+            // Gold was gained
+            goldGainedHeaderText.text = "Gold Gained";
+            goldGainedHeaderText.color = goldGainedTextColor;
+
+            goldAmountText.text = amount + "     Gained";
+            goldAmountText.color = goldGainedTextColor;
+        }
+        else
+        {
+            // Gold was lost
+            goldGainedHeaderText.text = "Gold Lost";
+            goldGainedHeaderText.color = goldLostTextColor;
+
+            goldAmountText.text = Mathf.Abs(amount) + "        Lost";
+            goldAmountText.color = goldLostTextColor;
+        }
+
+        yield return coroutineParent.StartCoroutine(FadeCanvasInAndOut(goldGainedCanvasGroup));
+        //yield return coroutineParent.StartCoroutine(ControlGoldGainedHUDPosition());
+    }
+
+    public IEnumerator DisplayItemGained(Item gainedItem, int quantity, MonoBehaviour coroutineParent)
     {        
         if (quantity > 0)
         {
@@ -91,31 +169,38 @@ public class InventoryUI : MonoBehaviour
         if (quantity > 1) gainedItemText.text += " (" + quantity + "x)";
         else if (quantity < -1) gainedItemText.text += "(" + (-quantity) + "x)";
 
-        itemGainedCanvasGroup.alpha = 0;
-        itemGainedCanvasGroup.gameObject.SetActive(true);
+        goldGainedRect.anchoredPosition = new Vector2(0f, -itemGainedHeight);
+        yield return coroutineParent.StartCoroutine(FadeCanvasInAndOut(itemGainedCanvasGroup));
+        goldGainedRect.anchoredPosition = Vector2.zero;
+    }
 
-        while (itemGainedCanvasGroup.alpha < 1)
+    private IEnumerator FadeCanvasInAndOut(CanvasGroup canvasGroup)
+    {
+        canvasGroup.alpha = 0;
+        canvasGroup.gameObject.SetActive(true);
+
+        while (canvasGroup.alpha < 1)
         {
-            itemGainedCanvasGroup.alpha += 1 / fadeTime * Time.deltaTime;
+            canvasGroup.alpha += 1 / fadeTime * Time.unscaledDeltaTime;
 
             yield return null;
         }
 
-        itemGainedCanvasGroup.alpha = 1f;
+        canvasGroup.alpha = 1;
 
-        yield return new WaitForSeconds(activeDuration);
+        yield return new WaitForSecondsRealtime(activeDuration);
 
-        while (itemGainedCanvasGroup.alpha > 0.01f)
+        while (canvasGroup.alpha > 0.01f)
         {
-            itemGainedCanvasGroup.alpha -= 1 / fadeTime * Time.deltaTime;
+            canvasGroup.alpha -= 1 / fadeTime * Time.unscaledDeltaTime;
 
             yield return null;
         }
 
-        itemGainedCanvasGroup.alpha = 0;
-        itemGainedCanvasGroup.gameObject.SetActive(false);
-    }   
-
+        canvasGroup.alpha = 0;
+        canvasGroup.gameObject.SetActive(false);
+    }
+    
     public void CloseInventoryUI()
     {
         gameObject.SetActive(false);
@@ -124,13 +209,36 @@ public class InventoryUI : MonoBehaviour
         player.EnableControlsAfterUI();
     }
 
+    public void EnableQuitToMenu()
+    {
+        returnToMenu = true;
+    }
+
+    public void EnableQuitToDesktop()
+    {
+        returnToMenu = false;
+    }
+    
     public void QuitGame()
     {
+        if (returnToMenu)
+        {
+            
 #if UNITY_EDITOR
+        Debug.Log("TODO - Exit to main menu");
         UnityEditor.EditorApplication.isPlaying = false;
 #else
         Application.Quit();
 #endif
+        }
+        else
+        {
+            #if UNITY_EDITOR
+            UnityEditor.EditorApplication.isPlaying = false;
+#else
+            Application.Quit();
+#endif
+        }
     }
 
     public void OpenSettingsMenu()
@@ -151,6 +259,8 @@ public class InventoryUI : MonoBehaviour
     {
         if (player == null) player = CharacterSelector.GetPlayerController();
 
+        HideItemName();
+        
         // If the inventory is open
         if (gameObject.activeSelf)
         {
@@ -162,6 +272,10 @@ public class InventoryUI : MonoBehaviour
             else // the main inventory is open
             {
                 gameObject.SetActive(false);
+                
+                // Display the quick item when the inventory closes
+                UpdateQuickItemDisplay(Inventory.GetQuickItem());
+                
                 Time.timeScale = 1.0f;
             }
             player.EnableControlsAfterUI();
@@ -174,6 +288,9 @@ public class InventoryUI : MonoBehaviour
             UnityEngine.EventSystems.EventSystem.current.SetSelectedGameObject(null);                       
             firstSelectedOnOpen.Select();
 
+            // Hide the quick item when the inventory is open
+            UpdateQuickItemDisplay(null);
+            
             player.DisableControlsForUI();
         }
     }
