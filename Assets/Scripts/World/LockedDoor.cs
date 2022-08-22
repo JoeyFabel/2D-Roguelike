@@ -1,8 +1,12 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
 using UnityEngine;
 
-public class LockedDoor : SaveableObject, IInteractable
+public class LockedDoor : MonoBehaviour, IInteractable, ISaveable
 {
     public Item requiredKey;
 
@@ -20,14 +24,37 @@ public class LockedDoor : SaveableObject, IInteractable
 
     public GameObject associatedCameraCollider;
 
-    protected override void Start()
+    private bool started = false;
+    private bool hasSaveData = false;
+    
+    [SerializeField]
+    private int saveID = -1;
+    public int SaveIDNumber
+    {
+        get => saveID;
+        set => saveID = value;
+    }
+    
+    public bool DoneLoading { get; set; }
+
+    private void Awake()
+    {
+        SaveManager.RegisterSaveable(this);
+    }
+
+    private void OnDestroy()
+    {
+        SaveManager.UnRegisterSaveable(this);
+    }
+
+    private void Start()
     {
         if (started) return;
 
         audioSource = GetComponent<AudioSource>();
         animator = GetComponent<Animator>();
 
-        if (saveData == null) isLocked = true;
+        if (!hasSaveData) isLocked = true;
 
         if (associatedCameraCollider) associatedCameraCollider.SetActive(!isLocked);
 
@@ -54,7 +81,7 @@ public class LockedDoor : SaveableObject, IInteractable
         foreach (var collider in GetComponents<Collider2D>()) collider.enabled = false;
     }
 
-    public override WorldObjectSaveData GetSaveData()
+    public WorldObjectSaveData GetSaveData()
     {
         LockedDoorSaveData data = new LockedDoorSaveData();
         data.isLocked = isLocked;
@@ -62,13 +89,16 @@ public class LockedDoor : SaveableObject, IInteractable
         return data;
     }
 
-    protected override void LoadData()
+    public void LoadData(WorldObjectSaveData saveData)
     {
+        hasSaveData = true;
+        if (!started) Start();
+        
         LockedDoorSaveData data = saveData as LockedDoorSaveData;
 
         isLocked = data.isLocked;
 
-        isDoneLoading = true;
+        DoneLoading = true;
 
         if (!isLocked)
         {
@@ -101,4 +131,13 @@ public class LockedDoor : SaveableObject, IInteractable
     {
         public bool isLocked;
     }
+    
+#if UNITY_EDITOR
+    public void MarkAsDirty()
+    {
+        EditorUtility.SetDirty(this);
+        Undo.RecordObject(this, "Changed saveID");
+        PrefabUtility.RecordPrefabInstancePropertyModifications(this);
+    }
+#endif  
 }

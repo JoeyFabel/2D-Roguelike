@@ -421,7 +421,7 @@ public class PlayerController : MonoBehaviour
 
         if (quickItem == null) return;
         
-       // Inventory.LoseItem(quickItem);
+        Inventory.LoseItem(quickItem);
         if (!Inventory.PlayerHasItem(quickItem)) Inventory.TrySetQuickItem(-1);
         
         if (quickItem.objectToSpawn)

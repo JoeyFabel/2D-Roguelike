@@ -16,19 +16,19 @@ public class MovingPlatform : MonoBehaviour
     public float idealLapTime;
     public float moveSpeed = 2;    
 
-    private bool isMoving;
-    private bool movingForward;
-    private bool completedOneWay;
+    protected bool isMoving;
+    protected bool movingForward;
+    protected bool completedOneWay;
 
-    private int currentTargetIndex;
+    protected int currentTargetIndex;
 
     private const float AllowableError = 0.01f;
 
-    private float lapStartTime;
+    protected float lapStartTime;
 
     private Collider2D trigger;
 
-    private void Start()
+    protected virtual void Start()
     {
         isMoving = startMoving;
         movingForward = startMovingForward;
@@ -39,14 +39,14 @@ public class MovingPlatform : MonoBehaviour
         if (isMoving) lapStartTime = Time.time;
     }
 
-    public void StartMovement()
+    public virtual void StartMovement()
     {
         if (oneWay && completedOneWay) return;
 
         isMoving = true;
     }
 
-    public void EndMovement()
+    public virtual void EndMovement()
     {
         isMoving = false;
     }

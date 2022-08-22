@@ -5764,12 +5764,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b39fbf5f94fd655ab845a9772c699d23, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  saveIDNumber: 0
   startingNode: {fileID: 1669190779}
   speakerIcon: {fileID: 21300000, guid: ca26d14e56d48836ea7bf4ae5a92c675, type: 3}
   speechBubbleIcon: {fileID: 136744527}
   faceTowardsPlayer: 1
   currentNodeID: -1
+  saveID: 0
   itemPurchaseDialogNode: {fileID: 2032663683}
   notEnoughMoneyNode: {fileID: 1301778218}
   missingBottleNode: {fileID: 493496781}
@@ -7625,12 +7625,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2ae01ae1b6326ca54b46f04bfe4f7aee, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  saveIDNumber: 0
-  amountInStock: 1
   shopOwner: {fileID: 1397360479}
   itemForSale: {fileID: 11400000, guid: 4012938f3259ec44892abdfae0efe672, type: 2}
   price: 25
   requiresBottle: 0
+  amountInStock: 1
+  saveID: 1
 --- !u!1 &1669190778
 GameObject:
   m_ObjectHideFlags: 0

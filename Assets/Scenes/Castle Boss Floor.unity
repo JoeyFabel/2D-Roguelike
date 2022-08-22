@@ -904,6 +904,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sceneName: Castle Basement
+  isShopScene: 0
   loadIntoShrine: 0
   loadOutOfShrine: 0
   playerOffset: {x: 0, y: 0}
@@ -16881,6 +16882,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sceneName: Castle F1
+  isShopScene: 0
   loadIntoShrine: 0
   loadOutOfShrine: 0
   playerOffset: {x: 0, y: 0}
@@ -16971,7 +16973,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7c0002e1a18d8d342bde7570d81a55c5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  saveIDNumber: 0
   boss: {fileID: 2359072}
   OnBossRoomEntered:
     m_PersistentCalls:
@@ -17135,6 +17136,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  saveID: 0
 --- !u!1 &1595348482
 GameObject:
   m_ObjectHideFlags: 0
@@ -18373,7 +18375,7 @@ Tilemap:
       - {fileID: 21300000, guid: 3e9496b1781d224478f1524c4f508f82, type: 3}
       - {fileID: 21300000, guid: f839d91505d1239419b49813edd167cb, type: 3}
       - {fileID: 21300000, guid: 479445745c71d864090cc2d2289dff5f, type: 3}
-      m_AnimationSpeed: 7.080113
+      m_AnimationSpeed: 5.1810207
       m_AnimationTimeOffset: 0
       m_IsLooping: 1
   - first: {x: 60, y: -28, z: 0}
@@ -18382,7 +18384,7 @@ Tilemap:
       - {fileID: 21300000, guid: acd060104eda63341b93267260f10b34, type: 3}
       - {fileID: 21300000, guid: ad339aa190bf36044aabbaad3c69d047, type: 3}
       - {fileID: 21300000, guid: b1a46a9717089a54caa3aa13184e25b4, type: 3}
-      m_AnimationSpeed: 7.193476
+      m_AnimationSpeed: 5.709097
       m_AnimationTimeOffset: 0
       m_IsLooping: 1
   - first: {x: 65, y: -28, z: 0}
@@ -18391,7 +18393,7 @@ Tilemap:
       - {fileID: 21300000, guid: acd060104eda63341b93267260f10b34, type: 3}
       - {fileID: 21300000, guid: ad339aa190bf36044aabbaad3c69d047, type: 3}
       - {fileID: 21300000, guid: b1a46a9717089a54caa3aa13184e25b4, type: 3}
-      m_AnimationSpeed: 6.5902586
+      m_AnimationSpeed: 6.5117784
       m_AnimationTimeOffset: 0
       m_IsLooping: 1
   - first: {x: 69, y: -28, z: 0}
@@ -18400,7 +18402,7 @@ Tilemap:
       - {fileID: 21300000, guid: 3e9496b1781d224478f1524c4f508f82, type: 3}
       - {fileID: 21300000, guid: f839d91505d1239419b49813edd167cb, type: 3}
       - {fileID: 21300000, guid: 479445745c71d864090cc2d2289dff5f, type: 3}
-      m_AnimationSpeed: 6.6739287
+      m_AnimationSpeed: 5.69238
       m_AnimationTimeOffset: 0
       m_IsLooping: 1
   - first: {x: 34, y: -22, z: 0}
@@ -18409,7 +18411,7 @@ Tilemap:
       - {fileID: 21300000, guid: acd060104eda63341b93267260f10b34, type: 3}
       - {fileID: 21300000, guid: ad339aa190bf36044aabbaad3c69d047, type: 3}
       - {fileID: 21300000, guid: b1a46a9717089a54caa3aa13184e25b4, type: 3}
-      m_AnimationSpeed: 5.4488792
+      m_AnimationSpeed: 6.161607
       m_AnimationTimeOffset: 0
       m_IsLooping: 1
   - first: {x: 48, y: -22, z: 0}
@@ -18418,7 +18420,7 @@ Tilemap:
       - {fileID: 21300000, guid: acd060104eda63341b93267260f10b34, type: 3}
       - {fileID: 21300000, guid: ad339aa190bf36044aabbaad3c69d047, type: 3}
       - {fileID: 21300000, guid: b1a46a9717089a54caa3aa13184e25b4, type: 3}
-      m_AnimationSpeed: 7.2604413
+      m_AnimationSpeed: 5.815814
       m_AnimationTimeOffset: 0
       m_IsLooping: 1
   m_TileAssetArray:

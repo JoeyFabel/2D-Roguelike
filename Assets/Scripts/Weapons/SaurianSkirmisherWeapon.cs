@@ -75,7 +75,7 @@ public class SaurianSkirmisherWeapon : WeaponController
         // Reposition Melee HitBox;
         if (lookDirection == Vector2.up)
         {
-            print("melee attack north");
+           // print("melee attack north");
 
             var offset = northSouthMeleeHitBox.offset;
             offset.x = Mathf.Abs(offset.x) * (sprite.flipX ? 1 : -1f);
@@ -86,7 +86,7 @@ public class SaurianSkirmisherWeapon : WeaponController
         }
         else if (lookDirection == Vector2.down)
         {
-            print("melee attack south");
+            //print("melee attack south");
 
             var offset = northSouthMeleeHitBox.offset;
             offset.x = Mathf.Abs(offset.x) * (sprite.flipX ? -1f : 1f);
@@ -99,7 +99,7 @@ public class SaurianSkirmisherWeapon : WeaponController
         {
             if (lookDirection.x >= 0)
             {
-                print("melee attack ne");
+               // print("melee attack ne");
 
                 var offset = new Vector2(0.1774674f, -0.7f);
                 meleeHitBox.offset = offset;
@@ -109,7 +109,7 @@ public class SaurianSkirmisherWeapon : WeaponController
             }
             else
             {
-                print("melee attack nw");
+               // print("melee attack nw");
 
                 var offset = new Vector2(-0.1774674f, -0.79f);
                 meleeHitBox.offset = offset;
@@ -122,7 +122,7 @@ public class SaurianSkirmisherWeapon : WeaponController
         {
             if (lookDirection.x >= 0)
             {
-                print("melee attack se");
+                //print("melee attack se");
 
                 var offset = new Vector2(0.1774674f, -0.65f);
                 meleeHitBox.offset = offset;
@@ -132,7 +132,7 @@ public class SaurianSkirmisherWeapon : WeaponController
             }
             else
             {
-                print("melee attack sw");
+              //  print("melee attack sw");
 
                 var offset = new Vector2(-0.1774674f, -0.75f);
                 meleeHitBox.offset = offset;

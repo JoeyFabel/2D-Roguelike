@@ -1,9 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
 using UnityEngine;
 using UnityEngine.Events;
 
-public class BossRoomTrigger : SaveableObject
+public class BossRoomTrigger : MonoBehaviour, ISaveable
 {
     public Boss boss;
 
@@ -16,18 +20,27 @@ public class BossRoomTrigger : SaveableObject
     private bool bossDefeated = false;
     private bool bossRoomEntered = false;
 
-    protected override void Awake()
+    [SerializeField]
+    private int saveID = -1;
+
+    public bool DoneLoading { get; set; }
+    public int SaveIDNumber { get => saveID; set => saveID = value; }
+
+    private void Awake()
     {
-        base.Awake();
+        SaveManager.RegisterSaveable(this);
 
         boss.SetBossRoomTrigger(this);
     }
 
-    protected override void Start()
+    private void OnDestroy()
+    {
+        SaveManager.UnRegisterSaveable(this);
+    }
+
+    private void Start()
     {
         bossRoomEntered = false;
-
-        base.Start();
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -45,26 +58,37 @@ public class BossRoomTrigger : SaveableObject
         OnBossDefeated.Invoke();
     }
 
-    public override WorldObjectSaveData GetSaveData()
+    public WorldObjectSaveData GetSaveData()
     {
         BossSaveData saveData = new BossSaveData();
         saveData.bossDefeated = bossDefeated;
 
+        Debug.Log("saved a boss room trigger " + gameObject.name, gameObject);
+        
         return saveData;
     }
 
-    protected override void LoadData()
+    public void LoadData(WorldObjectSaveData saveData)
     {
         var data = saveData as BossSaveData;
 
         bossDefeated = data.bossDefeated;
 
-        isDoneLoading = true;
+        DoneLoading = true;
     }
-
+    
     [System.Serializable]
     public class BossSaveData : WorldObjectSaveData
     {
         public bool bossDefeated;
     }
+    
+#if UNITY_EDITOR
+    public void MarkAsDirty()
+    {
+        EditorUtility.SetDirty(this);
+        Undo.RecordObject(this, "Changed saveID");
+        PrefabUtility.RecordPrefabInstancePropertyModifications(this);
+    }
+#endif  
 }
