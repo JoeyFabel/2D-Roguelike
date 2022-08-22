@@ -154,6 +154,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sceneName: Castle Boss Floor
+  isShopScene: 0
   loadIntoShrine: 0
   loadOutOfShrine: 0
   playerOffset: {x: 0, y: 0}
@@ -690,7 +691,7 @@ GameObject:
   - component: {fileID: 291257375}
   - component: {fileID: 291257374}
   m_Layer: 0
-  m_Name: Locked Door to Mini Boss
+  m_Name: Locked Door 1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -871,13 +872,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fa3e0e7eb69413546bbc343070d4d543, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  saveIDNumber: 11
   requiredKey: {fileID: 11400000, guid: 9071f5de22bdcb74fbed2a95ebe11eb7, type: 2}
   doorOpenedSprite: {fileID: -7597362645265335666, guid: c85735cecfc02a94cbebf7451407c79e, type: 3}
   openSound: {fileID: 8300000, guid: 5e15426d3fc925c4785a4b331bed7495, type: 3}
   failedOpenSound: {fileID: 8300000, guid: 709a835b61b848644946696fdd5e5a4d, type: 3}
   slidingDoor: 1
   associatedCameraCollider: {fileID: 713846857}
+  saveID: 1
 --- !u!95 &291257378
 Animator:
   serializedVersion: 4
@@ -1195,12 +1196,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 204717e8f575dc74a8a6624871f7a133, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  saveIDNumber: 0
   startingNode: {fileID: 1163007611}
   speakerIcon: {fileID: 21300000, guid: 3f0d431be7483744190e922a9773d888, type: 3}
   speechBubbleIcon: {fileID: 2034856693}
   faceTowardsPlayer: 0
   currentNodeID: -1
+  saveID: 3
 --- !u!61 &650929867
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -12228,6 +12229,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sceneName: Castle F1
+  isShopScene: 0
   loadIntoShrine: 0
   loadOutOfShrine: 0
   playerOffset: {x: 0, y: 0}
@@ -12344,6 +12346,10 @@ PrefabInstance:
     - target: {fileID: 2423757100478318701, guid: 464538ea159a5814d85f703dc45b3a95, type: 3}
       propertyPath: m_SpriteTilingProperty.oldSize.y
       value: 0.86
+      objectReference: {fileID: 0}
+    - target: {fileID: 2423757100478318702, guid: 464538ea159a5814d85f703dc45b3a95, type: 3}
+      propertyPath: saveID
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2423757100478318702, guid: 464538ea159a5814d85f703dc45b3a95, type: 3}
       propertyPath: itemToGain
@@ -13133,7 +13139,7 @@ Tilemap:
       - {fileID: 21300000, guid: 3e9496b1781d224478f1524c4f508f82, type: 3}
       - {fileID: 21300000, guid: f839d91505d1239419b49813edd167cb, type: 3}
       - {fileID: 21300000, guid: 479445745c71d864090cc2d2289dff5f, type: 3}
-      m_AnimationSpeed: 5.181304
+      m_AnimationSpeed: 6.51198
       m_AnimationTimeOffset: 0
       m_IsLooping: 1
   - first: {x: 79, y: -20, z: 0}
@@ -13142,7 +13148,7 @@ Tilemap:
       - {fileID: 21300000, guid: 3e9496b1781d224478f1524c4f508f82, type: 3}
       - {fileID: 21300000, guid: f839d91505d1239419b49813edd167cb, type: 3}
       - {fileID: 21300000, guid: 479445745c71d864090cc2d2289dff5f, type: 3}
-      m_AnimationSpeed: 7.3287406
+      m_AnimationSpeed: 6.0512094
       m_AnimationTimeOffset: 0
       m_IsLooping: 1
   - first: {x: 85, y: -20, z: 0}
@@ -13151,7 +13157,7 @@ Tilemap:
       - {fileID: 21300000, guid: 3e9496b1781d224478f1524c4f508f82, type: 3}
       - {fileID: 21300000, guid: f839d91505d1239419b49813edd167cb, type: 3}
       - {fileID: 21300000, guid: 479445745c71d864090cc2d2289dff5f, type: 3}
-      m_AnimationSpeed: 5.60586
+      m_AnimationSpeed: 7.4590173
       m_AnimationTimeOffset: 0
       m_IsLooping: 1
   - first: {x: 91, y: -20, z: 0}
@@ -13160,7 +13166,7 @@ Tilemap:
       - {fileID: 21300000, guid: 3e9496b1781d224478f1524c4f508f82, type: 3}
       - {fileID: 21300000, guid: f839d91505d1239419b49813edd167cb, type: 3}
       - {fileID: 21300000, guid: 479445745c71d864090cc2d2289dff5f, type: 3}
-      m_AnimationSpeed: 6.10127
+      m_AnimationSpeed: 6.674026
       m_AnimationTimeOffset: 0
       m_IsLooping: 1
   - first: {x: 97, y: -20, z: 0}
@@ -13169,7 +13175,7 @@ Tilemap:
       - {fileID: 21300000, guid: 3e9496b1781d224478f1524c4f508f82, type: 3}
       - {fileID: 21300000, guid: f839d91505d1239419b49813edd167cb, type: 3}
       - {fileID: 21300000, guid: 479445745c71d864090cc2d2289dff5f, type: 3}
-      m_AnimationSpeed: 5.465435
+      m_AnimationSpeed: 6.8803544
       m_AnimationTimeOffset: 0
       m_IsLooping: 1
   - first: {x: 103, y: -20, z: 0}
@@ -13178,7 +13184,7 @@ Tilemap:
       - {fileID: 21300000, guid: 3e9496b1781d224478f1524c4f508f82, type: 3}
       - {fileID: 21300000, guid: f839d91505d1239419b49813edd167cb, type: 3}
       - {fileID: 21300000, guid: 479445745c71d864090cc2d2289dff5f, type: 3}
-      m_AnimationSpeed: 5.3413744
+      m_AnimationSpeed: 5.0382867
       m_AnimationTimeOffset: 0
       m_IsLooping: 1
   m_TileAssetArray:
@@ -14030,7 +14036,7 @@ GameObject:
   - component: {fileID: 2116825274}
   - component: {fileID: 2116825273}
   m_Layer: 0
-  m_Name: Locked Door to Mini Boss
+  m_Name: Locked Door 2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -14211,13 +14217,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fa3e0e7eb69413546bbc343070d4d543, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  saveIDNumber: 11
   requiredKey: {fileID: 11400000, guid: 9071f5de22bdcb74fbed2a95ebe11eb7, type: 2}
   doorOpenedSprite: {fileID: -7597362645265335666, guid: c85735cecfc02a94cbebf7451407c79e, type: 3}
   openSound: {fileID: 8300000, guid: 5e15426d3fc925c4785a4b331bed7495, type: 3}
   failedOpenSound: {fileID: 8300000, guid: 709a835b61b848644946696fdd5e5a4d, type: 3}
   slidingDoor: 1
   associatedCameraCollider: {fileID: 1335880701}
+  saveID: 2
 --- !u!95 &2116825277
 Animator:
   serializedVersion: 4
@@ -14595,6 +14601,30 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2741376284967689470, guid: a2854b7d0f97de34b9a6fa566461d83b, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3138552463167985731, guid: a2854b7d0f97de34b9a6fa566461d83b, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3138552463167985731, guid: a2854b7d0f97de34b9a6fa566461d83b, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3138552463167985731, guid: a2854b7d0f97de34b9a6fa566461d83b, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3138552463167985731, guid: a2854b7d0f97de34b9a6fa566461d83b, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3138552463167985731, guid: a2854b7d0f97de34b9a6fa566461d83b, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3138552463167985731, guid: a2854b7d0f97de34b9a6fa566461d83b, type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}

@@ -270,10 +270,17 @@ public class GameManager : MonoBehaviour
         {
             string saveID = SaveManager.GetSaveID(saveable);
 
-            if (instance.saveableObjectDataDictionary.ContainsKey(saveID)) instance.saveableObjectDataDictionary[saveID] = saveable.GetSaveData();
-            else instance.saveableObjectDataDictionary.Add(saveID, saveable.GetSaveData());
+            if (instance.saveableObjectDataDictionary.ContainsKey(saveID))
+            {
+                instance.saveableObjectDataDictionary[saveID] = saveable.GetSaveData();
+                print("Saving a " + saveable.ToString() + " saveable id: " + saveID + " over existing save data");
+            }
+            else
+            {
+                instance.saveableObjectDataDictionary.Add(saveID, saveable.GetSaveData());
+                print("Saving a " + saveable.ToString() + " saveable id: " + saveID + " for the first time");
+            }
             
-            // print("Saving a " + saveable.ToString() + " saveable id: " + saveID);
         }
     }
 
@@ -331,6 +338,11 @@ public class GameManager : MonoBehaviour
     {
         if (instance.questDataDictionary.ContainsKey(quest)) instance.questDataDictionary[quest] = questPhase;
         else instance.questDataDictionary.Add(quest, questPhase);
+    }
+
+    public static string GetCurrentSceneName()
+    {
+        return SceneManager.GetActiveScene().name;
     }
     
     private static IEnumerator LoadSceneAfterFade(string sceneName)

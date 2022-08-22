@@ -1,5 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
 using UnityEngine;
 
 public class Chest : MonoBehaviour, IInteractable, ISaveable
@@ -20,6 +23,14 @@ public class Chest : MonoBehaviour, IInteractable, ISaveable
 
     private bool started = false;
     private bool hasSaveData = false;
+
+    [SerializeField] 
+    private int saveID = -1;
+    public int SaveIDNumber
+    {
+        get => saveID;
+        set => saveID = value;
+    }
     
     private void Start()
     {
@@ -62,8 +73,6 @@ public class Chest : MonoBehaviour, IInteractable, ISaveable
 
         data.isOpened = isChestOpened;
 
-        print("Saved a " + SaveManager.GetSaveID(this) + " (chest)");
-
         return data;
     }
 
@@ -78,6 +87,8 @@ public class Chest : MonoBehaviour, IInteractable, ISaveable
         // Now this is ready to load the data
         ChestSaveData data = saveData as ChestSaveData;
 
+        if (data == null) Debug.LogError(gameObject.name + " had an invalid Save Data type!", gameObject);
+        
         isChestOpened = data.isOpened;
 
         if (isChestOpened)
@@ -90,15 +101,19 @@ public class Chest : MonoBehaviour, IInteractable, ISaveable
         DoneLoading = true;
     }
 
-    public int SaveIDNumber { get; set; }
+    public string GetSaveID()
+    {
+        return GameManager.GetCurrentSceneName() + ": " + saveID;
+    }
+
     public bool DoneLoading { get; set; }
     
-    public void Awake()
+    private void Awake()
     {
         SaveManager.RegisterSaveable(this);
     }
 
-    public void OnDestroy()
+    private void OnDestroy()
     {
         SaveManager.UnRegisterSaveable(this);
     }
@@ -108,4 +123,13 @@ public class Chest : MonoBehaviour, IInteractable, ISaveable
     {
         public bool isOpened;
     }
+    
+    #if UNITY_EDITOR
+    public void MarkAsDirty()
+    {
+        EditorUtility.SetDirty(this);
+        Undo.RecordObject(this, "Changed saveID");
+        PrefabUtility.RecordPrefabInstancePropertyModifications(this);
+    }
+    #endif  
 }

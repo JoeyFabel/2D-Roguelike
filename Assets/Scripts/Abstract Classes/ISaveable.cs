@@ -13,20 +13,21 @@ public interface ISaveable
     
     public void LoadData(WorldObjectSaveData saveData);
 
-    public int SaveIDNumber
-    {
-        get;
-        set;
-    }
-
     public bool DoneLoading
     {
         get;
         set;
     }
+    
+    public int SaveIDNumber { get; set; }
 
     // Force you to implement these
-    public void Awake();
+  //  public void Awake();
 
-    public void OnDestroy();
+   // public void OnDestroy();
+   
+   #if UNITY_EDITOR
+
+    public void MarkAsDirty();
+    #endif
 }

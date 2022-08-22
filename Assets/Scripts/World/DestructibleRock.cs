@@ -2,10 +2,15 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
 
 public class DestructibleRock : MonoBehaviour, ISaveable
 {
-    public void Awake()
+    private int saveID = -1;
+    
+    private void Awake()
     {
         SaveManager.RegisterSaveable(this);
     }
@@ -37,7 +42,7 @@ public class DestructibleRock : MonoBehaviour, ISaveable
         if (data.isDestroyed) Destroy(gameObject);
     }
 
-    public int SaveIDNumber { get; set; }
+    public int SaveIDNumber { get => saveID; set => saveID = value; }
     public bool DoneLoading { get; set; }
 
     [Serializable]
@@ -46,10 +51,17 @@ public class DestructibleRock : MonoBehaviour, ISaveable
         public bool isDestroyed;
     }
 
-    public void OnDestroy()
+    private void OnDestroy()
     {
         SaveManager.UnRegisterSaveable(this);
     }
     
-    
+#if UNITY_EDITOR
+    public void MarkAsDirty()
+    {
+        EditorUtility.SetDirty(this);
+        Undo.RecordObject(this, "Changed saveID");
+        PrefabUtility.RecordPrefabInstancePropertyModifications(this);
+    }
+#endif  
 }

@@ -1,8 +1,9 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
+using UnityEditor.SceneManagement;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 /// <summary>
 /// An intermediary class that allows communication between ISaveables and the GameManager
@@ -16,7 +17,7 @@ public class SaveManager : MonoBehaviour
 
     public static string GetSaveID(ISaveable saveable)
     {
-        return SceneManager.GetActiveScene().name + ": " + saveable.SaveIDNumber;
+        return GameManager.GetCurrentSceneName() + ": " + saveable.SaveIDNumber;
     }
 
     public static void DistributeSaveData(Dictionary<string, WorldObjectSaveData> dataDictionary)
@@ -72,7 +73,7 @@ public class SaveManager : MonoBehaviour
     [ContextMenu("Assign IDs to ISaveables")]
     private void AssignIDs()
     {
-        MonoBehaviour[] monoBehaviours = FindObjectsOfType<MonoBehaviour>();
+        MonoBehaviour[] monoBehaviours = FindObjectsOfType<MonoBehaviour>(true);
 
         List<ISaveable> saveableInterfaces = new List<ISaveable>();
         
@@ -80,7 +81,13 @@ public class SaveManager : MonoBehaviour
 
         int currentSaveID = 0;
 
-        foreach (var saveable in saveableInterfaces) saveable.SaveIDNumber = currentSaveID++;
+        foreach (var saveable in saveableInterfaces)
+            if (saveable.SaveIDNumber == -1)
+            {
+                saveable.SaveIDNumber = currentSaveID++;
+                saveable.MarkAsDirty();
+            }
+        
         
         foreach (var saveable in saveableInterfaces) Debug.Log(saveable.ToString() + " has an id of " + saveable.SaveIDNumber);
     }
