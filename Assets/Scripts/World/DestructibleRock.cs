@@ -8,6 +8,7 @@ using UnityEditor;
 
 public class DestructibleRock : MonoBehaviour, ISaveable
 {
+    [SerializeField]
     private int saveID = -1;
     
     private void Awake()

@@ -135,7 +135,7 @@ public class DwarfThundererWeapon : WeaponController
 
         PlaySound(gunFireSound);
 
-        //ammo--;
+        ammo--;
         ammoText.text = "X " + ammo;
     }
 

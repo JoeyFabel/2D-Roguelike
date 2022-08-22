@@ -273,12 +273,12 @@ public class GameManager : MonoBehaviour
             if (instance.saveableObjectDataDictionary.ContainsKey(saveID))
             {
                 instance.saveableObjectDataDictionary[saveID] = saveable.GetSaveData();
-                print("Saving a " + saveable.ToString() + " saveable id: " + saveID + " over existing save data");
+             //   print("Saving a " + saveable.ToString() + " saveable id: " + saveID + " over existing save data");
             }
             else
             {
                 instance.saveableObjectDataDictionary.Add(saveID, saveable.GetSaveData());
-                print("Saving a " + saveable.ToString() + " saveable id: " + saveID + " for the first time");
+              //  print("Saving a " + saveable.ToString() + " saveable id: " + saveID + " for the first time");
             }
             
         }
@@ -405,18 +405,18 @@ public class GameManager : MonoBehaviour
 
         while (gameSavedImage.alpha < 1)
         {
-            gameSavedImage.alpha += 1 / fadeTime * Time.deltaTime;
+            gameSavedImage.alpha += 1 / fadeTime * Time.unscaledDeltaTime;
 
             yield return null;
         }
 
         gameSavedImage.alpha = 1f;
 
-        yield return new WaitForSeconds(activeDuration);
+        yield return new WaitForSecondsRealtime(activeDuration);
 
         while (gameSavedImage.alpha > 0.01f)
         {
-            gameSavedImage.alpha -= 1 / fadeTime * Time.deltaTime;
+            gameSavedImage.alpha -= 1 / fadeTime * Time.unscaledDeltaTime;
 
             yield return null;
         }
