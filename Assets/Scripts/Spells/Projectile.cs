@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class Projectile : Spell
@@ -129,11 +130,12 @@ public class Projectile : Spell
 
             List<Damageable> hitDamageables = new List<Damageable>(); ;
 
-            // Do the check on the hit object too to prevent errorswww
-            if (collision.collider.TryGetComponent(out Damageable damageable)) hitDamageables.Add(damageable);
             
             foreach (var hitCollider in hitColliders) if (hitCollider.TryGetComponent(out Damageable damagedObject)) hitDamageables.Add(damagedObject);
 
+            // Do the check on the hit object too to prevent errors
+            if (!hitColliders.Contains(collision.collider) && collision.collider.TryGetComponent(out Damageable damageable)) hitDamageables.Add(damageable);
+            
             foreach (var damageObject in hitDamageables) damageObject.ApplyDamage(damage, damageType);
 
             if (hitDamageables.Count > 0) impactSound = hitDamageables[0].GetWeaponHitSound(damageType);

@@ -112,10 +112,12 @@ public class GameManager : MonoBehaviour
 
     private void HandleSaveableObjects()
     {
-        foreach (var saveableObject in SaveableObject.Instances)
+     /*   foreach (var saveableObject in SaveableObject.Instances)
         {
             saveableObject.GrabSaveDataReference(instance.saveableObjectDataDictionary);
-        }
+        } */
+     
+        SaveManager.DistributeSaveData(instance.saveableObjectDataDictionary);
     }
 
     private void HandleBGMusic()
@@ -256,11 +258,29 @@ public class GameManager : MonoBehaviour
             instance.saveableObjectDataDictionary = new Dictionary<string, WorldObjectSaveData>();
         }
 
+        /*
         foreach (var saveable in SaveableObject.Instances)
         {
             // Overwrite an old key, or add a new key
             if (instance.saveableObjectDataDictionary.ContainsKey(saveable.SaveID())) instance.saveableObjectDataDictionary[saveable.SaveID()] = saveable.GetSaveData();
             else instance.saveableObjectDataDictionary.Add(saveable.SaveID(), saveable.GetSaveData());
+        } */
+
+        foreach (var saveable in SaveManager.Instances)
+        {
+            string saveID = SaveManager.GetSaveID(saveable);
+
+            if (instance.saveableObjectDataDictionary.ContainsKey(saveID))
+            {
+                instance.saveableObjectDataDictionary[saveID] = saveable.GetSaveData();
+             //   print("Saving a " + saveable.ToString() + " saveable id: " + saveID + " over existing save data");
+            }
+            else
+            {
+                instance.saveableObjectDataDictionary.Add(saveID, saveable.GetSaveData());
+              //  print("Saving a " + saveable.ToString() + " saveable id: " + saveID + " for the first time");
+            }
+            
         }
     }
 
@@ -319,6 +339,11 @@ public class GameManager : MonoBehaviour
         if (instance.questDataDictionary.ContainsKey(quest)) instance.questDataDictionary[quest] = questPhase;
         else instance.questDataDictionary.Add(quest, questPhase);
     }
+
+    public static string GetCurrentSceneName()
+    {
+        return SceneManager.GetActiveScene().name;
+    }
     
     private static IEnumerator LoadSceneAfterFade(string sceneName)
     {
@@ -369,7 +394,8 @@ public class GameManager : MonoBehaviour
 
     private IEnumerator WaitForLoadingToFinish()
     {
-        while (SaveableObject.IsLoading()) yield return null;
+        //while (SaveableObject.IsLoading()) yield return null;
+        while (SaveManager.IsLoading()) yield return null;
     }
 
     private IEnumerator ShowGameSavedMessage(float activeDuration)
@@ -379,18 +405,18 @@ public class GameManager : MonoBehaviour
 
         while (gameSavedImage.alpha < 1)
         {
-            gameSavedImage.alpha += 1 / fadeTime * Time.deltaTime;
+            gameSavedImage.alpha += 1 / fadeTime * Time.unscaledDeltaTime;
 
             yield return null;
         }
 
         gameSavedImage.alpha = 1f;
 
-        yield return new WaitForSeconds(activeDuration);
+        yield return new WaitForSecondsRealtime(activeDuration);
 
         while (gameSavedImage.alpha > 0.01f)
         {
-            gameSavedImage.alpha -= 1 / fadeTime * Time.deltaTime;
+            gameSavedImage.alpha -= 1 / fadeTime * Time.unscaledDeltaTime;
 
             yield return null;
         }
@@ -418,6 +444,8 @@ public class GameManager : MonoBehaviour
             string itemPath = Application.persistentDataPath + Path.AltDirectorySeparatorChar + SaveFileName;
 
             File.Delete(itemPath);
+            
+            Debug.Log("Save data deleted!");
         }
     }
 #endif

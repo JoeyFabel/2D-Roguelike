@@ -1,20 +1,45 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Xml.Schema;
 using UnityEngine;
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
 
 /// <summary>
 /// A <see cref="TemporaryObject"/> is an object that is loaded or destroyed after load depending on the save state
 /// </summary>
-public class TemporaryObject : SaveableObject
+public class TemporaryObject : MonoBehaviour, ISaveable
 {
     private bool readyToBeDestroyed = false;
+
+    [SerializeField]
+    private int saveID = -1;
+    public int SaveIDNumber
+    {
+        get => saveID;
+        set => saveID = value;
+    }
+    
+    public bool DoneLoading { get; set; }
+
+    private void Awake()
+    {
+        SaveManager.RegisterSaveable(this);
+    }
+
+    private void OnDestroy()
+    {
+        SaveManager.UnRegisterSaveable(this);
+    }
 
     public void DisableLoading()
     {
         readyToBeDestroyed = true;
     }
 
-    public override WorldObjectSaveData GetSaveData()
+    public WorldObjectSaveData GetSaveData()
     {
         TemporaryObjectSave data = new TemporaryObjectSave();
 
@@ -23,13 +48,13 @@ public class TemporaryObject : SaveableObject
         return data;
     }
 
-    protected override void LoadData()
+    public void LoadData(WorldObjectSaveData saveData)
     {
         TemporaryObjectSave data = saveData as TemporaryObjectSave;
 
         if (data.destroyAfterLoad) Destroy(gameObject);
 
-        isDoneLoading = true;
+        DoneLoading = true;
     }
 
     [System.Serializable]
@@ -37,4 +62,13 @@ public class TemporaryObject : SaveableObject
     {
         public bool destroyAfterLoad;
     }
+    
+#if UNITY_EDITOR
+    public void MarkAsDirty()
+    {
+        EditorUtility.SetDirty(this);
+        Undo.RecordObject(this, "Changed saveID");
+        PrefabUtility.RecordPrefabInstancePropertyModifications(this);
+    }
+#endif  
 }

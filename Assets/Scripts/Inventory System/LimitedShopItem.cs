@@ -1,32 +1,42 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Cryptography;
 using UnityEngine;
-using UnityEngine.SceneManagement;
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
 
-public class LimitedShopItem : SaveableObject, IInteractable
+public class LimitedShopItem : ShopItem, ISaveable
 {
     public int amountInStock;
 
-    public ShopKeeper shopOwner;
-
-    public Item itemForSale;
-    public int price;
-    public bool requiresBottle;
-
-    protected override void Start()
+    [SerializeField]
+    private int saveID = -1;
+    public int SaveIDNumber
     {
-        base.Start();
+        get => saveID;
+        set => saveID = value;
+    }
 
+    public bool DoneLoading { get; set; }
+    
+    private void Awake()
+    {
+        SaveManager.RegisterSaveable(this);
+    }
+
+    private void OnDestroy()
+    {
+        SaveManager.UnRegisterSaveable(this);
+    }
+
+    private void Start()
+    {
         shopOwner.OnItemBought.AddListener(CheckIfItemWasBought);
     }
 
-    public void Interact()
-    {
-        shopOwner.DisplayPurchaseDialog(itemForSale, price, requiresBottle);
-    }
-    
     private void CheckIfItemWasBought(Item boughtItem)
     {
         if (boughtItem.itemID == itemForSale.itemID)
@@ -51,7 +61,7 @@ public class LimitedShopItem : SaveableObject, IInteractable
         Destroy(gameObject);
     }
     
-    public override WorldObjectSaveData GetSaveData()
+    public WorldObjectSaveData GetSaveData()
     {
         ShopItemSaveData data = new ShopItemSaveData();
         data.remainingStock = amountInStock;
@@ -59,7 +69,7 @@ public class LimitedShopItem : SaveableObject, IInteractable
         return data;
     }
 
-    protected override void LoadData()
+    public void LoadData(WorldObjectSaveData saveData)
     {
         ShopItemSaveData data = saveData as ShopItemSaveData;
 
@@ -67,7 +77,7 @@ public class LimitedShopItem : SaveableObject, IInteractable
 
         if (amountInStock <= 0) Destroy(gameObject);
         
-        isDoneLoading = true;
+        DoneLoading = true;
     }
 
     [System.Serializable]
@@ -75,4 +85,13 @@ public class LimitedShopItem : SaveableObject, IInteractable
     {
         public int remainingStock;
     }
+    
+#if UNITY_EDITOR
+    public void MarkAsDirty()
+    {
+        EditorUtility.SetDirty(this);
+        Undo.RecordObject(this, "Changed saveID");
+        PrefabUtility.RecordPrefabInstancePropertyModifications(this);
+    }
+#endif  
 }

@@ -1,10 +1,13 @@
     using System;
     using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.UI;
+    using System.Collections.Generic;
+    using UnityEngine;
+    using UnityEngine.UI;
+    #if UNITY_EDITOR
+    using UnityEditor;
+    #endif
 
-public class DialogTree : SaveableObject, IInteractable
+public class DialogTree : MonoBehaviour, IInteractable, ISaveable
 {
     [Tooltip("The initial dialog node.")]
     public DialogNode startingNode;
@@ -28,9 +31,26 @@ public class DialogTree : SaveableObject, IInteractable
     private Coroutine watchPlayerRoutine;
 
     private Animator animator;
+
+    private bool started = false;
+    private bool hasSaveData = false;
+
+    [SerializeField] private int saveID = -1;
+    public int SaveIDNumber {get => saveID; set => saveID = value; }
     
-    // Start is called before the first frame update
-    protected override void Start()
+    public bool DoneLoading { get; set; }
+
+    private void Awake()
+    {
+        SaveManager.RegisterSaveable(this);
+    }
+
+    private void OnDestroy()
+    {
+        SaveManager.UnRegisterSaveable(this);
+    }
+
+    protected virtual void Start()
     {
         if (started) return;
 
@@ -38,7 +58,7 @@ public class DialogTree : SaveableObject, IInteractable
         sprite = GetComponent<SpriteRenderer>();
         animator = GetComponent<Animator>();
         
-        if (saveData == null) currentNode = startingNode;        
+        if (!hasSaveData) currentNode = startingNode;        
 
         speechBubbleIcon.SetActive(false);
 
@@ -172,8 +192,12 @@ public class DialogTree : SaveableObject, IInteractable
     }
     */
 
-    protected override void LoadData()
+    public void LoadData(WorldObjectSaveData saveData)
     {
+        // Start the object if it hasn't started already
+        hasSaveData = true;
+        if (!started) Start();
+        
         DialogTreeSaveData data = saveData as DialogTreeSaveData;
 
         //PrimaryNode[] possibleNodes = GetComponentsInChildren<PrimaryNode>();
@@ -188,7 +212,7 @@ public class DialogTree : SaveableObject, IInteractable
 
         if (data.startingPrimaryNodeID < 0)
         {
-            isDoneLoading = true;
+            DoneLoading = true;
 
             return;
         }
@@ -206,10 +230,10 @@ public class DialogTree : SaveableObject, IInteractable
             break;
         }        
 
-        isDoneLoading = true;
+        DoneLoading = true;
     }
 
-    public override WorldObjectSaveData GetSaveData()
+    public WorldObjectSaveData GetSaveData()
     {
         DialogTreeSaveData data = new DialogTreeSaveData();
 
@@ -218,6 +242,11 @@ public class DialogTree : SaveableObject, IInteractable
         return data;
     }
 
+    public string GetSaveID()
+    {
+        return GameManager.GetCurrentSceneName() + ": " + saveID;
+    }
+    
     [System.Serializable]
     public class DialogTreeSaveData : WorldObjectSaveData
     {
@@ -245,6 +274,12 @@ public class DialogTree : SaveableObject, IInteractable
         dialogHelper.transform.SetParent(transform);
 
         startingNode = dialogHelper.GetComponent<DialogNode>();
+    }
+    public void MarkAsDirty()
+    {
+        EditorUtility.SetDirty(this);
+        Undo.RecordObject(this, "Changed saveID");
+        PrefabUtility.RecordPrefabInstancePropertyModifications(this);
     }
 #endif
 }
