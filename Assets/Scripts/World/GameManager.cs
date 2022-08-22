@@ -112,10 +112,12 @@ public class GameManager : MonoBehaviour
 
     private void HandleSaveableObjects()
     {
-        foreach (var saveableObject in SaveableObject.Instances)
+     /*   foreach (var saveableObject in SaveableObject.Instances)
         {
             saveableObject.GrabSaveDataReference(instance.saveableObjectDataDictionary);
-        }
+        } */
+     
+        SaveManager.DistributeSaveData(instance.saveableObjectDataDictionary);
     }
 
     private void HandleBGMusic()
@@ -256,11 +258,22 @@ public class GameManager : MonoBehaviour
             instance.saveableObjectDataDictionary = new Dictionary<string, WorldObjectSaveData>();
         }
 
+        /*
         foreach (var saveable in SaveableObject.Instances)
         {
             // Overwrite an old key, or add a new key
             if (instance.saveableObjectDataDictionary.ContainsKey(saveable.SaveID())) instance.saveableObjectDataDictionary[saveable.SaveID()] = saveable.GetSaveData();
             else instance.saveableObjectDataDictionary.Add(saveable.SaveID(), saveable.GetSaveData());
+        } */
+
+        foreach (var saveable in SaveManager.Instances)
+        {
+            string saveID = SaveManager.GetSaveID(saveable);
+
+            if (instance.saveableObjectDataDictionary.ContainsKey(saveID)) instance.saveableObjectDataDictionary[saveID] = saveable.GetSaveData();
+            else instance.saveableObjectDataDictionary.Add(saveID, saveable.GetSaveData());
+            
+            // print("Saving a " + saveable.ToString() + " saveable id: " + saveID);
         }
     }
 
@@ -369,7 +382,8 @@ public class GameManager : MonoBehaviour
 
     private IEnumerator WaitForLoadingToFinish()
     {
-        while (SaveableObject.IsLoading()) yield return null;
+        //while (SaveableObject.IsLoading()) yield return null;
+        while (SaveManager.IsLoading()) yield return null;
     }
 
     private IEnumerator ShowGameSavedMessage(float activeDuration)
@@ -418,6 +432,8 @@ public class GameManager : MonoBehaviour
             string itemPath = Application.persistentDataPath + Path.AltDirectorySeparatorChar + SaveFileName;
 
             File.Delete(itemPath);
+            
+            Debug.Log("Save data deleted!");
         }
     }
 #endif

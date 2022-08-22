@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Chest : SaveableObject, IInteractable
+public class Chest : MonoBehaviour, IInteractable, ISaveable
 {
     public Sprite chestClosedSprite;
     public Sprite chestOpenSprite;
@@ -18,7 +18,10 @@ public class Chest : SaveableObject, IInteractable
     private bool isChestOpened;
     private AudioSource audioSource;
 
-    protected override void Start()
+    private bool started = false;
+    private bool hasSaveData = false;
+    
+    private void Start()
     {
         if (started) return;
 
@@ -27,7 +30,7 @@ public class Chest : SaveableObject, IInteractable
 
         audioSource = GetComponent<AudioSource>();
 
-        if (saveData == null)
+        if (!hasSaveData)
         {
             isChestOpened = false;
 
@@ -53,19 +56,26 @@ public class Chest : SaveableObject, IInteractable
         }
     }
 
-    public override WorldObjectSaveData GetSaveData()
+    public WorldObjectSaveData GetSaveData()
     {
         ChestSaveData data = new ChestSaveData();
 
         data.isOpened = isChestOpened;
 
-        print("Saved a " + SaveID() + " (chest)");
+        print("Saved a " + SaveManager.GetSaveID(this) + " (chest)");
 
         return data;
     }
 
-    protected override void LoadData()
+    public void LoadData(WorldObjectSaveData saveData)
     {
+        // Make sure this knows that there is a save data
+        hasSaveData = true;
+        
+        // Start if this hasn't started yet
+        if (!started) Start();
+        
+        // Now this is ready to load the data
         ChestSaveData data = saveData as ChestSaveData;
 
         isChestOpened = data.isOpened;
@@ -77,7 +87,20 @@ public class Chest : SaveableObject, IInteractable
             foreach (var collider in GetComponents<Collider2D>()) if (collider.isTrigger) collider.enabled = false;
         }
 
-        isDoneLoading = true;
+        DoneLoading = true;
+    }
+
+    public int SaveIDNumber { get; set; }
+    public bool DoneLoading { get; set; }
+    
+    public void Awake()
+    {
+        SaveManager.RegisterSaveable(this);
+    }
+
+    public void OnDestroy()
+    {
+        SaveManager.UnRegisterSaveable(this);
     }
 
     [System.Serializable]
