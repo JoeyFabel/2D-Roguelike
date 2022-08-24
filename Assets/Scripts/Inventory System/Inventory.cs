@@ -202,7 +202,7 @@ public class Inventory : MonoBehaviour
             ToggleInventoryUI();
         }
     }
-    
+
     public void LoadInventoryFromData(Dictionary<int, int> inventoryData, int currentMoney)
     {
         inventory = new Dictionary<Item, int>();
