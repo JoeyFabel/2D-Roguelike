@@ -50,7 +50,7 @@ public class GameManager : MonoBehaviour
     private void Awake()
     {
         Debug.LogWarning("TODO - Add some NPC quests");
-        Debug.LogWarning("TODO - Allow user to change keybindings from settings");
+        Debug.LogWarning("TODO - Make changed keybindings persistent");
         
         // Create the singleton or destroy the duplicate
         if (instance == null)
