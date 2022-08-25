@@ -33,8 +33,6 @@ public class DestructibleRock : MonoBehaviour, ISaveable
 
     public void LoadData(WorldObjectSaveData saveData)
     {
-        print("Loading data for " + gameObject.name);
-        
         DestructibleRockSaveData data = saveData as DestructibleRockSaveData;
 
         // Needs to be marked as done loading before the object gets destroyed
