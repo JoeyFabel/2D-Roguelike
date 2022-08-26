@@ -25,6 +25,8 @@ public class KeybindingButton : Button
         base.Start();
 
         boundAction = CharacterSelector.GetPlayerController().GetComponent<PlayerInput>().actions[inputActionName];
+        
+        currentBindingText.text = "Current Binding : " + boundAction.bindings[0].ToDisplayString();
     }
     
     public void RemapButtonClicked()
@@ -50,13 +52,18 @@ public class KeybindingButton : Button
     {
         while (!operation.completed) yield return null;
         
-        string selectedBinding = boundAction.bindings[0].ToDisplayString();
-
-        currentBindingText.text = "Current Binding : " + selectedBinding;
+        currentBindingText.text = "Current Binding : " + boundAction.bindings[0].ToDisplayString();
 
         operation.Dispose();
 
         if (enableActionAfterBinding) boundAction.Enable();
+    }
+
+    public void ResetToDefaultControl()
+    {
+        boundAction.RemoveBindingOverride(0);
+
+        currentBindingText.text = "Current Binding : " + boundAction.bindings[0].ToDisplayString();
     }
 
     public override void OnSelect(BaseEventData eventData)

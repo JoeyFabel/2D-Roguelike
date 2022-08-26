@@ -59,6 +59,12 @@ public abstract class WorldObjectSaveData
     public int saveID;
 }
 
+[System.Serializable]
+public class InputSaveData
+{
+    
+}
+
 /*
 [System.Serializable]
 public class QuestSaveData
