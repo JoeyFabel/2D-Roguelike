@@ -50,6 +50,7 @@ public class GameManager : MonoBehaviour
     private void Awake()
     {
         Debug.LogWarning("TODO - Add some NPC quests");
+        Debug.LogWarning("TODO- Killable NPCs!");
         
         // Create the singleton or destroy the duplicate
         if (instance == null)

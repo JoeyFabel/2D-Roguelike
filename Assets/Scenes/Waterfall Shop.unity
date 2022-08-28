@@ -2651,7 +2651,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d064780275bb43441a696d260f571559, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  tileDatas: []
+  tileDatas:
+  - {fileID: 11400000, guid: da6a1c5bc94e1054e928def3041e5d56, type: 2}
   tileColliderDatas: []
 --- !u!1 &1200379476
 GameObject:
