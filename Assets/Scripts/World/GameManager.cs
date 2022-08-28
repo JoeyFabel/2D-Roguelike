@@ -51,6 +51,7 @@ public class GameManager : MonoBehaviour
     {
         Debug.LogWarning("TODO - Add some NPC quests");
         Debug.LogWarning("TODO- Killable NPCs!");
+        Debug.LogWarning("TODO- Dialog saving");
         
         // Create the singleton or destroy the duplicate
         if (instance == null)
@@ -266,9 +267,12 @@ public class GameManager : MonoBehaviour
             else instance.saveableObjectDataDictionary.Add(saveable.SaveID(), saveable.GetSaveData());
         } */
 
+        print("Saving");
+        
         foreach (var saveable in SaveManager.Instances)
         {
             string saveID = SaveManager.GetSaveID(saveable);
+            print("   saving " + saveID);
 
             if (instance.saveableObjectDataDictionary.ContainsKey(saveID))
             {

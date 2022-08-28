@@ -43,11 +43,13 @@ public class DialogTree : MonoBehaviour, IInteractable, ISaveable
     private void Awake()
     {
         SaveManager.RegisterSaveable(this);
+        print("registering " + gameObject.name);
     }
 
     private void OnDestroy()
     {
         SaveManager.UnRegisterSaveable(this);
+        print("un-registering " + gameObject.name);
     }
 
     protected virtual void Start()
@@ -133,6 +135,7 @@ public class DialogTree : MonoBehaviour, IInteractable, ISaveable
             {
                 EventNode eventNode = currentNode as EventNode;
                 eventNode?.action?.Invoke();
+                print("running event actions");
             }
         }
         else if (DialogManager.isTyping)
@@ -168,6 +171,7 @@ public class DialogTree : MonoBehaviour, IInteractable, ISaveable
                 {
                     EventNode eventNode = currentNode as EventNode;
                     eventNode?.action?.Invoke();
+                    print("running event actions");
                 }
             }
             else
@@ -209,6 +213,7 @@ public class DialogTree : MonoBehaviour, IInteractable, ISaveable
         print("loading data for " + gameObject.name);
 
         currentNodeID = data.startingPrimaryNodeID;
+        print("starting node id is " + currentNodeID);
 
         if (data.startingPrimaryNodeID < 0)
         {
@@ -225,7 +230,7 @@ public class DialogTree : MonoBehaviour, IInteractable, ISaveable
             startingNode = node;
             currentNode = node;
 
-            // print("    Found the starting dialog node (" + node.dialog + ")");
+            print("    Found the starting dialog node (" + node.dialog + ")");
 
             break;
         }        
@@ -235,6 +240,7 @@ public class DialogTree : MonoBehaviour, IInteractable, ISaveable
 
     public WorldObjectSaveData GetSaveData()
     {
+        print("Saving " + gameObject.name);
         DialogTreeSaveData data = new DialogTreeSaveData();
 
         data.startingPrimaryNodeID = currentNodeID;

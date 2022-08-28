@@ -4785,6 +4785,16 @@ GameObject:
   m_Component:
   - component: {fileID: 1572250118}
   - component: {fileID: 1572250119}
+  - component: {fileID: 1572250128}
+  - component: {fileID: 1572250127}
+  - component: {fileID: 1572250129}
+  - component: {fileID: 1572250126}
+  - component: {fileID: 1572250125}
+  - component: {fileID: 1572250124}
+  - component: {fileID: 1572250123}
+  - component: {fileID: 1572250122}
+  - component: {fileID: 1572250121}
+  - component: {fileID: 1572250120}
   m_Layer: 0
   m_Name: Dialog Helper
   m_TagString: Untagged
@@ -4819,9 +4829,38 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bafbdea37910f594e95618c3499f7817, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dialog: 'Hi!
-
-    Please add a quest.'
+  dialog: Hello!
+  nextNode: {fileID: 1572250128}
+  isPrimaryNode: 1
+  id: 0
+  action:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 264635078}
+        m_TargetAssemblyTypeName: UnityEngine.Animator, UnityEngine
+        m_MethodName: SetTrigger
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: Hello
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!114 &1572250120
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1572250116}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bafbdea37910f594e95618c3499f7817, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  dialog: Thank you!
   nextNode: {fileID: 0}
   isPrimaryNode: 0
   id: 0
@@ -4840,6 +4879,235 @@ MonoBehaviour:
           m_StringArgument: Hello
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 264635077}
+        m_TargetAssemblyTypeName: UnityEngine.Animator, UnityEngine
+        m_MethodName: 
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: 
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!114 &1572250121
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1572250116}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bafbdea37910f594e95618c3499f7817, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  dialog: Thank you!
+  nextNode: {fileID: 0}
+  isPrimaryNode: 0
+  id: 0
+  action:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 264635078}
+        m_TargetAssemblyTypeName: UnityEngine.Animator, UnityEngine
+        m_MethodName: SetTrigger
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: Hello
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 264635077}
+        m_TargetAssemblyTypeName: UnityEngine.Animator, UnityEngine
+        m_MethodName: 
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: 
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!114 &1572250122
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1572250116}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b29a76777bef4734e9b2245f9f055736, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  dialog: How many mushrooms can I have?
+  nextNode: {fileID: 0}
+  isPrimaryNode: 0
+  id: 0
+  nextNodes:
+  - nextNode: {fileID: 1572250123}
+    requiredItem: {fileID: 0}
+    spendItemOnUse: 0
+    displayText: None
+  - nextNode: {fileID: 1572250121}
+    requiredItem: {fileID: 0}
+    spendItemOnUse: 0
+    displayText: One
+  - nextNode: {fileID: 0}
+    requiredItem: {fileID: 0}
+    spendItemOnUse: 0
+    displayText: All
+--- !u!114 &1572250123
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1572250116}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a617dc184590bf1428448d1d0d582492, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  dialog: Come back if you find some mushrooms.
+  nextNode: {fileID: 0}
+  isPrimaryNode: 0
+  id: 0
+--- !u!114 &1572250124
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1572250116}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b29a76777bef4734e9b2245f9f055736, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  dialog: Did you bring any mushrooms?
+  nextNode: {fileID: 0}
+  isPrimaryNode: 0
+  id: 0
+  nextNodes:
+  - nextNode: {fileID: 1572250123}
+    requiredItem: {fileID: 0}
+    spendItemOnUse: 0
+    displayText: No
+  - nextNode: {fileID: 1572250122}
+    requiredItem: {fileID: 11400000, guid: 94b7b62898c348691b5012a09bbd1469, type: 2}
+    spendItemOnUse: 0
+    displayText: Yes
+--- !u!114 &1572250125
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1572250116}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bafbdea37910f594e95618c3499f7817, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  dialog: Hello!
+  nextNode: {fileID: 1572250124}
+  isPrimaryNode: 1
+  id: 1
+  action:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 264635078}
+        m_TargetAssemblyTypeName: UnityEngine.Animator, UnityEngine
+        m_MethodName: SetTrigger
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: Hello
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!114 &1572250126
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1572250116}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4db970b18661a74f87d46fac2410ce9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  dialog: If you bring me some mushrooms, I will trade you for them.
+  nextNode: {fileID: 1572250125}
+  isPrimaryNode: 0
+  id: 0
+--- !u!114 &1572250127
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1572250116}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a617dc184590bf1428448d1d0d582492, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  dialog: Please let me know if you change your mind.
+  nextNode: {fileID: 0}
+  isPrimaryNode: 0
+  id: 0
+--- !u!114 &1572250128
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1572250116}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b29a76777bef4734e9b2245f9f055736, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  dialog: Can you do me a favor?
+  nextNode: {fileID: 0}
+  isPrimaryNode: 0
+  id: 0
+  nextNodes:
+  - nextNode: {fileID: 1572250127}
+    requiredItem: {fileID: 0}
+    spendItemOnUse: 0
+    displayText: No
+  - nextNode: {fileID: 1572250126}
+    requiredItem: {fileID: 0}
+    spendItemOnUse: 0
+    displayText: Yes
+--- !u!114 &1572250129
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1572250116}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a617dc184590bf1428448d1d0d582492, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  dialog: I love mushrooms.
+  nextNode: {fileID: 1572250126}
+  isPrimaryNode: 0
+  id: 0
 --- !u!1 &1759059382
 GameObject:
   m_ObjectHideFlags: 0

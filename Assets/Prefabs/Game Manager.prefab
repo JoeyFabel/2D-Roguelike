@@ -12116,6 +12116,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   itemDatabase:
+  - {fileID: 11400000, guid: 94b7b62898c348691b5012a09bbd1469, type: 2}
   - {fileID: 11400000, guid: b7d830b204ed2e31991d94b227823213, type: 2}
   - {fileID: 11400000, guid: 61f3c03e5fbb23e48aeef3056d6b1cdf, type: 2}
   - {fileID: 11400000, guid: 70260ff118b074c4eaf8e9117d2253f4, type: 2}
@@ -12124,6 +12125,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: b06b1981272f4046888a4c41f3a4d7cb, type: 2}
   - {fileID: 11400000, guid: 9071f5de22bdcb74fbed2a95ebe11eb7, type: 2}
   - {fileID: 11400000, guid: 4012938f3259ec44892abdfae0efe672, type: 2}
+  - {fileID: 11400000, guid: 267cfb77454cc3d4c9544ed0c7984feb, type: 2}
   moneyDrop: {fileID: 3551276138215652021, guid: 88981dac6d75a4c419b31debc2a90483, type: 3}
   bombPrefab: {fileID: 0}
 --- !u!114 &7530411453466834406
@@ -12145,6 +12147,7 @@ MonoBehaviour:
   musicVolumeSlider: {fileID: 626333082984239896}
   soundFXVolumeSlider: {fileID: 3313303260933060930}
   audioMixer: {fileID: 24100000, guid: 23bf10148bc649748bc77ff2044b6f06, type: 2}
+  keybindingButtons: []
 --- !u!82 &8179247060685021109
 AudioSource:
   m_ObjectHideFlags: 0
