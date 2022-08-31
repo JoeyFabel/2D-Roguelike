@@ -151,6 +151,8 @@ public class GameManager : MonoBehaviour
         instance.playerLoadData = player.GetPlayerLoadData();
         instance.SaveWorldObjects();
 
+        print("loading via scene name!");
+        
         instance.StartCoroutine(LoadSceneAfterFade(sceneName));
     }
 

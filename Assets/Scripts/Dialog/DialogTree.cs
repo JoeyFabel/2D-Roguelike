@@ -43,13 +43,11 @@ public class DialogTree : MonoBehaviour, IInteractable, ISaveable
     private void Awake()
     {
         SaveManager.RegisterSaveable(this);
-        print("registering " + gameObject.name);
     }
 
     private void OnDestroy()
     {
         SaveManager.UnRegisterSaveable(this);
-        print("un-registering " + gameObject.name);
     }
 
     protected virtual void Start()
@@ -127,7 +125,6 @@ public class DialogTree : MonoBehaviour, IInteractable, ISaveable
             if (currentNode.isPrimaryNode)
             {
                 currentNodeID = currentNode.id;
-                print(currentNodeID + ", " + currentNode.id);
                 startingNode = currentNode;
                 Debug.Log("changing starting node!");
             }
@@ -196,7 +193,7 @@ public class DialogTree : MonoBehaviour, IInteractable, ISaveable
     }
     */
 
-    public void LoadData(WorldObjectSaveData saveData)
+    public virtual void LoadData(WorldObjectSaveData saveData)
     {
         // Start the object if it hasn't started already
         hasSaveData = true;
@@ -238,9 +235,9 @@ public class DialogTree : MonoBehaviour, IInteractable, ISaveable
         DoneLoading = true;
     }
 
-    public WorldObjectSaveData GetSaveData()
+    public virtual WorldObjectSaveData GetSaveData()
     {
-        print("Saving " + gameObject.name);
+        print("saving dialog tree");
         DialogTreeSaveData data = new DialogTreeSaveData();
 
         data.startingPrimaryNodeID = currentNodeID;

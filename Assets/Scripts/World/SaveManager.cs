@@ -35,6 +35,7 @@ public class SaveManager : MonoBehaviour
                 saveable.DoneLoading = false;
 
                 WorldObjectSaveData saveData = dataDictionary[saveID];
+
                 saveable.LoadData(saveData);
             } // Otherwise, the ISaveable is done loading
             else saveable.DoneLoading = true;
@@ -82,14 +83,45 @@ public class SaveManager : MonoBehaviour
         int currentSaveID = 0;
 
         foreach (var saveable in saveableInterfaces)
+        {
+            if (saveable.SaveIDNumber >= 0 && saveable.SaveIDNumber >= currentSaveID)
+                currentSaveID = saveable.SaveIDNumber + 1;
+        }
+
+        foreach (var saveable in saveableInterfaces)
             if (saveable.SaveIDNumber == -1)
             {
                 saveable.SaveIDNumber = currentSaveID++;
                 saveable.MarkAsDirty();
             }
         
-        
+        PreventDuplicateIDs(saveableInterfaces);
         foreach (var saveable in saveableInterfaces) Debug.Log(saveable.ToString() + " has an id of " + saveable.SaveIDNumber);
+    }
+
+    private void PreventDuplicateIDs(List<ISaveable> saveableInterfaces)
+    {
+        List<(ISaveable, ISaveable)> problematicSaveables = new List<(ISaveable, ISaveable)>();
+
+        // get the next lowest unused id number
+        int nextIDNumber = -1;
+        foreach (var saveable in saveableInterfaces)
+            if (saveable.SaveIDNumber >= nextIDNumber)
+                nextIDNumber = saveable.SaveIDNumber + 1;
+        
+        // Find any saveables with matching ID numbers
+        foreach (var saveable in saveableInterfaces)
+        {
+            List<ISaveable> problematicOnes =
+                saveableInterfaces.FindAll((item) => item.SaveIDNumber == saveable.SaveIDNumber);
+
+            // Problematic items found
+            if (problematicOnes.Count > 0)
+            {
+                // Fix the problematic item IDs
+                foreach (var problematicItem in problematicOnes) problematicItem.SaveIDNumber = nextIDNumber++;
+            }
+        }
     }
     #endif
     #endregion
