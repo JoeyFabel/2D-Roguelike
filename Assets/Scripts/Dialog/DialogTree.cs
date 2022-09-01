@@ -193,6 +193,16 @@ public class DialogTree : MonoBehaviour, IInteractable, ISaveable
     }
     */
 
+    /// <summary>
+    /// Force the specified node to be the current node. This is usefull if you want a certain node to be displayed next.
+    /// Note that it will be the node AFTER the current node.
+    /// </summary>
+    /// <param name="newNode">The new node to be marked as the current node</param>
+    public void ForceSetCurrentNode(DialogNode newNode)
+    {
+        currentNode = newNode;
+    }
+
     public virtual void LoadData(WorldObjectSaveData saveData)
     {
         // Start the object if it hasn't started already
@@ -206,11 +216,8 @@ public class DialogTree : MonoBehaviour, IInteractable, ISaveable
 
         // only have primary nodes
         possibleNodes.RemoveAll((DialogNode node) => !node.isPrimaryNode);        
-
-        print("loading data for " + gameObject.name);
-
+        
         currentNodeID = data.startingPrimaryNodeID;
-        print("starting node id is " + currentNodeID);
 
         if (data.startingPrimaryNodeID < 0)
         {
@@ -226,9 +233,7 @@ public class DialogTree : MonoBehaviour, IInteractable, ISaveable
             
             startingNode = node;
             currentNode = node;
-
-            print("    Found the starting dialog node (" + node.dialog + ")");
-
+            
             break;
         }        
 
@@ -237,7 +242,6 @@ public class DialogTree : MonoBehaviour, IInteractable, ISaveable
 
     public virtual WorldObjectSaveData GetSaveData()
     {
-        print("saving dialog tree");
         DialogTreeSaveData data = new DialogTreeSaveData();
 
         data.startingPrimaryNodeID = currentNodeID;

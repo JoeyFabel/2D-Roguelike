@@ -12126,6 +12126,8 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 9071f5de22bdcb74fbed2a95ebe11eb7, type: 2}
   - {fileID: 11400000, guid: 4012938f3259ec44892abdfae0efe672, type: 2}
   - {fileID: 11400000, guid: 267cfb77454cc3d4c9544ed0c7984feb, type: 2}
+  - {fileID: 11400000, guid: 5fad161a2af20c7db8362743aa8040d5, type: 2}
+  - {fileID: 11400000, guid: 8c7656dd0b2019309a0707f11ad13acb, type: 2}
   moneyDrop: {fileID: 3551276138215652021, guid: 88981dac6d75a4c419b31debc2a90483, type: 3}
   bombPrefab: {fileID: 0}
 --- !u!114 &7530411453466834406

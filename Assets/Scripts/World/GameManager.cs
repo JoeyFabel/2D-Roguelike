@@ -51,7 +51,6 @@ public class GameManager : MonoBehaviour
     {
         Debug.LogWarning("TODO - Add some NPC quests");
         Debug.LogWarning("TODO- Killable NPCs!");
-        Debug.LogWarning("TODO- Dialog saving");
         
         // Create the singleton or destroy the duplicate
         if (instance == null)
@@ -223,6 +222,8 @@ public class GameManager : MonoBehaviour
         data.playerCharacterName = instance.characterSelector.GetCharacterName();
         data.playersLastPosition = instance.playersLastPosition;
 
+        data.availableSpells = new string[] { "Fireball", "Heal" };
+        
         data.xpData = XPManager.GetSaveData();
 
         instance.SaveWorldObjects();

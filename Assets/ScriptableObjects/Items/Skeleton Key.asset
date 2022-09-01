@@ -14,4 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   icon: {fileID: 21300000, guid: c3bc373f4b36d404ea262a783fa08b3c, type: 3}
   itemName: Strange Key
-  itemID: 5
+  itemID: 11
