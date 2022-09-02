@@ -30,6 +30,7 @@ RectTransform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0, y: 0, z: 0}
+  m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1727090284395349145}
   m_Father: {fileID: 0}
@@ -114,11 +115,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spellFramePrefab: {fileID: 8420238515374675094, guid: 810fcc291d98ade49b9b162ae140c866, type: 3}
-  availableSpells:
+  allSpells:
   - {fileID: 11400000, guid: 6174218e24f270b4cbcd0b3f6abfd0fe, type: 2}
   - {fileID: 11400000, guid: 3bde2594a11334b41b24165f06c24121, type: 2}
-  - {fileID: 11400000, guid: 98ddd4e55a28dab48be72166682f0fbb, type: 2}
   - {fileID: 11400000, guid: 081db771262a1cb4697ca6da1e4e1369, type: 2}
+  - {fileID: 11400000, guid: 98ddd4e55a28dab48be72166682f0fbb, type: 2}
   spellFrameParent: {fileID: 1727090284395349145}
 --- !u!1 &5862542013834831179
 GameObject:
@@ -147,6 +148,7 @@ RectTransform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 3141883238596253731}
   m_RootOrder: 0

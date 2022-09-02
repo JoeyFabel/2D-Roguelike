@@ -222,7 +222,7 @@ public class GameManager : MonoBehaviour
         data.playerCharacterName = instance.characterSelector.GetCharacterName();
         data.playersLastPosition = instance.playersLastPosition;
 
-        data.availableSpells = new string[] { "Fireball", "Heal" };
+        data.availableSpells = SpellHUD.GetAvailableSpells();
         
         data.xpData = XPManager.GetSaveData();
 
@@ -315,12 +315,16 @@ public class GameManager : MonoBehaviour
             instance.questDataDictionary = saveData.questSaves;
             instance.playerInventory.LoadInventoryFromData(saveData.inventoryData, saveData.currentMoney);
             XPManager.LoadXPData(saveData.xpData);
+            
+            SpellHUD.LoadSpells(saveData.availableSpells ?? new[]{"Fireball", "Heal"});
         }
         else
         {
             print("No save found!");
             instance.saveableObjectDataDictionary = new Dictionary<string, WorldObjectSaveData>();
             instance.questDataDictionary = new Dictionary<int, int>();
+            
+            SpellHUD.GainOnlyDefaultSpells();
 #if UNITY_EDITOR
             // instance.characterSelector.SetCharacterName("Dwarvish Thunderer");
             instance.characterSelector.UseDefaultCharacter();

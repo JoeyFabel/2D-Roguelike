@@ -13,10 +13,11 @@ MonoBehaviour:
   m_Name: Homing Missile Spell Book
   m_EditorClassIdentifier: 
   icon: {fileID: 21300000, guid: 686161071ef7775448055f798bea6d70, type: 3}
-  itemName: 
+  itemName: Magic Missile Spellbook
   itemID: 10
   objectToSpawn: {fileID: 0}
   throwObject: 0
   healthToGain: 0
   manaToGain: 0
   getEmptyBottleOnUse: 0
+  spellToGain: Magic Missile
