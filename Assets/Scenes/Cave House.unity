@@ -256,6 +256,8 @@ GameObject:
   - component: {fileID: 264635081}
   - component: {fileID: 264635083}
   - component: {fileID: 264635084}
+  - component: {fileID: 264635085}
+  - component: {fileID: 264635086}
   m_Layer: 0
   m_Name: Peasant NPC
   m_TagString: Untagged
@@ -350,6 +352,8 @@ Transform:
   - {fileID: 1572250118}
   - {fileID: 629264271}
   - {fileID: 498035457}
+  - {fileID: 374727983}
+  - {fileID: 434534833}
   m_Father: {fileID: 0}
   m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -429,6 +433,242 @@ MonoBehaviour:
     itemToGain: {fileID: 11400000, guid: 5fad161a2af20c7db8362743aa8040d5, type: 2}
     alreadyGained: 0
   rewardGivenParentNode: {fileID: 498035455}
+--- !u!114 &264635085
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 264635077}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3d3e63a65e414845ca4a9681e6d493bd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxHealth: 5
+  resistances:
+    resistances:
+    - attackType: 0
+      resistance: 0
+    - attackType: 1
+      resistance: 0
+    - attackType: 2
+      resistance: 0
+    - attackType: 3
+      resistance: 0
+    - attackType: 4
+      resistance: 0
+  damageSounds:
+  - {fileID: 8300000, guid: ba2f80af0170b069cbe46084df8ba6de, type: 3}
+  - {fileID: 8300000, guid: 1529a405fcc27be9b82eeb4e1330bac5, type: 3}
+  - {fileID: 8300000, guid: feac7785a74418f7bbf5c3c660b6a886, type: 3}
+  - {fileID: 8300000, guid: a44fc4e8d63db9bf2ae80d57549093e4, type: 3}
+  - {fileID: 8300000, guid: c6a4e37ad55eb1282aecf437f229ab5f, type: 3}
+  deathSounds:
+  - {fileID: 8300000, guid: 2e580c915bfd8c057b618f54ddea979a, type: 3}
+  - {fileID: 8300000, guid: 581cb84b6d598a2aa9062672dad29034, type: 3}
+  - {fileID: 8300000, guid: 0ab4469af7d748f45a0a4db777e8ab17, type: 3}
+  fireballImpactSound: {fileID: 8300000, guid: 3e933431083312942a8be7dba6cc93e0, type: 3}
+  slashImpactSound: {fileID: 8300000, guid: 38ff67d39c988c242829ac3a7cba9e87, type: 3}
+  thrustImpactSound: {fileID: 8300000, guid: ed906ac4c7763194c8fbefe470eb5ec1, type: 3}
+  bluntImpactSound: {fileID: 8300000, guid: fc1c82b34f261c44bb7b301b58ca8644, type: 3}
+  magicImpactSound: {fileID: 8300000, guid: f38363f5423a5ce499f67290adeb3fa7, type: 3}
+  damagedDialogNode: {fileID: 374727982}
+  becameHostileDialogNode: {fileID: 434534834}
+  dialogDisplayTime: 3
+  minHealthBeforeHostile: 3
+--- !u!82 &264635086
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 264635077}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 0}
+  m_PlayOnAwake: 0
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0.5
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+--- !u!1 &374727981
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 374727983}
+  - component: {fileID: 374727982}
+  m_Layer: 0
+  m_Name: Damaged Dialog
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &374727982
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 374727981}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a617dc184590bf1428448d1d0d582492, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  dialog: Ouch! Stop that!
+  nextNode: {fileID: 0}
+  isPrimaryNode: 0
+  id: 0
+--- !u!4 &374727983
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 374727981}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 264635080}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &434534832
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 434534833}
+  - component: {fileID: 434534834}
+  m_Layer: 0
+  m_Name: Hostile Dialog
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &434534833
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 434534832}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 264635080}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &434534834
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 434534832}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a617dc184590bf1428448d1d0d582492, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  dialog: I warned you! Now you will pay!
+  nextNode: {fileID: 0}
+  isPrimaryNode: 0
+  id: 0
 --- !u!1 &498035454
 GameObject:
   m_ObjectHideFlags: 0

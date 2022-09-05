@@ -10343,6 +10343,152 @@ TextureImporter:
       indices: 
       edges: []
       weights: []
+    - serializedVersion: 2
+      name: tileset-sliced_400
+      rect:
+        serializedVersion: 2
+        x: 160
+        y: 400
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -8, y: 8}
+        - {x: -8, y: -2}
+        - {x: 5, y: -2}
+        - {x: 6, y: -2}
+        - {x: 6, y: -1}
+        - {x: 5, y: -1}
+        - {x: 5, y: 1}
+        - {x: 6, y: 1}
+        - {x: 6, y: 0}
+        - {x: 8, y: 0}
+        - {x: 8, y: 8}
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4a42e8ff282c4796095d67b5110e5c89
+      internalID: 173280999
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tileset-sliced_401
+      rect:
+        serializedVersion: 2
+        x: 176
+        y: 400
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -8, y: 8}
+        - {x: -8, y: 2}
+        - {x: -7, y: 2}
+        - {x: -7, y: 4}
+        - {x: -4, y: 4}
+        - {x: -4, y: 5}
+        - {x: -3, y: 5}
+        - {x: -3, y: 6}
+        - {x: 1, y: 6}
+        - {x: 1, y: 7}
+        - {x: 3, y: 7}
+        - {x: 3, y: 8}
+        - {x: 4, y: 8}
+        - {x: 4, y: 6}
+        - {x: 7, y: 6}
+        - {x: 7, y: 5}
+        - {x: 8, y: 5}
+        - {x: 8, y: 8}
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9ac50e6152cef49d98a7a743f71d8038
+      internalID: -238733990
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tileset-sliced_402
+      rect:
+        serializedVersion: 2
+        x: 192
+        y: 400
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -8, y: 8}
+        - {x: -8, y: 3}
+        - {x: -7, y: 3}
+        - {x: -7, y: 2}
+        - {x: -5, y: 2}
+        - {x: -5, y: 1}
+        - {x: -4, y: 1}
+        - {x: 8, y: 1}
+        - {x: 8, y: 8}
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3a0d91791a8219138a2b8d6d5a20e931
+      internalID: 89984363
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tileset-sliced_403
+      rect:
+        serializedVersion: 2
+        x: 176
+        y: 416
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 6, y: 0}
+        - {x: 6, y: -1}
+        - {x: 4, y: -1}
+        - {x: 4, y: -2}
+        - {x: 3, y: -2}
+        - {x: 3, y: -1}
+        - {x: 2, y: -1}
+        - {x: 2, y: -2}
+        - {x: 1, y: -2}
+        - {x: 1, y: -1}
+        - {x: 0, y: -1}
+        - {x: 0, y: 0}
+        - {x: -1, y: 0}
+        - {x: -1, y: -1}
+        - {x: -2, y: -1}
+        - {x: -2, y: -2}
+        - {x: -3, y: -2}
+        - {x: -3, y: -3}
+        - {x: -4, y: -3}
+        - {x: -4, y: -1}
+        - {x: -8, y: -1}
+        - {x: -8, y: -8}
+        - {x: 8, y: -8}
+        - {x: 8, y: 0}
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 410b417a2db8b90859c4f7dfe937e2c0
+      internalID: 38566097
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     physicsShape: []
     bones: []
@@ -10467,6 +10613,7 @@ TextureImporter:
       tileset-sliced_21: 21300042
       tileset-sliced_166: 21300332
       tileset-sliced_239: 21300478
+      tileset-sliced_403: 38566097
       tileset-sliced_42: 21300084
       tileset-sliced_389: 21300778
       tileset-sliced_112: 21300224
@@ -10514,6 +10661,7 @@ TextureImporter:
       tileset-sliced_277: 21300554
       tileset-sliced_338: 21300676
       tileset-sliced_390: 21300780
+      tileset-sliced_402: 89984363
       tileset-sliced_125: 21300250
       tileset-sliced_343: 21300686
       tileset-sliced_392: 21300784
@@ -10547,6 +10695,7 @@ TextureImporter:
       tileset-sliced_353: 21300706
       tileset-sliced_155: 21300310
       tileset-sliced_383: 21300766
+      tileset-sliced_401: -238733990
       tileset-sliced_143: 21300286
       tileset-sliced_301: 21300602
       tileset-sliced_215: 21300430
@@ -10566,8 +10715,8 @@ TextureImporter:
       tileset-sliced_234: 21300468
       tileset-sliced_52: 21300104
       tileset-sliced_274: 21300548
-      tileset-sliced_203: 21300406
       tileset-sliced_340: 21300680
+      tileset-sliced_203: 21300406
       tileset-sliced_285: 21300570
       tileset-sliced_264: 21300528
       tileset-sliced_90: 21300180
@@ -10591,9 +10740,10 @@ TextureImporter:
       tileset-sliced_101: 21300202
       tileset-sliced_217: 21300434
       tileset-sliced_238: 21300476
-      tileset-sliced_245: 21300490
-      tileset-sliced_139: 21300278
       tileset-sliced_363: 21300726
+      tileset-sliced_139: 21300278
+      tileset-sliced_400: 173280999
+      tileset-sliced_245: 21300490
       tileset-sliced_327: 21300654
       tileset-sliced_273: 21300546
       tileset-sliced_182: 21300364
@@ -10605,8 +10755,8 @@ TextureImporter:
       tileset-sliced_278: 21300556
       tileset-sliced_288: 21300576
       tileset-sliced_93: 21300186
-      tileset-sliced_35: 21300070
       tileset-sliced_374: 21300748
+      tileset-sliced_35: 21300070
       tileset-sliced_344: 21300688
       tileset-sliced_325: 21300650
       tileset-sliced_357: 21300714
@@ -10633,12 +10783,12 @@ TextureImporter:
       tileset-sliced_261: 21300522
       tileset-sliced_181: 21300362
       tileset-sliced_116: 21300232
-      tileset-sliced_206: 21300412
       tileset-sliced_276: 21300552
+      tileset-sliced_206: 21300412
       tileset-sliced_362: 21300724
       tileset-sliced_24: 21300048
-      tileset-sliced_60: 21300120
       tileset-sliced_290: 21300580
+      tileset-sliced_60: 21300120
       tileset-sliced_145: 21300290
       tileset-sliced_123: 21300246
       tileset-sliced_103: 21300206
@@ -10650,9 +10800,9 @@ TextureImporter:
       tileset-sliced_259: 21300518
       tileset-sliced_306: 21300612
       tileset-sliced_64: 21300128
+      tileset-sliced_348: 21300696
       tileset-sliced_275: 21300550
       tileset-sliced_323: 21300646
-      tileset-sliced_348: 21300696
       tileset-sliced_122: 21300244
       tileset-sliced_241: 21300482
       tileset-sliced_202: 21300404
@@ -10691,13 +10841,13 @@ TextureImporter:
       tileset-sliced_16: 21300032
       tileset-sliced_148: 21300296
       tileset-sliced_55: 21300110
-      tileset-sliced_221: 21300442
       tileset-sliced_331: 21300662
+      tileset-sliced_115: 21300230
+      tileset-sliced_221: 21300442
       tileset-sliced_118: 21300236
       tileset-sliced_5: 21300010
       tileset-sliced_117: 21300234
       tileset-sliced_31: 21300062
-      tileset-sliced_115: 21300230
       tileset-sliced_361: 21300722
       tileset-sliced_388: 21300776
       tileset-sliced_30: 21300060

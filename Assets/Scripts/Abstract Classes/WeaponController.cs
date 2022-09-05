@@ -109,7 +109,7 @@ public abstract class WeaponController : MonoBehaviour
                         offsetIntersection.y += allowableYOffsetNorth; ;
 
                         // and check if the hit damageable is fully inside the out of bounds box
-                        if (neCorner.x < offsetIntersection.x && neCorner.y < offsetIntersection.y) { print("attack missed"); continue; }
+                        if (neCorner.x < offsetIntersection.x && neCorner.y < offsetIntersection.y) { /*print("attack missed");*/ continue; }
                     }
                     else // SE
                     {

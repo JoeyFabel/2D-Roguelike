@@ -41,5 +41,8 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Cave House.unity
     guid: 072dd508e1b0078f3a1b07f4f0b20464
+  - enabled: 1
+    path: Assets/Scenes/Pathway To Cave.unity
+    guid: 746af1ff6578752049e7c59f78cb6718
   m_configObjects:
     com.unity.input.settings: {fileID: 11400000, guid: 63ca6d0eacad0284ab335e88fee8f1c6, type: 2}

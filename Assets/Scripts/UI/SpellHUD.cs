@@ -38,13 +38,16 @@ public class SpellHUD : MonoBehaviour
     private void Start()
     {
         // Initialize the available spells
-       availableSpells = new List<MagicSpellScriptableObject>();
+       availableSpells ??= new List<MagicSpellScriptableObject>();
        if (startingSpells != null) SetAvailableSpells(startingSpells);
        
-        spellFrames = new List<UISpellFrame>();
+        spellFrames ??= new List<UISpellFrame>();
 
         for (int i = 0; i < availableSpells.Count; i++)
         {
+            if (spellFrames.Find((item) =>
+                    item.GetCorrespondingSpell().spellName.Equals(availableSpells[i].spellName))) continue;
+            
             UISpellFrame spellFrame = Instantiate(spellFramePrefab, spellFrameParent).GetComponent<UISpellFrame>();
 
             spellFrame.Initialize();
@@ -90,7 +93,7 @@ public class SpellHUD : MonoBehaviour
 
     private void SetAvailableSpells(string[] spells)
     {
-        availableSpells = new List<MagicSpellScriptableObject>();
+        availableSpells ??= new List<MagicSpellScriptableObject>();
         
         foreach (var spell in allSpells)
             if (spells.Contains(spell.spellName)) availableSpells.Add(spell);
@@ -100,23 +103,30 @@ public class SpellHUD : MonoBehaviour
     {
         MagicSpellScriptableObject spellToAdd =
             instance.allSpells.Find((spellItem) => spellItem.spellName.Equals(spell));
-        
-        if (!instance.availableSpells.Contains(spellToAdd)) instance.availableSpells.Add(spellToAdd);
-        UISpellFrame spellFrame = Instantiate(instance.spellFramePrefab, instance.spellFrameParent).GetComponent<UISpellFrame>();
 
-        spellFrame.Initialize();
-        // This has not been added to the spells yet, so it is Count instead of count - 1
-        spellFrame.SetHotkey(instance.availableSpells.Count);
-            
-        spellFrame.SetCorrespondingSpell(spellToAdd);
 
-        instance.spellFrames.Add(spellFrame);
+        if (!instance.availableSpells.Contains(spellToAdd))
+        {
+            instance.availableSpells.Add(spellToAdd);
+            UISpellFrame spellFrame = Instantiate(instance.spellFramePrefab, instance.spellFrameParent).GetComponent<UISpellFrame>();
+
+            spellFrame.Initialize();
+            // This has not been added to the spells yet, so it is Count instead of count - 1
+            spellFrame.SetHotkey(instance.availableSpells.Count);
+
+            spellFrame.SetCorrespondingSpell(spellToAdd);
+
+            instance.spellFrames.Add(spellFrame);
+        }
     }
 
     public static void LoadSpells(params string[] spells)
     {
         if (instance)
         {
+            instance.availableSpells ??= new List<MagicSpellScriptableObject>();
+            instance.spellFrames ??= new List<UISpellFrame>();
+
             foreach (var spell in spells) GainSpell(spell);
         }
         else
