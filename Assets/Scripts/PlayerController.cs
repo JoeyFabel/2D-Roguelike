@@ -538,6 +538,15 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    public void TryRemoveInteractable(IInteractable interactable)
+    {
+        if (currentInteractable?.Equals(interactable) ?? false)
+        {
+            currentInteractable = null;
+            DisableInteractSymbol();
+        }
+    }
+
     public static bool InsideCol(Collider2D mycol, Collider2D other)
     {
         if (other.bounds.Contains(mycol.bounds.min)

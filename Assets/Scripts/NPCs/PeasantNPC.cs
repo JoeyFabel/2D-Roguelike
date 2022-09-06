@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -17,10 +18,34 @@ public class PeasantNPC : DialogTree
     public DialogNode rewardGivenParentNode;
 
     private bool readyForReward = false;
+
+    private KillableNPC healthManager;
     
     [SerializeField]
     private Queue<Item> rewardsAvailable = new Queue<Item>();
     
+    protected override void Start()
+    {
+        if (started) return;
+        
+        base.Start();
+
+        healthManager ??= GetComponent<KillableNPC>();
+        healthManager.OnBecomeHostile += OnBecomeHostile;
+    }
+
+    public void OnBecomeHostile()
+    {
+        faceTowardsPlayer = false;
+        speechBubbleIcon.SetActive(false);
+
+        interactable = false;
+        
+        print("became hostile");
+        
+        player.TryRemoveInteractable(this);
+    }
+
     public void GivePeasantMushroom()
     {
         Inventory.LoseItem(mushroomItem);
@@ -98,11 +123,19 @@ public class PeasantNPC : DialogTree
         data.numMushroomsGiven = mushroomsGiven;
         data.dialogData = base.GetSaveData() as DialogTreeSaveData;
 
+        data.currentHealth = healthManager.GetCurrentHealth();
+        
         return data;
     }
 
     public override void LoadData(WorldObjectSaveData saveData)
     {
+        if (!started)
+        {
+            healthManager ??= GetComponent<KillableNPC>();
+            healthManager.OnBecomeHostile += OnBecomeHostile;
+        }
+
         PeasantNPCSaveData data = saveData as PeasantNPCSaveData;
 
         if (data == null)
@@ -113,8 +146,17 @@ public class PeasantNPC : DialogTree
         mushroomsGiven = data.numMushroomsGiven;
 
         for (int i = 0; i < possibleRewards.Length; i++) if (mushroomsGiven > possibleRewards[i].reqMushrooms) possibleRewards[i].alreadyGained = true;
-
+        
+        healthManager.SetCurrentHealth(data.currentHealth);
+        
         base.LoadData(data.dialogData);
+    }
+
+    private void OnDisable()
+    {
+        player?.TryRemoveInteractable(this);
+
+        healthManager.OnBecomeHostile -= OnBecomeHostile;
     }
 
     [System.Serializable]
@@ -122,6 +164,8 @@ public class PeasantNPC : DialogTree
     {
         public int numMushroomsGiven;
         public DialogTreeSaveData dialogData;
+
+        public float currentHealth;
     }
 
     [System.Serializable]

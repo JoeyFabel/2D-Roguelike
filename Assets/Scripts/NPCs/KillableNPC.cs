@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
+using System.Text;
 using UnityEditor.Animations;
 using UnityEngine;
 
@@ -21,29 +22,142 @@ public class KillableNPC : Damageable
     [Range(0f, 1f)] public float retreatChance = 0.25f;
     public int minMovesPerAction = 2;
     public int maxMovesPerAction = 4;
-    
-    
+
     private bool isHostile;
     
     private Animator animator;
-    private Rigidbody2D rigidbody;
     private Sprite speakerIcon;
 
     private Coroutine displayDamageDialogRoutine;
     private Coroutine currentAction;
 
     private PlayerController player;
+    private DialogTree npcDialog;
+
+    private bool started = false;
+
+    public System.Action OnBecomeHostile;
     
     protected override void Start()
     {
+        if (started) return;
+        
         base.Start();
 
-        speakerIcon = GetComponent<DialogTree>().speakerIcon;
+        npcDialog = GetComponent<DialogTree>();
+        speakerIcon = npcDialog.speakerIcon;
         animator = GetComponent<Animator>();
-        rigidbody = GetComponent<Rigidbody2D>();
         player = CharacterSelector.GetPlayerController();
+
+        started = true;
     }
 
+    public override void ApplyDamage(float amount)
+    {
+        base.ApplyDamage(amount);
+        
+        PlayerController player = CharacterSelector.GetPlayerController();
+
+        if (!isHostile && currentHealth > 0)
+        {
+            if (displayDamageDialogRoutine != null)
+            {
+                DialogManager.FinishDialogLine();
+                DialogManager.CloseDialog();
+                StopCoroutine(displayDamageDialogRoutine);
+            }
+
+            DialogNode nodeToDisplay;
+            if (currentHealth > minHealthBeforeHostile) nodeToDisplay = damagedDialogNode;
+            else
+            {
+                nodeToDisplay = becameHostileDialogNode;
+                isHostile = true;
+
+                //Destroy(npcDialog);
+                npcDialog.enabled = false;
+                OnBecomeHostile?.Invoke();
+                    
+                ChooseAction();
+            }
+            
+            displayDamageDialogRoutine = StartCoroutine(DisplayDamagedDialog(nodeToDisplay));
+        }
+    }
+
+    protected override void Death()
+    {
+        animator.SetTrigger(AnimatorDeathTrigger);
+
+        if (displayDamageDialogRoutine != null)
+        {
+            DialogManager.FinishDialogLine();
+            DialogManager.CloseDialog();
+            StopCoroutine(displayDamageDialogRoutine);
+        }
+
+        if (currentAction != null) StopCoroutine(currentAction);
+        
+        Destroy(gameObject, 1.125f);
+    }
+
+    private IEnumerator DisplayDamagedDialog(DialogNode dialogNode)
+    {
+        DialogManager.DisplayDialog(dialogNode);
+        DialogManager.SetSpeakerIcon(speakerIcon);
+
+        
+        yield return new WaitForSecondsRealtime(3f);
+        
+        DialogManager.FinishDialogLine();
+        DialogManager.CloseDialog();
+    }
+
+    protected virtual void ChooseAction()
+    {
+        
+    }
+
+    public float GetCurrentHealth()
+    {
+        print(this + " has " + currentHealth + " health left");
+        
+        return currentHealth;
+    }
+
+    /// <summary>
+    /// Set the amount of health hat the killable NPC has, and sets variables accordingly.
+    /// Used upon loading health.
+    /// </summary>
+    /// <param name="health"></param>
+    public void SetCurrentHealth(float health)
+    {
+        Start();
+        
+        print(this + " loaded with " + health + " health remaining");
+        
+        currentHealth = health;
+
+        if (currentHealth <= minHealthBeforeHostile)
+        {
+            isHostile = true;
+            
+            // Error - this prevents hostility damage from saving
+            //Destroy(npcDialog);
+            npcDialog.enabled = false;
+            OnBecomeHostile?.Invoke();
+            
+            ChooseAction();
+        }
+    }
+
+    public bool IsHostile()
+    {
+        return isHostile;
+    }
+}
+
+/*
     private void ChooseAction()
     {
         float value = Random.value;
@@ -95,59 +209,4 @@ public class KillableNPC : Damageable
         
         ChooseAction();
     }
-
-    public override void ApplyDamage(float amount)
-    {
-        base.ApplyDamage(amount);
-        
-        PlayerController player = CharacterSelector.GetPlayerController();
-
-        if (!isHostile && currentHealth > 0)
-        {
-            if (displayDamageDialogRoutine != null)
-            {
-                DialogManager.FinishDialogLine();
-                DialogManager.CloseDialog();
-                StopCoroutine(displayDamageDialogRoutine);
-            }
-
-            DialogNode nodeToDisplay;
-            if (currentHealth > minHealthBeforeHostile) nodeToDisplay = damagedDialogNode;
-            else
-            {
-                nodeToDisplay = becameHostileDialogNode;
-                isHostile = true;
-            }
-            
-            displayDamageDialogRoutine = StartCoroutine(DisplayDamagedDialog(nodeToDisplay));
-        }
-    }
-
-    protected override void Death()
-    {
-        animator.SetTrigger(AnimatorDeathTrigger);
-
-        if (displayDamageDialogRoutine != null)
-        {
-            DialogManager.FinishDialogLine();
-            DialogManager.CloseDialog();
-            StopCoroutine(displayDamageDialogRoutine);
-        }
-        
-        StopCoroutine(currentAction);
-        
-        Destroy(gameObject, 1.125f);
-    }
-
-    private IEnumerator DisplayDamagedDialog(DialogNode dialogNode)
-    {
-        DialogManager.DisplayDialog(dialogNode);
-        DialogManager.SetSpeakerIcon(speakerIcon);
-
-        
-        yield return new WaitForSecondsRealtime(3f);
-        
-        DialogManager.FinishDialogLine();
-        DialogManager.CloseDialog();
-    }
-}
+*/

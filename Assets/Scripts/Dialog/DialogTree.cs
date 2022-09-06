@@ -32,7 +32,7 @@ public class DialogTree : MonoBehaviour, IInteractable, ISaveable
 
     private Animator animator;
 
-    private bool started = false;
+    protected bool started = false;
     private bool hasSaveData = false;
 
     [SerializeField] private int saveID = -1;
@@ -40,6 +40,8 @@ public class DialogTree : MonoBehaviour, IInteractable, ISaveable
     
     public bool DoneLoading { get; set; }
 
+    protected bool interactable = true;
+    
     private void Awake()
     {
         SaveManager.RegisterSaveable(this);
@@ -48,6 +50,8 @@ public class DialogTree : MonoBehaviour, IInteractable, ISaveable
     private void OnDestroy()
     {
         SaveManager.UnRegisterSaveable(this);
+        
+        speechBubbleIcon.SetActive(false);
     }
 
     protected virtual void Start()
@@ -72,6 +76,12 @@ public class DialogTree : MonoBehaviour, IInteractable, ISaveable
 
     private void OnTriggerEnter2D(Collider2D col)
     {
+        if (!interactable)
+        {
+            this.player.TryRemoveInteractable(this);
+            return;
+        }
+        
         if (col.TryGetComponent(out PlayerController player))
         {
             speechBubbleIcon.SetActive((true));
@@ -81,6 +91,8 @@ public class DialogTree : MonoBehaviour, IInteractable, ISaveable
 
     private void OnTriggerExit2D(Collider2D other)
     {
+        if (!interactable) return;
+        
         if (other.TryGetComponent(out PlayerController player))
         {
             speechBubbleIcon.SetActive(false);
@@ -107,8 +119,10 @@ public class DialogTree : MonoBehaviour, IInteractable, ISaveable
         }
     }
     
-    public void Interact()
+    public virtual void Interact()
     {
+        if (!interactable) return;
+        
         // If the dialog bubble is closed, open the current starting dialog node
         if (!DialogManager.IsSpeechBubbleEnabled())
         {
@@ -126,13 +140,11 @@ public class DialogTree : MonoBehaviour, IInteractable, ISaveable
             {
                 currentNodeID = currentNode.id;
                 startingNode = currentNode;
-                Debug.Log("changing starting node!");
             }
             else if (currentNode is EventNode)
             {
                 EventNode eventNode = currentNode as EventNode;
                 eventNode?.action?.Invoke();
-                print("running event actions");
             }
         }
         else if (DialogManager.isTyping)
