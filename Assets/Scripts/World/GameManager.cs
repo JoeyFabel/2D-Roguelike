@@ -149,8 +149,6 @@ public class GameManager : MonoBehaviour
 
         instance.playerLoadData = player.GetPlayerLoadData();
         instance.SaveWorldObjects();
-
-        print("loading via scene name!");
         
         instance.StartCoroutine(LoadSceneAfterFade(sceneName));
     }
@@ -275,7 +273,6 @@ public class GameManager : MonoBehaviour
         foreach (var saveable in SaveManager.Instances)
         {
             string saveID = SaveManager.GetSaveID(saveable);
-            print("   saving " + saveID);
 
             if (instance.saveableObjectDataDictionary.ContainsKey(saveID))
             {

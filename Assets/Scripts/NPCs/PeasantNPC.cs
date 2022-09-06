@@ -41,9 +41,9 @@ public class PeasantNPC : DialogTree
 
         interactable = false;
         
-        print("became hostile");
+        enabled = false;
         
-        player.TryRemoveInteractable(this);
+        player?.TryRemoveInteractable(this);
     }
 
     public void GivePeasantMushroom()
@@ -130,17 +130,17 @@ public class PeasantNPC : DialogTree
 
     public override void LoadData(WorldObjectSaveData saveData)
     {
-        if (!started)
-        {
-            healthManager ??= GetComponent<KillableNPC>();
-            healthManager.OnBecomeHostile += OnBecomeHostile;
-        }
-
         PeasantNPCSaveData data = saveData as PeasantNPCSaveData;
 
         if (data == null)
         {
             return;
+        }
+
+        if (!started)
+        {
+            healthManager ??= GetComponent<KillableNPC>();
+            healthManager.OnBecomeHostile += OnBecomeHostile;
         }
         
         mushroomsGiven = data.numMushroomsGiven;
@@ -148,7 +148,7 @@ public class PeasantNPC : DialogTree
         for (int i = 0; i < possibleRewards.Length; i++) if (mushroomsGiven > possibleRewards[i].reqMushrooms) possibleRewards[i].alreadyGained = true;
         
         healthManager.SetCurrentHealth(data.currentHealth);
-        
+       
         base.LoadData(data.dialogData);
     }
 

@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
@@ -37,7 +38,8 @@ public class KillableNPC : Damageable
     private bool started = false;
 
     public System.Action OnBecomeHostile;
-    
+    private static readonly int AnimatorHostileID = Animator.StringToHash("Hostile");
+
     protected override void Start()
     {
         if (started) return;
@@ -48,7 +50,7 @@ public class KillableNPC : Damageable
         speakerIcon = npcDialog.speakerIcon;
         animator = GetComponent<Animator>();
         player = CharacterSelector.GetPlayerController();
-
+        
         started = true;
     }
 
@@ -72,13 +74,8 @@ public class KillableNPC : Damageable
             else
             {
                 nodeToDisplay = becameHostileDialogNode;
-                isHostile = true;
-
-                //Destroy(npcDialog);
-                npcDialog.enabled = false;
-                OnBecomeHostile?.Invoke();
-                    
-                ChooseAction();
+                
+                BecomeHostile();
             }
             
             displayDamageDialogRoutine = StartCoroutine(DisplayDamagedDialog(nodeToDisplay));
@@ -120,8 +117,6 @@ public class KillableNPC : Damageable
 
     public float GetCurrentHealth()
     {
-        print(this + " has " + currentHealth + " health left");
-        
         return currentHealth;
     }
 
@@ -140,15 +135,19 @@ public class KillableNPC : Damageable
 
         if (currentHealth <= minHealthBeforeHostile)
         {
-            isHostile = true;
-            
-            // Error - this prevents hostility damage from saving
-            //Destroy(npcDialog);
-            npcDialog.enabled = false;
-            OnBecomeHostile?.Invoke();
-            
-            ChooseAction();
+            print("loaded hostile");
+            BecomeHostile();
         }
+    }
+
+    private void BecomeHostile()
+    {
+        isHostile = true;
+
+        OnBecomeHostile?.Invoke();
+        animator.SetBool(AnimatorHostileID, true);
+
+        ChooseAction();
     }
 
     public bool IsHostile()
