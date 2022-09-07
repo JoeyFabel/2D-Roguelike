@@ -193,6 +193,11 @@ public class DialogTree : MonoBehaviour, IInteractable, ISaveable
         }
     }
 
+    public void SetInteractable(bool isInteractable)
+    {
+        interactable = isInteractable;
+    }
+
     /*
     public override WorldObjectSaveData GetSaveData()
     {

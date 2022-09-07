@@ -41,6 +41,8 @@ public class PeasantNPC : DialogTree
 
         interactable = false;
         
+        print("becoming hostile!");
+        
         enabled = false;
         
         player?.TryRemoveInteractable(this);

@@ -9,6 +9,7 @@ public class DamageReceiver : Damageable
 
     protected override void Start()
     {
+        // TODO - Fix errors when projectile radius hits damage receiver and base damageable
         base.Start();
 
         fireballImpactSound = objectToDamage.fireballImpactSound;

@@ -15,22 +15,14 @@ public class KillableNPC : Damageable
     public DialogNode becameHostileDialogNode;
     public float dialogDisplayTime;
 
-    [Header("Hostility Info")] 
-    public int minHealthBeforeHostile = 3;
-
-    public float moveSpeed = 2f;
-    [Range(0f, 1f)] public float attackChance = 0.5f;
-    [Range(0f, 1f)] public float retreatChance = 0.25f;
-    public int minMovesPerAction = 2;
-    public int maxMovesPerAction = 4;
-
+    public HostileNpcBehavior hostileBehavior;
+    
     private bool isHostile;
     
     private Animator animator;
     private Sprite speakerIcon;
 
     private Coroutine displayDamageDialogRoutine;
-    private Coroutine currentAction;
 
     private PlayerController player;
     private DialogTree npcDialog;
@@ -70,13 +62,13 @@ public class KillableNPC : Damageable
             }
 
             DialogNode nodeToDisplay;
-            if (currentHealth > minHealthBeforeHostile) nodeToDisplay = damagedDialogNode;
-            else
+            if (currentHealth <= hostileBehavior?.minHealthBeforeHostile)
             {
                 nodeToDisplay = becameHostileDialogNode;
                 
                 BecomeHostile();
             }
+            else nodeToDisplay = damagedDialogNode;
             
             displayDamageDialogRoutine = StartCoroutine(DisplayDamagedDialog(nodeToDisplay));
         }
@@ -92,8 +84,8 @@ public class KillableNPC : Damageable
             DialogManager.CloseDialog();
             StopCoroutine(displayDamageDialogRoutine);
         }
-
-        if (currentAction != null) StopCoroutine(currentAction);
+        
+        hostileBehavior?.EndCurrentAction();
         
         Destroy(gameObject, 1.125f);
     }
@@ -102,12 +94,13 @@ public class KillableNPC : Damageable
     {
         DialogManager.DisplayDialog(dialogNode);
         DialogManager.SetSpeakerIcon(speakerIcon);
-
+        npcDialog.SetInteractable(false);
         
         yield return new WaitForSecondsRealtime(3f);
         
         DialogManager.FinishDialogLine();
         DialogManager.CloseDialog();
+        if (!isHostile) npcDialog.SetInteractable(true);
     }
 
     protected virtual void ChooseAction()
@@ -133,7 +126,7 @@ public class KillableNPC : Damageable
         
         currentHealth = health;
 
-        if (currentHealth <= minHealthBeforeHostile)
+        if (currentHealth <= hostileBehavior?.minHealthBeforeHostile)
         {
             print("loaded hostile");
             BecomeHostile();
@@ -147,7 +140,7 @@ public class KillableNPC : Damageable
         OnBecomeHostile?.Invoke();
         animator.SetBool(AnimatorHostileID, true);
 
-        ChooseAction();
+        hostileBehavior.BecomeHostile();
     }
 
     public bool IsHostile()
@@ -155,57 +148,3 @@ public class KillableNPC : Damageable
         return isHostile;
     }
 }
-
-/*
-    private void ChooseAction()
-    {
-        float value = Random.value;
-        if (value <= attackChance) currentAction = StartCoroutine(AttackAction());
-        else if (value <= attackChance + retreatChance) currentAction = StartCoroutine(RetreatAction());
-        else currentAction = StartCoroutine(MovementAction());
-    }
-
-    private IEnumerator RetreatAction()
-    {
-        for (int i = 0; i < Random.Range(minMovesPerAction, maxMovesPerAction); i++)
-        {
-            Vector2 desiredPosition = rigidbody.position + (rigidbody.position - (Vector2)player.transform.position).normalized * 2;
-            yield return StartCoroutine(MoveToPosition(desiredPosition));
-        }
-        
-        ChooseAction();
-    }
-
-    private IEnumerator MovementAction()
-    {
-        for (int i = 0; i < Random.Range(minMovesPerAction, maxMovesPerAction); i++)
-        {
-            Vector2 desiredPosition = rigidbody.position + Random.insideUnitCircle * 2f;
-            yield return StartCoroutine(MoveToPosition(desiredPosition));
-        }
-        
-        ChooseAction();
-    }
-
-    private IEnumerator MoveToPosition(Vector2 position)
-    {
-        // Move until within an acceptable error
-        while (Vector2.Distance(rigidbody.position, position) > 0.1f)
-        {
-            Vector2 movementVector = (position - rigidbody.position).normalized * (moveSpeed * Time.fixedDeltaTime);
-            
-            rigidbody.MovePosition(rigidbody.position + movementVector);
-            
-            yield return null;
-        }
-    }
-
-    private IEnumerator AttackAction()
-    {
-        print("Attack!");
-
-        yield return null;
-        
-        ChooseAction();
-    }
-*/
