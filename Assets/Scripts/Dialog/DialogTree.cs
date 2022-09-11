@@ -30,7 +30,7 @@ public class DialogTree : MonoBehaviour, IInteractable, ISaveable
     private static readonly int toPlayerYProperty = Animator.StringToHash("To Player Y");
     private Coroutine watchPlayerRoutine;
 
-    private Animator animator;
+    protected Animator animator;
 
     protected bool started = false;
     private bool hasSaveData = false;
