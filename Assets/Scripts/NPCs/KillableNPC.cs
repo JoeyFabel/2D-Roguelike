@@ -36,7 +36,6 @@ public class KillableNPC : Enemy
     
     private bool started = false;
 
-    public System.Action OnBecomeHostile;
     private static readonly int AnimatorHostileID = Animator.StringToHash("Hostile");
     
 
@@ -145,8 +144,13 @@ public class KillableNPC : Enemy
 
         if (playBoredAnimationRoutine != null) StopCoroutine(playBoredAnimationRoutine);
 
-        OnBecomeHostile?.Invoke();
         animator.SetBool(AnimatorHostileID, true);
+        
+        npcDialog.SetFacePlayer(false);
+        npcDialog.speechBubbleIcon.SetActive(false);
+        npcDialog.SetInteractable(false);
+        npcDialog.enabled = false;
+        player?.TryRemoveInteractable(npcDialog);
         
         hostileBehavior.BecomeHostile();
     }

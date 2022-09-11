@@ -1,6 +1,8 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class HostileDwarfBehavior : HostileNpcBehavior
 {
@@ -12,7 +14,8 @@ public class HostileDwarfBehavior : HostileNpcBehavior
     private const float MeleeHammerAnimationLength = 0.875f;
     
     [Header("Melee Options")]
-    public Collider2D meleeAttackCollider;
+    public Collider2D meleeAxeAttackCollider;
+    public Collider2D meleeHammerAttackCollider;
     [Range(0f, 1f)]
     public float oddsMeleeAttackUsesHammer = 0.4f;
     public float meleeHitCheckTime = 0.4f;
@@ -24,10 +27,17 @@ public class HostileDwarfBehavior : HostileNpcBehavior
     public Damageable.DamageTypes axeDamageType = Damageable.DamageTypes.Slash;
     public Damageable.DamageTypes hammerDamageType = Damageable.DamageTypes.Blunt;
 
+    [Header("Collider Offset Info")]
+    public float hammerSouthColliderYOffset;
+    public float hammerNorthColliderYOffset;
+    public float axeSouthColliderYOffset;
+    public float axeNorthColliderYOffset;
 
-    private float meleeAttackXOffset;
+    private float meleeAxeAttackXOffset;
+    private float meleeHammerAttackXOffset;
 
     private Coroutine currentAction;
+    private static readonly int AnimatorToPlayerYid = Animator.StringToHash("To Player Y");
 
 
     public override void BecomeHostile()
@@ -35,7 +45,8 @@ public class HostileDwarfBehavior : HostileNpcBehavior
         print("now hostile!");
         player = CharacterSelector.GetPlayerController();
 
-        meleeAttackXOffset = meleeAttackCollider.offset.x;
+        meleeAxeAttackXOffset = meleeAxeAttackCollider.offset.x;
+        meleeHammerAttackXOffset = meleeHammerAttackCollider.offset.x;
 
         animator ??= GetComponent<Animator>();
         animator.SetTrigger(AnimatorHostileTriggerID);
@@ -54,13 +65,14 @@ public class HostileDwarfBehavior : HostileNpcBehavior
         bool hammerAttack = Random.value <= oddsMeleeAttackUsesHammer;
         
         // Trigger the melee attack
+        sprite.flipX = player.transform.position.x < transform.position.x;
+        animator.SetFloat(AnimatorToPlayerYid, player.transform.position.y - transform.position.y);
         animator.SetTrigger(hammerAttack ? AnimatorHammerAttackID : AnimatorAxeAttackID);
-
+        
         yield return new WaitForSeconds(meleeHitCheckTime);
         
         // Check for a melee hit
-        Vector2 colliderOffset = new Vector2(meleeAttackXOffset * (sprite.flipX ? -1 : 1), meleeAttackCollider.offset.y);
-        meleeAttackCollider.offset = colliderOffset;
+        var meleeAttackCollider = SetAttackColliderOffsets(hammerAttack, player.transform.position.y > transform.position.y);
 
         float damage = hammerAttack ? hammerDamage : axeDamage;
         Damageable.DamageTypes damageType = hammerAttack ? hammerDamageType : axeDamageType;
@@ -88,5 +100,27 @@ public class HostileDwarfBehavior : HostileNpcBehavior
         yield return new WaitForSeconds(5f);
         
         ChooseAction();
+    }
+
+    private Collider2D SetAttackColliderOffsets(bool hammerAttack, bool facingNorth)
+    {
+        if (hammerAttack) // set hammer attack offsets
+        {
+            Vector2 colliderOffset = new Vector2(meleeHammerAttackXOffset * (sprite.flipX ? -1 : 1), 
+                (facingNorth ? hammerNorthColliderYOffset : hammerSouthColliderYOffset));
+            
+            meleeHammerAttackCollider.offset = colliderOffset;
+
+            return meleeHammerAttackCollider;
+        }
+        else // Set axe collider offset
+        {
+            Vector2 colliderOffset = new Vector2(meleeAxeAttackXOffset * (sprite.flipX ? -1 : 1), 
+                (facingNorth ? axeNorthColliderYOffset : axeSouthColliderYOffset));
+            
+            meleeHammerAttackCollider.offset = colliderOffset;
+
+            return meleeAxeAttackCollider;
+        }
     }
 }

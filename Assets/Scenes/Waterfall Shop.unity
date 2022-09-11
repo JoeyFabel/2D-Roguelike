@@ -239,6 +239,54 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &76878648
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 76878649}
+  - component: {fileID: 76878650}
+  m_Layer: 9
+  m_Name: Axe Melee Hitcheck Collider
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &76878649
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 76878648}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1397360475}
+  m_RootOrder: 9
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!70 &76878650
+CapsuleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 76878648}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0.4175159, y: 0.6}
+  m_Size: {x: 0.64018774, y: 1.2072344}
+  m_Direction: 0
 --- !u!1 &136744527 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1964216064713737285, guid: d44a19cb79134776cbe603509b2d8e6c, type: 3}
@@ -1323,7 +1371,7 @@ GameObject:
   - component: {fileID: 272812005}
   - component: {fileID: 272812006}
   m_Layer: 9
-  m_Name: Melee Hitcheck Collider
+  m_Name: Hammer Melee Hitcheck Collider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1354,11 +1402,11 @@ CapsuleCollider2D:
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  m_Size: {x: 0.5, y: 1}
+  m_Offset: {x: 0.3047561, y: 0.0316146}
+  m_Size: {x: 0.5121902, y: 1.1340923}
   m_Direction: 0
 --- !u!1001 &387252461
 PrefabInstance:
@@ -5762,6 +5810,7 @@ Transform:
   - {fileID: 1773239287}
   - {fileID: 1693830685}
   - {fileID: 272812005}
+  - {fileID: 76878649}
   m_Father: {fileID: 0}
   m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -5990,19 +6039,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   minHealthBeforeHostile: 7
-  meleeAttackCollider: {fileID: 0}
+  meleeAxeAttackCollider: {fileID: 76878650}
+  meleeHammerAttackCollider: {fileID: 272812006}
   oddsMeleeAttackUsesHammer: 0.4
   meleeHitCheckTime: 0.4
   meleeContactFilter:
     useTriggers: 0
-    useLayerMask: 0
+    useLayerMask: 1
     useDepth: 0
     useOutsideDepth: 0
     useNormalAngle: 0
     useOutsideNormalAngle: 0
     layerMask:
       serializedVersion: 2
-      m_Bits: 0
+      m_Bits: 65
     minDepth: 0
     maxDepth: 0
     minNormalAngle: 0
@@ -6011,6 +6061,10 @@ MonoBehaviour:
   hammerDamage: 1.5
   axeDamageType: 1
   hammerDamageType: 3
+  hammerSouthColliderYOffset: 0.0316146
+  hammerNorthColliderYOffset: 0.6
+  axeSouthColliderYOffset: 0.4095123
+  axeNorthColliderYOffset: 0.6
 --- !u!1 &1595348482
 GameObject:
   m_ObjectHideFlags: 0

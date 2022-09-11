@@ -31,7 +31,7 @@ public class PeasantNPC : DialogTree
         base.Start();
 
         healthManager ??= GetComponent<KillableNPC>();
-        healthManager.OnBecomeHostile += OnBecomeHostile;
+        //healthManager.OnBecomeHostile += OnBecomeHostile;
     }
 
     public void OnBecomeHostile()
@@ -142,7 +142,6 @@ public class PeasantNPC : DialogTree
         if (!started)
         {
             healthManager ??= GetComponent<KillableNPC>();
-            healthManager.OnBecomeHostile += OnBecomeHostile;
         }
         
         mushroomsGiven = data.numMushroomsGiven;
@@ -157,8 +156,6 @@ public class PeasantNPC : DialogTree
     private void OnDisable()
     {
         player?.TryRemoveInteractable(this);
-
-        healthManager.OnBecomeHostile -= OnBecomeHostile;
     }
 
     [System.Serializable]
