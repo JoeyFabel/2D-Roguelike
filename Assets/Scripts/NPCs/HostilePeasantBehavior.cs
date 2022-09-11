@@ -19,8 +19,6 @@ public class HostilePeasantBehavior : HostileNpcBehavior
     public Damageable.DamageTypes damageType;
     
     private Coroutine currentAction;
-
-    private PlayerController player;
     
     private static readonly int Attack = Animator.StringToHash("Attack");
     private const float AttackAnimationLength = 0.625f;

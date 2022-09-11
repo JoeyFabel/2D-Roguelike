@@ -23,7 +23,6 @@ public class ShopKeeper : DialogTree
     private DialogNode currenShopNode;
 
     public UnityEvent<Item> OnItemBought;
-    private static readonly int AnimatorBoredTriggerID = Animator.StringToHash("Bored");
 
     protected override void Start()
     {
@@ -31,15 +30,6 @@ public class ShopKeeper : DialogTree
         
         initialDialogText = itemPurchaseDialogNode.dialog;
         shopHUDParent.SetActive(false);
-    }
-
-    private IEnumerator PlayBoredAnimation()
-    {
-        animator.SetTrigger(AnimatorBoredTriggerID);
-
-        // TODO - Finish this
-        
-        yield return null;
     }
 
     public void DisplayPurchaseDialog(Item item, int itemPrice, bool requiresBottle)

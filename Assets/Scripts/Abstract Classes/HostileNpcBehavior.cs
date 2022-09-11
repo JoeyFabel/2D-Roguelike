@@ -9,6 +9,7 @@ public abstract class HostileNpcBehavior : MonoBehaviour
 
     protected Animator animator;
     protected SpriteRenderer sprite;
+    protected PlayerController player;
 
     protected virtual void Start()
     {

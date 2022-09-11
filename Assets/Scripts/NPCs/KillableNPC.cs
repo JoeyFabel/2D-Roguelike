@@ -6,9 +6,16 @@ using System.Text;
 using UnityEditor.Animations;
 using UnityEngine;
 
-public class KillableNPC : Damageable
+public class KillableNPC : Enemy
 {
     private static readonly int AnimatorDeathTrigger = Animator.StringToHash("Death");
+    private static readonly int AnimatorBoredTriggerID = Animator.StringToHash("Bored");
+
+    /// <summary>
+    /// How long does the npc need to be idle in order to play the bored animation?
+    /// </summary>
+    private const float BoredAnimDelay = 10f;
+    private const float FlashTime = 0.1875f;
 
     [Header("Damaged Dialog Info")]
     public DialogNode damagedDialogNode;
@@ -19,18 +26,19 @@ public class KillableNPC : Damageable
     
     private bool isHostile;
     
-    private Animator animator;
     private Sprite speakerIcon;
 
     private Coroutine displayDamageDialogRoutine;
+    private Coroutine playBoredAnimationRoutine;
 
     private PlayerController player;
     private DialogTree npcDialog;
-
+    
     private bool started = false;
 
     public System.Action OnBecomeHostile;
     private static readonly int AnimatorHostileID = Animator.StringToHash("Hostile");
+    
 
     protected override void Start()
     {
@@ -42,16 +50,19 @@ public class KillableNPC : Damageable
         speakerIcon = npcDialog.speakerIcon;
         animator = GetComponent<Animator>();
         player = CharacterSelector.GetPlayerController();
+        sprite = GetComponent<SpriteRenderer>();
+        
+        playBoredAnimationRoutine = StartCoroutine(PlayBoredAnimation());
         
         started = true;
     }
 
     public override void ApplyDamage(float amount)
     {
+        // Damage the player, flash red, play sfx, and die if necessary
         base.ApplyDamage(amount);
         
-        PlayerController player = CharacterSelector.GetPlayerController();
-
+        // Display dialog and/or become hostile
         if (!isHostile && currentHealth > 0)
         {
             if (displayDamageDialogRoutine != null)
@@ -87,7 +98,7 @@ public class KillableNPC : Damageable
         
         hostileBehavior?.EndCurrentAction();
         
-        Destroy(gameObject, 1.125f);
+        Destroy(gameObject, 1);
     }
 
     private IEnumerator DisplayDamagedDialog(DialogNode dialogNode)
@@ -102,12 +113,7 @@ public class KillableNPC : Damageable
         DialogManager.CloseDialog();
         if (!isHostile) npcDialog.SetInteractable(true);
     }
-
-    protected virtual void ChooseAction()
-    {
-        
-    }
-
+    
     public float GetCurrentHealth()
     {
         return currentHealth;
@@ -137,14 +143,39 @@ public class KillableNPC : Damageable
     {
         isHostile = true;
 
+        if (playBoredAnimationRoutine != null) StopCoroutine(playBoredAnimationRoutine);
+
         OnBecomeHostile?.Invoke();
         animator.SetBool(AnimatorHostileID, true);
-
+        
         hostileBehavior.BecomeHostile();
     }
 
     public bool IsHostile()
     {
         return isHostile;
+    }
+    
+    
+    protected IEnumerator PlayBoredAnimation()
+    {
+        float timer = Time.time;
+        
+        // Wait for the specified delay time while being idle before playing the animation
+        while (Time.time < timer + BoredAnimDelay)
+        {
+            // If the npc was talked to or noticed the player, the time needs to reset
+            if (DialogManager.IsSpeechBubbleEnabled()) timer = Time.time;
+            
+            yield return null;
+        }
+        
+        animator.SetTrigger(AnimatorBoredTriggerID);
+
+        // Wait for the animation to end
+        yield return new WaitForSeconds(1f);
+
+        // Start the timer for the next bored animation
+        if (!isHostile) playBoredAnimationRoutine = StartCoroutine(PlayBoredAnimation());
     }
 }
