@@ -22,14 +22,19 @@ public class ShopKeeper : DialogTree
 
     private DialogNode currenShopNode;
 
+    private KillableNPC healthManager;
+    private bool isHostile;
+    
     public UnityEvent<Item> OnItemBought;
-
+    
     protected override void Start()
     {
         base.Start();
         
         initialDialogText = itemPurchaseDialogNode.dialog;
         shopHUDParent.SetActive(false);
+
+        TryGetComponent(out healthManager);
     }
 
     public void DisplayPurchaseDialog(Item item, int itemPrice, bool requiresBottle)
@@ -104,5 +109,44 @@ public class ShopKeeper : DialogTree
             }
 
         }
+    }
+    
+    
+    public void MarkHostileState(bool isHostile)
+    {
+        this.isHostile = isHostile;
+    }
+    
+    public override WorldObjectSaveData GetSaveData()
+    {
+        ShopKeeperSaveData saveData = new ShopKeeperSaveData();
+
+        saveData.dialogData = base.GetSaveData() as DialogTreeSaveData;
+        saveData.isHostile = isHostile;
+
+        return saveData;
+    }
+
+    public override void LoadData(WorldObjectSaveData saveData)
+    {
+        ShopKeeperSaveData data = saveData as ShopKeeperSaveData;
+
+        if (data == null) return;
+        
+        if (data.isHostile)
+        {
+            if (!started) TryGetComponent(out healthManager);
+            healthManager.SetAsHostile();
+        }
+        
+        base.LoadData(data.dialogData);
+    }
+
+    [System.Serializable]
+    public class ShopKeeperSaveData : WorldObjectSaveData
+    {
+        public DialogTreeSaveData dialogData;
+
+        public bool isHostile;
     }
 }

@@ -125,7 +125,8 @@ public class PeasantNPC : DialogTree
         data.numMushroomsGiven = mushroomsGiven;
         data.dialogData = base.GetSaveData() as DialogTreeSaveData;
 
-        data.currentHealth = healthManager.GetCurrentHealth();
+        //data.currentHealth = healthManager.GetCurrentHealth();
+        data.isHostile = healthManager.IsHostile();
         
         return data;
     }
@@ -139,16 +140,16 @@ public class PeasantNPC : DialogTree
             return;
         }
 
-        if (!started)
-        {
-            healthManager ??= GetComponent<KillableNPC>();
-        }
-        
         mushroomsGiven = data.numMushroomsGiven;
 
         for (int i = 0; i < possibleRewards.Length; i++) if (mushroomsGiven > possibleRewards[i].reqMushrooms) possibleRewards[i].alreadyGained = true;
         
-        healthManager.SetCurrentHealth(data.currentHealth);
+        //        healthManager.SetCurrentHealth(data.currentHealth);
+        if (data.isHostile)
+        {
+            if (!started) healthManager ??= GetComponent<KillableNPC>();
+            healthManager.SetAsHostile();
+        }
        
         base.LoadData(data.dialogData);
     }
@@ -164,7 +165,7 @@ public class PeasantNPC : DialogTree
         public int numMushroomsGiven;
         public DialogTreeSaveData dialogData;
 
-        public float currentHealth;
+        public bool isHostile;
     }
 
     [System.Serializable]

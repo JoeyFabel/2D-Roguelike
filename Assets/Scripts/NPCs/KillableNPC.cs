@@ -138,6 +138,16 @@ public class KillableNPC : Enemy
         }
     }
 
+    public void SetAsHostile()
+    {
+        Start();
+        
+        print(this + " loaded as hostile, getting full health as when just entered hostile");
+
+        currentHealth = hostileBehavior.minHealthBeforeHostile;
+        BecomeHostile();
+    }
+
     private void BecomeHostile()
     {
         isHostile = true;

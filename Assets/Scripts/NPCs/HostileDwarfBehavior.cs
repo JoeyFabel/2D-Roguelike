@@ -124,3 +124,38 @@ public class HostileDwarfBehavior : HostileNpcBehavior
         }
     }
 }
+
+/*
+ 
+    public void MarkHostileState(bool isHostile)
+    {
+        this.isHostile = isHostile;
+    }
+    
+    public override WorldObjectSaveData GetSaveData()
+    {
+        ShopKeeperSaveData saveData = new ShopKeeperSaveData();
+
+        saveData.baseSaveData = base.GetSaveData() as DialogTreeSaveData;
+        saveData.isHostile = isHostile;
+
+        return saveData;
+    }
+
+    public override void LoadData(WorldObjectSaveData saveData)
+    {
+        ShopKeeperSaveData data = saveData as ShopKeeperSaveData;
+
+        if (data == null) return;
+
+        base.LoadData(saveData);
+    }
+
+    [System.Serializable]
+    public class ShopKeeperSaveData : WorldObjectSaveData
+    {
+        public DialogTreeSaveData baseSaveData;
+
+        public bool isHostile;
+    }
+ */
