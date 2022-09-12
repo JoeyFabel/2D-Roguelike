@@ -6063,8 +6063,8 @@ MonoBehaviour:
   hammerDamageType: 3
   hammerSouthColliderYOffset: 0.0316146
   hammerNorthColliderYOffset: 0.6
-  axeSouthColliderYOffset: 0.4095123
-  axeNorthColliderYOffset: 0.6
+  axeSouthColliderYOffset: 0.2095123
+  axeNorthColliderYOffset: 0.4
 --- !u!1 &1595348482
 GameObject:
   m_ObjectHideFlags: 0

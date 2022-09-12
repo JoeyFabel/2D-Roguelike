@@ -97,7 +97,7 @@ public class HostileDwarfBehavior : HostileNpcBehavior
         if (hammerAttack) yield return new WaitForSeconds(MeleeHammerAnimationLength - meleeHitCheckTime);
         else yield return new WaitForSeconds(MeleeAxeAnimationLength - meleeHitCheckTime);
         
-        yield return new WaitForSeconds(5f);
+        yield return new WaitForSeconds(2f);
         
         ChooseAction();
     }
@@ -118,7 +118,7 @@ public class HostileDwarfBehavior : HostileNpcBehavior
             Vector2 colliderOffset = new Vector2(meleeAxeAttackXOffset * (sprite.flipX ? -1 : 1), 
                 (facingNorth ? axeNorthColliderYOffset : axeSouthColliderYOffset));
             
-            meleeHammerAttackCollider.offset = colliderOffset;
+            meleeAxeAttackCollider.offset = colliderOffset;
 
             return meleeAxeAttackCollider;
         }
