@@ -190,4 +190,9 @@ public class SpellHUD : MonoBehaviour
         canUseMagic = false;
         spellFrameParent.gameObject.SetActive(false);
     }
+
+    public bool GetCanUseMagic()
+    {
+        return canUseMagic;
+    }
 }

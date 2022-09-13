@@ -7916,6 +7916,7 @@ MonoBehaviour:
   itemForSale: {fileID: 11400000, guid: 4012938f3259ec44892abdfae0efe672, type: 2}
   price: 25
   requiresBottle: 0
+  usableIfShopkeeperDead: 0
   amountInStock: 1
   saveID: 1
 --- !u!1 &1669190778

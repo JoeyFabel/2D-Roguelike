@@ -39,24 +39,25 @@ public class LimitedShopItem : ShopItem, ISaveable
 
     public override void Interact()
     {
-        if (shopOwner == null)
+        if (shopOwner == null || !shopOwner.gameObject.activeInHierarchy)
         {
-            print("Stealing " + itemForSale.itemName);
-
             if (requiresBottle)
             {
-                Debug.LogWarning("   That item cannot be stolen, you dont have an empty bottle");
-                return;
+                if (Inventory.PlayerHasEmptyBottle()) Inventory.LoseEmptyBottle();
+                else
+                {
+                    StartCoroutine(DisplayNoBottleTheftDialog());
+                    return;
+                }
             }
             
             // Gain item
             Inventory.GainItem(itemForSale);
-            if (requiresBottle) Inventory.LoseEmptyBottle();
             amountInStock--;
             
             if (amountInStock <= 0) gameObject.SetActive(false);
         }
-        base.Interact();
+        else shopOwner.DisplayPurchaseDialog(itemForSale, price, requiresBottle);
     }
 
     private void CheckIfItemWasBought(Item boughtItem)
@@ -80,7 +81,6 @@ public class LimitedShopItem : ShopItem, ISaveable
     {
         while (DialogManager.IsSpeechBubbleEnabled()) yield return null;
         
-        //Destroy(gameObject);
         // Cannot destroy until has a chance to save
         gameObject.SetActive(false);
     }

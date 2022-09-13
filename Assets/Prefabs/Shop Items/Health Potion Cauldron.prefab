@@ -256,6 +256,7 @@ MonoBehaviour:
   itemForSale: {fileID: 11400000, guid: b06b1981272f4046888a4c41f3a4d7cb, type: 2}
   price: 25
   requiresBottle: 1
+  usableIfShopkeeperDead: 1
 --- !u!61 &8881581982295648951
 BoxCollider2D:
   m_ObjectHideFlags: 0

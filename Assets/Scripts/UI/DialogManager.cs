@@ -12,8 +12,9 @@ public class DialogManager : MonoBehaviour
 
     public GameObject dialogOptionPrefab;
 
-    public float charactersPerSecond = 2f;
-
+    public float defaultCharactersPerSecond = 15f;
+    private float charactersPerSecond = 15f;
+    
     private static DialogManager instance;
 
     private List<DialogOption> dialogOptions;
@@ -37,6 +38,13 @@ public class DialogManager : MonoBehaviour
 
     public static void DisplayDialog(DialogNode dialogNode)
     {
+        DisplayDialog(dialogNode, instance.defaultCharactersPerSecond);
+    }
+
+    public static void DisplayDialog(DialogNode dialogNode, float charactersPerSecond)
+    {
+        instance.charactersPerSecond = charactersPerSecond;
+        
         instance.gameObject.SetActive(true);
 
         // Remove any old dialog options       
@@ -68,7 +76,7 @@ public class DialogManager : MonoBehaviour
             }
             
             instance.dialogOptions[0].Select();
-        }                 
+        }         
     }
 
     private IEnumerator TypeInDialog(string dialog)

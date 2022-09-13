@@ -50,7 +50,6 @@ public class GameManager : MonoBehaviour
     private void Awake()
     {
         Debug.LogWarning("TODO - Add some NPC quests");
-        Debug.LogWarning("TODO- change dialog display speed if needed for npc diamage!");
         Debug.LogWarning("TODO - Handle shop items if shop owner is dead");
 
         

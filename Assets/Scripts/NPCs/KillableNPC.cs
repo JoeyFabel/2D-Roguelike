@@ -116,7 +116,7 @@ public class KillableNPC : Enemy
 
     private IEnumerator DisplayDamagedDialog(DialogNode dialogNode)
     {
-        DialogManager.DisplayDialog(dialogNode);
+        DialogManager.DisplayDialog(dialogNode, 25f);
         DialogManager.SetSpeakerIcon(speakerIcon);
         npcDialog.SetInteractable(false);
         

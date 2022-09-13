@@ -437,7 +437,7 @@ public class PlayerController : MonoBehaviour
             augurWeapon.GainMana(quickItem.manaToGain);
         }
         if (quickItem.getEmptyBottleOnUse) Inventory.GainEmptyBottle();
-        if (quickItem.spellToGain != null) SpellHUD.GainSpell(quickItem.spellToGain);
+        if (quickItem.spellToGain != null && SpellHUD.instance.GetCanUseMagic()) SpellHUD.GainSpell(quickItem.spellToGain);
     }
 #endregion
 
