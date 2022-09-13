@@ -12,8 +12,18 @@ public class ShopItem : MonoBehaviour, IInteractable
     public int price;
     public bool requiresBottle;
 
-    public void Interact()
+    public virtual void Interact()
     {
+        if (shopOwner == null)
+        {
+            Debug.LogWarning("TODO - Handle shop items if shop owner is dead");
+            
+            // Potions should be able to be taken if shopkeeper is dead
+            // Limited edition items should be able to be taken if the shopkeeper is dead
+            // Items like bombs should maybe disappear?
+            
+            return;
+        }
         shopOwner.DisplayPurchaseDialog(itemForSale, price, requiresBottle);
     }
 }

@@ -23,7 +23,6 @@ public class ShopKeeper : DialogTree
     private DialogNode currenShopNode;
 
     private KillableNPC healthManager;
-    private bool isHostile;
     
     public UnityEvent<Item> OnItemBought;
     
@@ -111,18 +110,15 @@ public class ShopKeeper : DialogTree
         }
     }
     
-    
-    public void MarkHostileState(bool isHostile)
-    {
-        this.isHostile = isHostile;
-    }
-    
     public override WorldObjectSaveData GetSaveData()
     {
         ShopKeeperSaveData saveData = new ShopKeeperSaveData();
-
+        
+        print("saving shopkeeper");
+        
         saveData.dialogData = base.GetSaveData() as DialogTreeSaveData;
-        saveData.isHostile = isHostile;
+        saveData.isHostile = healthManager.IsHostile();
+        saveData.isDead = healthManager.GetCurrentHealth() <= 0;
 
         return saveData;
     }
@@ -132,6 +128,13 @@ public class ShopKeeper : DialogTree
         ShopKeeperSaveData data = saveData as ShopKeeperSaveData;
 
         if (data == null) return;
+
+        if (data.isDead)
+        {
+            DoneLoading = true;
+            Destroy(gameObject);
+            return;
+        }
         
         if (data.isHostile)
         {
@@ -148,5 +151,6 @@ public class ShopKeeper : DialogTree
         public DialogTreeSaveData dialogData;
 
         public bool isHostile;
+        public bool isDead;
     }
 }

@@ -34,7 +34,29 @@ public class LimitedShopItem : ShopItem, ISaveable
 
     private void Start()
     {
-        shopOwner.OnItemBought.AddListener(CheckIfItemWasBought);
+        if (shopOwner != null) shopOwner.OnItemBought.AddListener(CheckIfItemWasBought);
+    }
+
+    public override void Interact()
+    {
+        if (shopOwner == null)
+        {
+            print("Stealing " + itemForSale.itemName);
+
+            if (requiresBottle)
+            {
+                Debug.LogWarning("   That item cannot be stolen, you dont have an empty bottle");
+                return;
+            }
+            
+            // Gain item
+            Inventory.GainItem(itemForSale);
+            if (requiresBottle) Inventory.LoseEmptyBottle();
+            amountInStock--;
+            
+            if (amountInStock <= 0) gameObject.SetActive(false);
+        }
+        base.Interact();
     }
 
     private void CheckIfItemWasBought(Item boughtItem)
@@ -58,7 +80,9 @@ public class LimitedShopItem : ShopItem, ISaveable
     {
         while (DialogManager.IsSpeechBubbleEnabled()) yield return null;
         
-        Destroy(gameObject);
+        //Destroy(gameObject);
+        // Cannot destroy until has a chance to save
+        gameObject.SetActive(false);
     }
     
     public WorldObjectSaveData GetSaveData()

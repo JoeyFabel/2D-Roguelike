@@ -50,7 +50,9 @@ public class GameManager : MonoBehaviour
     private void Awake()
     {
         Debug.LogWarning("TODO - Add some NPC quests");
-        Debug.LogWarning("TODO- Killable NPCs!");
+        Debug.LogWarning("TODO- change dialog display speed if needed for npc diamage!");
+        Debug.LogWarning("TODO - Handle shop items if shop owner is dead");
+
         
         // Create the singleton or destroy the duplicate
         if (instance == null)
@@ -168,6 +170,7 @@ public class GameManager : MonoBehaviour
     {
         instance.lastSceneName = SceneManager.GetActiveScene().name;
         instance.playersLastPosition = playerPosition;
+        print("player was at position " + playerPosition);
         instance.setPlayerPosition = false;
         instance.playerLoadData = playerData;
         instance.SaveWorldObjects();
@@ -268,7 +271,7 @@ public class GameManager : MonoBehaviour
             else instance.saveableObjectDataDictionary.Add(saveable.SaveID(), saveable.GetSaveData());
         } */
 
-        print("Saving");
+//        print("Saving");
         
         foreach (var saveable in SaveManager.Instances)
         {
@@ -277,12 +280,12 @@ public class GameManager : MonoBehaviour
             if (instance.saveableObjectDataDictionary.ContainsKey(saveID))
             {
                 instance.saveableObjectDataDictionary[saveID] = saveable.GetSaveData();
-             //   print("Saving a " + saveable.ToString() + " saveable id: " + saveID + " over existing save data");
+                print("Saving a " + saveable.ToString() + " saveable id: " + saveID + " over existing save data");
             }
             else
             {
                 instance.saveableObjectDataDictionary.Add(saveID, saveable.GetSaveData());
-              //  print("Saving a " + saveable.ToString() + " saveable id: " + saveID + " for the first time");
+                print("Saving a " + saveable.ToString() + " saveable id: " + saveID + " for the first time");
             }
             
         }

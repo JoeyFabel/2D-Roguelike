@@ -2654,10 +2654,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fa3555ee1273e7f4fac160876187a365, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sceneName: 
+  sceneName: Overworld
   isShopScene: 0
   loadIntoShrine: 0
-  loadOutOfShrine: 1
+  loadOutOfShrine: 0
   playerOffset: {x: 0, y: 0}
 --- !u!61 &1124555339
 BoxCollider2D:

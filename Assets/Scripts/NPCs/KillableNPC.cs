@@ -97,7 +97,21 @@ public class KillableNPC : Enemy
         
         hostileBehavior?.EndCurrentAction();
         
-        Destroy(gameObject, 1);
+        // Cannot destroy npc until npc has had a chance to save
+        //Destroy(gameObject, 1);
+        
+        // This effectively destroys the NPC for now, but keeps it in the saveable register so that it is saved before unloaded
+        StartCoroutine(PseudoDestroyBeforeSave());
+    }
+
+    private IEnumerator PseudoDestroyBeforeSave()
+    {
+        // Disable collisions for the NCP if it has a rigidbody
+        if (TryGetComponent(out Rigidbody2D rb)) rb.simulated = false;
+
+        yield return new WaitForSeconds(1f);
+        
+        gameObject.SetActive(false);
     }
 
     private IEnumerator DisplayDamagedDialog(DialogNode dialogNode)

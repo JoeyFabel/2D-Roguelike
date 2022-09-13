@@ -38,10 +38,13 @@ public class HostileDwarfBehavior : HostileNpcBehavior
 
     private Coroutine currentAction;
     private static readonly int AnimatorToPlayerYid = Animator.StringToHash("To Player Y");
+    private static readonly int AnimatorMovementID = Animator.StringToHash("Movement");
 
 
     public override void BecomeHostile()
     {
+        base.Start();
+        
         print("now hostile!");
         player = CharacterSelector.GetPlayerController();
 
@@ -56,7 +59,8 @@ public class HostileDwarfBehavior : HostileNpcBehavior
 
     private void ChooseAction()
     {
-        currentAction = StartCoroutine(MeleeAttackAction());
+        if (Random.value <= 0.5f) currentAction = StartCoroutine(MeleeAttackAction());
+        else currentAction = StartCoroutine(MovementAction());
     }
     
     private IEnumerator MeleeAttackAction()
@@ -98,6 +102,26 @@ public class HostileDwarfBehavior : HostileNpcBehavior
         else yield return new WaitForSeconds(MeleeAxeAnimationLength - meleeHitCheckTime);
         
         yield return new WaitForSeconds(2f);
+        
+        ChooseAction();
+    }
+
+    private IEnumerator MovementAction()
+    {
+        // Make sure to set the animator movement parameter to true while moving, as well as the To Player Y
+        animator.SetFloat(AnimatorMovementID, 1f);
+
+        float timestamp = Time.time;
+
+        while (Time.time < timestamp + 5f)
+        {
+            animator.SetFloat(AnimatorToPlayerYid, player.transform.position.y - transform.position.y);
+            sprite.flipX = player.transform.position.x < transform.position.x;
+            
+            yield return null;
+        }
+        
+        animator.SetFloat(AnimatorMovementID, 0f);
         
         ChooseAction();
     }
