@@ -50,9 +50,7 @@ public class GameManager : MonoBehaviour
     private void Awake()
     {
         Debug.LogWarning("TODO - Add some NPC quests");
-        Debug.LogWarning("TODO - Handle shop items if shop owner is dead");
 
-        
         // Create the singleton or destroy the duplicate
         if (instance == null)
         {

@@ -58,6 +58,8 @@ public class KillableNPC : Enemy
 
     public override void ApplyDamage(float amount)
     {
+        if (hostileBehavior?.IsInvincible() ?? false) return;
+        
         // Damage the player, flash red, play sfx, and die if necessary
         base.ApplyDamage(amount);
         

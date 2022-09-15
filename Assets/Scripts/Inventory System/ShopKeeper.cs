@@ -127,7 +127,11 @@ public class ShopKeeper : DialogTree
     {
         ShopKeeperSaveData data = saveData as ShopKeeperSaveData;
 
-        if (data == null) return;
+        if (data == null)
+        {
+            healthManager.SetAsHostile();
+            return;
+        }
 
         if (data.isDead)
         {

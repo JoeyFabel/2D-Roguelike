@@ -10,7 +10,8 @@ public abstract class HostileNpcBehavior : MonoBehaviour
     protected Animator animator;
     protected SpriteRenderer sprite;
     protected PlayerController player;
-
+    protected bool isInvincible;
+    
     protected virtual void Start()
     {
         animator = GetComponent<Animator>();
@@ -22,6 +23,11 @@ public abstract class HostileNpcBehavior : MonoBehaviour
     public virtual void EndCurrentAction()
     {
         
+    }
+
+    public bool IsInvincible()
+    {
+        return isInvincible;
     }
     
     /*
