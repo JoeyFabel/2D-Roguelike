@@ -80,21 +80,26 @@ public class HostileDwarfBehavior : HostileNpcBehavior
 
     private void ChooseAction()
     {
-       if ((player.transform.position - transform.position).magnitude <= 1.5f) currentAction = StartCoroutine(MeleeAttackAction());
-       else currentAction = StartCoroutine(ZigZagToPlayerMovement());
-       
+        if (player.health <= 0)
+        {
+            animator.SetTrigger("Bored");
+            enabled = false;
+        }
+        else if ((player.transform.position - transform.position).magnitude <= 1.5) currentAction = StartCoroutine(MeleeAttackAction());
+        else currentAction = StartCoroutine(ZigZagToPlayerMovement());
 
-       // Only attack if the player is within a certain distance.
-       // If close enough, use MoveToDesiredAttackPosition first..
-       
-       // If the dwarf is moving and the player starts to do a melee attack, stop the current action and perform a brief dodge, followed by an attack
-       // Types of movement:
-       // 1) zig-zag towards player, then attack
-       // 2) move forward/backward with player, some random side to side, trying to bait player
-       // IF the player does an attack, and the enemy is close, try to dodge (certain chance)
-       // IF the dodge is successful, perform a successful attack
+
+        // Only attack if the player is within a certain distance.
+        // If close enough, use MoveToDesiredAttackPosition first..
+
+        // If the dwarf is moving and the player starts to do a melee attack, stop the current action and perform a brief dodge, followed by an attack
+        // Types of movement:
+        // 1) zig-zag towards player, then attack
+        // 2) move forward/backward with player, some random side to side, trying to bait player
+        // IF the player does an attack, and the enemy is close, try to dodge (certain chance)
+        // IF the dodge is successful, perform a successful attack
     }
-    
+
     private IEnumerator MeleeAttackAction()
     {
         print("doing melee attack");
@@ -248,12 +253,14 @@ public class HostileDwarfBehavior : HostileNpcBehavior
         isCountering = false;
     }
 
-    private IEnumerator MoveToDesiredAttackPosition()
+    private IEnumerator MoveToDesiredAttackPosition(bool attackAtEnd)
     {
         animator.SetFloat(AnimatorMovementID, 1f);
 
         Vector2 desiredAttackPosition = (transform.position - player.transform.position.normalized) * desiredAttackDistance + player.transform.position;
-        Vector2 moveVector = desiredAttackPosition - (Vector2)transform.position;
+        Vector2 moveVector = (desiredAttackPosition - (Vector2)transform.position).normalized;
+        
+        print("desired attack position: " + desiredAttackPosition);
         
         animator.SetFloat(AnimatorToPlayerYid, moveVector.y);
         sprite.flipX = moveVector.x < 0;
@@ -266,6 +273,8 @@ public class HostileDwarfBehavior : HostileNpcBehavior
         }
         
         animator.SetFloat(AnimatorMovementID, 0);
+
+        if (attackAtEnd) currentAction = StartCoroutine(MeleeAttackAction());
     }
 
     private Collider2D SetAttackColliderOffsets(bool hammerAttack, bool facingNorth)
