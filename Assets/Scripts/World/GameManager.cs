@@ -50,6 +50,7 @@ public class GameManager : MonoBehaviour
     private void Awake()
     {
         Debug.LogWarning("TODO - Add some NPC quests");
+        Debug.LogWarning("TODO - ADD 1 Skeleton Keys");
 
         // Create the singleton or destroy the duplicate
         if (instance == null)
@@ -284,7 +285,6 @@ public class GameManager : MonoBehaviour
                 instance.saveableObjectDataDictionary.Add(saveID, saveable.GetSaveData());
                 print("Saving a " + saveable.ToString() + " saveable id: " + saveID + " for the first time");
             }
-            
         }
     }
 
@@ -432,9 +432,30 @@ public class GameManager : MonoBehaviour
         gameSavedImage.alpha = 0;
         gameSavedImage.gameObject.SetActive(false);
     }
+    
+#if UNITY_EDITOR_LINUX
+    [UnityEditor.MenuItem("Save Management/Open Save File Location")]
+    private static void OpenSaveFileLocation()
+    {
+        Debug.Log("Item path: " + Application.persistentDataPath);
+        string itemPath = Application.persistentDataPath;
 
-#if UNITY_EDITOR
+        System.Diagnostics.Process.Start("dolphin", itemPath);
+    }
 
+    [UnityEditor.MenuItem("Save Management/Delete Save File")]
+    private static void DeleteSaveFile()
+    {
+        if (UnityEditor.EditorUtility.DisplayDialog("Delete Save File?", "Are you sure you want to delete your save file?", "Yes", "No"))
+        {
+            string itemPath = Application.persistentDataPath + Path.AltDirectorySeparatorChar + SaveFileName;
+
+            File.Delete(itemPath);
+            
+            Debug.Log("Save data deleted!");
+        }
+    }
+#elif UNITY_EDITOR
     [UnityEditor.MenuItem("Save Management/Open Save File Location")]
     private static void OpenSaveFileLocation()
     {

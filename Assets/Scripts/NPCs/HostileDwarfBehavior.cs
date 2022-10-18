@@ -16,7 +16,8 @@ public class HostileDwarfBehavior : HostileNpcBehavior
     
     [Header("Movement options")]
     public float moveSpeed = 2f;
-    public float moveTime = 5f;
+    public float baitDirectionMoveTime = 5f;
+    public float baitRotationSpeed = Mathf.PI / 2;
     [Range(0f, 1f)] public float zigZagMovementChange = 0.6f;
     public int minZigZagsPerAction = 3;
     public int maxZigZagsPerAction = 5;
@@ -24,13 +25,13 @@ public class HostileDwarfBehavior : HostileNpcBehavior
 
     [Header("Desired Positioning")] 
     public float desiredCounterDistance = 0.5f;
-    public float desiredAttackDistance = 0.2f;
+    public float hammerAttackMaxDistance = 0.9f;
     
     [Header("Melee Options")]
     public Collider2D meleeAxeAttackCollider;
     public Collider2D meleeHammerAttackCollider;
-    [Range(0f, 1f)]
-    public float oddsMeleeAttackUsesHammer = 0.4f;
+    //[Range(0f, 1f)]
+    //public float oddsMeleeAttackUsesHammer = 0.4f;
     public float meleeHitCheckTime = 0.4f;
     public ContactFilter2D meleeContactFilter;
 
@@ -86,7 +87,8 @@ public class HostileDwarfBehavior : HostileNpcBehavior
             enabled = false;
         }
         else if ((player.transform.position - transform.position).magnitude <= 1.5) currentAction = StartCoroutine(MeleeAttackAction());
-        else currentAction = StartCoroutine(ZigZagToPlayerMovement());
+        else if (Random.value <= 0.6) currentAction = StartCoroutine(ZigZagToPlayerMovement());
+        else currentAction = StartCoroutine(BaitPlayerMovement());
 
 
         // Only attack if the player is within a certain distance.
@@ -102,12 +104,11 @@ public class HostileDwarfBehavior : HostileNpcBehavior
 
     private IEnumerator MeleeAttackAction()
     {
-        print("doing melee attack");
+        Vector2 towardsPlayer = player.transform.position - transform.position;
         
         // Choose between hammer and axe attack
-        bool hammerAttack = Random.value <= oddsMeleeAttackUsesHammer;
-
-        Vector2 towardsPlayer = player.transform.position - transform.position;
+        bool hammerAttack = towardsPlayer.magnitude <= hammerAttackMaxDistance; 
+        
         
         // Trigger the melee attack
         sprite.flipX = player.transform.position.x < transform.position.x;
@@ -161,13 +162,11 @@ public class HostileDwarfBehavior : HostileNpcBehavior
     private IEnumerator ZigZagToPlayerMovement()
     {
         animator.SetFloat(AnimatorMovementID, 1f);
-        print("zig zagging towards player");
 
         // The number of remaining zigZags, reduce by 1 every zig/zag
-        int zigZagCount = minZigZagsPerAction;//Random.Range(minZigZagsPerAction, maxZigZagsPerAction + 1);
+        int zigZagCount = Random.Range(minZigZagsPerAction, maxZigZagsPerAction + 1);
         
         bool leftwardZigZag = true; // Is the current zig zag relatively to the left of the player or to the right?
-        bool firstZigZag = true; // First zig zag is half length
 
         while (zigZagCount > 0 && !isCountering)
         {
@@ -177,8 +176,6 @@ public class HostileDwarfBehavior : HostileNpcBehavior
             // Move
             // Step 1: Get the toPlayer Vector
             Vector2 towardsPlayer = playerPosition - currentPosition;
-            
-            print("still in move    ");
             
             // Step 2: Pick the next movement vector 
             Vector2 endPosition = towardsPlayer / zigZagCount + (Vector2.Perpendicular(towardsPlayer) * (leftwardZigZag ? 1 : -1)).normalized;
@@ -223,17 +220,52 @@ public class HostileDwarfBehavior : HostileNpcBehavior
     {
        return playerAnimator.GetBool("Attacking") && towardsPlayer.sqrMagnitude <= sqrMaxDistanceForCounterAttack;
     }
-    
+
     private IEnumerator BaitPlayerMovement()
     {
-        print("Baiting player");
-        
-        yield return null;
+        // go back and forth at player
+
+        animator.SetFloat(AnimatorMovementID, 1f);
+
+        float timestamp = Time.time;
+
+        float currentRotationAngle = 0f;
+
+        while (!isCountering && Time.time < timestamp + baitDirectionMoveTime)
+        {
+            Vector2 circlePosition = new Vector2(Mathf.Cos(currentRotationAngle), Mathf.Sin(currentRotationAngle));
+
+            Vector2 desiredPosition = (Vector2)player.transform.position + desiredCounterDistance * circlePosition;
+
+            Vector2 moveDirection = (desiredPosition - (Vector2)transform.position);
+
+            // See if player decided to attack and the dwarf is in counter attack range
+            if (IsAbleToCounterAttack(player.transform.position - transform.position))
+            {
+                StopCoroutine(nameof(ZigZagToPlayerMovement));
+                currentAction = StartCoroutine(TryToCounterAttack());
+
+                yield break;
+            }
+
+            // Set animator values
+            animator.SetFloat(AnimatorToPlayerYid, moveDirection.y);
+            sprite.flipX = moveDirection.x < 0;
+
+            rigidbody.MovePosition((Vector2)transform.position +
+                                   moveSpeed * Time.fixedDeltaTime * moveDirection.normalized);
+
+            yield return null;
+
+            currentRotationAngle += baitRotationSpeed * Time.fixedDeltaTime;
+        }
+
+        animator.SetFloat(AnimatorMovementID, 0f);
+        ChooseAction();
     }
 
     private IEnumerator TryToCounterAttack()
     {
-        print("doing counter attack!");
         rigidbody.velocity = Vector2.zero;
         isCountering = true;
 
@@ -248,11 +280,11 @@ public class HostileDwarfBehavior : HostileNpcBehavior
         isInvincible = false;
 
         // Step 4) Attack!
-        print("attack!");
         currentAction = StartCoroutine(MeleeAttackAction());
         isCountering = false;
     }
 
+    /*
     private IEnumerator MoveToDesiredAttackPosition(bool attackAtEnd)
     {
         animator.SetFloat(AnimatorMovementID, 1f);
@@ -276,7 +308,8 @@ public class HostileDwarfBehavior : HostileNpcBehavior
 
         if (attackAtEnd) currentAction = StartCoroutine(MeleeAttackAction());
     }
-
+    */
+    
     private Collider2D SetAttackColliderOffsets(bool hammerAttack, bool facingNorth)
     {
         if (hammerAttack) // set hammer attack offsets

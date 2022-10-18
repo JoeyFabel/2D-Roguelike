@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -41,7 +42,7 @@ public class SpellHUD : MonoBehaviour
        availableSpells ??= new List<MagicSpellScriptableObject>();
        if (startingSpells != null) SetAvailableSpells(startingSpells);
        
-        spellFrames ??= new List<UISpellFrame>();
+       spellFrames ??= new List<UISpellFrame>();
 
         for (int i = 0; i < availableSpells.Count; i++)
         {
@@ -86,7 +87,10 @@ public class SpellHUD : MonoBehaviour
     {
         string[] spells = new string[instance.availableSpells.Count];
 
-        for (int i = 0; i < spells.Length; i++) spells[i] = instance.availableSpells[i].spellName;
+        for (int i = 0; i < spells.Length; i++)
+        {
+            spells[i] = instance.availableSpells[i].spellName;
+        }
 
         return spells;
     }
@@ -101,10 +105,10 @@ public class SpellHUD : MonoBehaviour
 
     public static void GainSpell(string spell)
     {
+        print("Gaining the spell: " + spell);
         MagicSpellScriptableObject spellToAdd =
             instance.allSpells.Find((spellItem) => spellItem.spellName.Equals(spell));
-
-
+        
         if (!instance.availableSpells.Contains(spellToAdd))
         {
             instance.availableSpells.Add(spellToAdd);
@@ -117,6 +121,12 @@ public class SpellHUD : MonoBehaviour
             spellFrame.SetCorrespondingSpell(spellToAdd);
 
             instance.spellFrames.Add(spellFrame);
+
+            string[] newStartingSpells = new string[startingSpells.Length + 1];
+            for (int i = 0; i < startingSpells.Length; i++) newStartingSpells[i] = startingSpells[i];
+            newStartingSpells[^1] = spell;
+            
+            startingSpells = newStartingSpells;
         }
     }
 
@@ -137,10 +147,18 @@ public class SpellHUD : MonoBehaviour
 
     public static void GainOnlyDefaultSpells()
     {
-        instance.availableSpells = new List<MagicSpellScriptableObject>();
-        
-        instance.availableSpells.Add(instance.allSpells.Find((spell) => spell.spellName.Equals("Fireball")));
-        instance.availableSpells.Add(instance.allSpells.Find((spell) => spell.spellName.Equals("Heal")));
+        if (instance)
+        {
+            instance.availableSpells = new List<MagicSpellScriptableObject>
+            {
+                instance.allSpells.Find((spell) => spell.spellName.Equals("Fireball")),
+                instance.allSpells.Find((spell) => spell.spellName.Equals("Heal"))
+            };
+        }
+        else
+        {
+            startingSpells = new[] {"Fireball", "Heal"};
+        }
     }
     
     public void MarkSpellAffordability(float currentMagic)
