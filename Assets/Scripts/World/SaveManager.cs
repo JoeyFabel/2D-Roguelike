@@ -1,8 +1,6 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using UnityEditor;
-using UnityEditor.SceneManagement;
 using UnityEngine;
 
 /// <summary>
@@ -71,9 +69,10 @@ public class SaveManager : MonoBehaviour
 
     #region Editor Methods
     #if UNITY_EDITOR
-    [ContextMenu("Assign IDs to ISaveables")]
-    private void AssignIDs()
+    [ContextMenu("Assign IDs to ISaveables"), UnityEditor.MenuItem("Save Management/Assign IDs to Saveables")]
+    private static void AssignIDs()
     {
+        // Get the saveables
         MonoBehaviour[] monoBehaviours = FindObjectsOfType<MonoBehaviour>(true);
 
         List<ISaveable> saveableInterfaces = new List<ISaveable>();
@@ -82,12 +81,14 @@ public class SaveManager : MonoBehaviour
 
         int currentSaveID = 0;
 
+        // Get the highest use saveID
         foreach (var saveable in saveableInterfaces)
         {
             if (saveable.SaveIDNumber >= 0 && saveable.SaveIDNumber >= currentSaveID)
                 currentSaveID = saveable.SaveIDNumber + 1;
         }
 
+        // Set each unset saveable saveID to the next number
         foreach (var saveable in saveableInterfaces)
             if (saveable.SaveIDNumber == -1)
             {
@@ -95,34 +96,45 @@ public class SaveManager : MonoBehaviour
                 saveable.MarkAsDirty();
             }
         
+        // Prevent duplicate IDs
         PreventDuplicateIDs(saveableInterfaces);
         foreach (var saveable in saveableInterfaces) Debug.Log(saveable.ToString() + " has an id of " + saveable.SaveIDNumber);
     }
 
-    private void PreventDuplicateIDs(List<ISaveable> saveableInterfaces)
+    
+    private static void PreventDuplicateIDs(List<ISaveable> saveableInterfaces)
     {
-        List<(ISaveable, ISaveable)> problematicSaveables = new List<(ISaveable, ISaveable)>();
+        if (saveableInterfaces.Count < 2) return;
+        
+        List<ISaveable> problematicSaveables = new List<ISaveable>();
 
         // get the next lowest unused id number
         int nextIDNumber = -1;
         foreach (var saveable in saveableInterfaces)
             if (saveable.SaveIDNumber >= nextIDNumber)
                 nextIDNumber = saveable.SaveIDNumber + 1;
-        
-        // Find any saveables with matching ID numbers
-        foreach (var saveable in saveableInterfaces)
-        {
-            List<ISaveable> problematicOnes =
-                saveableInterfaces.FindAll((item) => item.SaveIDNumber == saveable.SaveIDNumber);
 
-            // Problematic items found
-            if (problematicOnes.Count > 0)
+        for (int i = 0; i < saveableInterfaces.Count; i++)
+        {
+            // If a saveable is already known to be problematic, don't check it again as it would flag the first saveable (it should keep its id)
+            if (problematicSaveables.Contains(saveableInterfaces[i])) continue;
+            
+            for (int j = 0; j < saveableInterfaces.Count; j++)
             {
-                // Fix the problematic item IDs
-                foreach (var problematicItem in problematicOnes) problematicItem.SaveIDNumber = nextIDNumber++;
+                if (i == j) continue; // Don't compare a saveable to itself
+
+                // If two saveables have the same ID, add the SECOND one to the problematic list (the first one keeps the id)
+                if (saveableInterfaces[i].SaveIDNumber == saveableInterfaces[j].SaveIDNumber) problematicSaveables.Add(saveableInterfaces[j]);
             }
         }
+
+        // Fix any duplicates
+        if (problematicSaveables.Count > 0)
+        {
+            // Fix the problematic save IDs
+            foreach (var problematicSaveable in problematicSaveables) problematicSaveable.SaveIDNumber = nextIDNumber++;
+        }
     }
-    #endif
-    #endregion
+#endif
+#endregion
 }

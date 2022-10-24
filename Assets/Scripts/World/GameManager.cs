@@ -442,19 +442,6 @@ public class GameManager : MonoBehaviour
 
         System.Diagnostics.Process.Start("dolphin", itemPath);
     }
-
-    [UnityEditor.MenuItem("Save Management/Delete Save File")]
-    private static void DeleteSaveFile()
-    {
-        if (UnityEditor.EditorUtility.DisplayDialog("Delete Save File?", "Are you sure you want to delete your save file?", "Yes", "No"))
-        {
-            string itemPath = Application.persistentDataPath + Path.AltDirectorySeparatorChar + SaveFileName;
-
-            File.Delete(itemPath);
-            
-            Debug.Log("Save data deleted!");
-        }
-    }
 #elif UNITY_EDITOR
     [UnityEditor.MenuItem("Save Management/Open Save File Location")]
     private static void OpenSaveFileLocation()
@@ -464,6 +451,8 @@ public class GameManager : MonoBehaviour
 
         System.Diagnostics.Process.Start("explorer.exe", "/select," + itemPath);
     }
+#endif
+#if UNITY_EDITOR
 
     [UnityEditor.MenuItem("Save Management/Delete Save File")]
     private static void DeleteSaveFile()
