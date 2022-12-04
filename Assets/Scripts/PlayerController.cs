@@ -549,15 +549,8 @@ public class PlayerController : MonoBehaviour
 
     public static bool InsideCol(Collider2D mycol, Collider2D other)
     {
-        if (other.bounds.Contains(mycol.bounds.min)
-             && other.bounds.Contains(mycol.bounds.max))
-        {
-            return true;
-        }
-        else
-        {
-            return false;
-        }
+        return other.bounds.Contains(mycol.bounds.min)
+               && other.bounds.Contains(mycol.bounds.max);
     }
 
     private float shrinkRate = 5f;
