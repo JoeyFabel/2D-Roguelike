@@ -233,7 +233,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4575204776670758679, guid: 46a5410aa0916a28f918d32f00b44c47, type: 3}
       propertyPath: m_RootOrder
-      value: 14
+      value: 16
       objectReference: {fileID: 0}
     - target: {fileID: 4575204776670758679, guid: 46a5410aa0916a28f918d32f00b44c47, type: 3}
       propertyPath: m_LocalPosition.x
@@ -700,7 +700,7 @@ PrefabInstance:
     - target: {fileID: 6891414741602217777, guid: 3de040b0533f7aa4284397a93281d32c, type: 3}
       propertyPath: backgroundSong
       value: 
-      objectReference: {fileID: 8300000, guid: 99bd9ebd6203c1a49be4e87c84c7acb4, type: 3}
+      objectReference: {fileID: 8300000, guid: 72937d191a86dce4d8f389fd8a206163, type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3de040b0533f7aa4284397a93281d32c, type: 3}
 --- !u!1 &433819418
@@ -54773,7 +54773,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4575204776670758679, guid: 46a5410aa0916a28f918d32f00b44c47, type: 3}
       propertyPath: m_RootOrder
-      value: 15
+      value: 17
       objectReference: {fileID: 0}
     - target: {fileID: 4575204776670758679, guid: 46a5410aa0916a28f918d32f00b44c47, type: 3}
       propertyPath: m_LocalPosition.x
@@ -54822,6 +54822,82 @@ PrefabInstance:
     m_RemovedComponents:
     - {fileID: 4575204776670758675, guid: 46a5410aa0916a28f918d32f00b44c47, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 46a5410aa0916a28f918d32f00b44c47, type: 3}
+--- !u!1 &859888126
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 859888129}
+  - component: {fileID: 859888128}
+  - component: {fileID: 859888127}
+  m_Layer: 0
+  m_Name: Load to Cave Section 3 (Top Right)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &859888127
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 859888126}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fa3555ee1273e7f4fac160876187a365, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sceneName: Cave Section 3
+  isShopScene: 0
+  loadIntoShrine: 0
+  loadOutOfShrine: 0
+  playerOffset: {x: 0, y: 0}
+--- !u!61 &859888128
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 859888126}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 2, y: 0.5}
+  m_EdgeRadius: 0
+--- !u!4 &859888129
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 859888126}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 54.175, y: 99.122, z: -0.13926153}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 13
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &975759921
 GameObject:
   m_ObjectHideFlags: 0
@@ -55117,82 +55193,6 @@ PolygonCollider2D:
       - {x: 26, y: -6.5}
       - {x: 50, y: -6.5}
       - {x: 50, y: -20.5}
---- !u!1 &1393912293
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1393912296}
-  - component: {fileID: 1393912295}
-  - component: {fileID: 1393912294}
-  m_Layer: 0
-  m_Name: Load to Cave Section 1 (Middle Right) (1)
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &1393912294
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1393912293}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fa3555ee1273e7f4fac160876187a365, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  sceneName: Cave Section 1
-  isShopScene: 0
-  loadIntoShrine: 0
-  loadOutOfShrine: 0
-  playerOffset: {x: 0, y: 0}
---- !u!61 &1393912295
-BoxCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1393912293}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0, y: 0}
-    oldSize: {x: 0, y: 0}
-    newSize: {x: 0, y: 0}
-    adaptiveTilingThreshold: 0
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  serializedVersion: 2
-  m_Size: {x: 2, y: 0.5}
-  m_EdgeRadius: 0
---- !u!4 &1393912296
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1393912293}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 12.832, y: 78.12, z: -0.13926153}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 12
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1487951701
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -55202,7 +55202,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 8571500651252548161, guid: 055a67e0020e1360f95b048ad59a2655, type: 3}
       propertyPath: m_RootOrder
-      value: 18
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 8571500651252548161, guid: 055a67e0020e1360f95b048ad59a2655, type: 3}
       propertyPath: m_LocalPosition.x
@@ -88125,6 +88125,82 @@ Tilemap:
     e31: 0
     e32: 0
     e33: 1
+--- !u!1 &1806661037
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1806661040}
+  - component: {fileID: 1806661039}
+  - component: {fileID: 1806661038}
+  m_Layer: 0
+  m_Name: Load to Cave Section 3 (Bottom Center)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1806661038
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1806661037}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fa3555ee1273e7f4fac160876187a365, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sceneName: Cave Section 3
+  isShopScene: 0
+  loadIntoShrine: 0
+  loadOutOfShrine: 0
+  playerOffset: {x: 0, y: -1.5}
+--- !u!61 &1806661039
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1806661037}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 2, y: 0.5}
+  m_EdgeRadius: 0
+--- !u!4 &1806661040
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1806661037}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 51.128, y: 44.376, z: -0.13926153}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 12
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1831140096
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -88954,6 +89030,82 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a2854b7d0f97de34b9a6fa566461d83b, type: 3}
+--- !u!1 &1865775150
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1865775153}
+  - component: {fileID: 1865775152}
+  - component: {fileID: 1865775151}
+  m_Layer: 0
+  m_Name: Load to Cave Section 3 (Top Left)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1865775151
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1865775150}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fa3555ee1273e7f4fac160876187a365, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sceneName: Cave Section 3
+  isShopScene: 0
+  loadIntoShrine: 0
+  loadOutOfShrine: 0
+  playerOffset: {x: 0, y: 0}
+--- !u!61 &1865775152
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1865775150}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 2, y: 0.5}
+  m_EdgeRadius: 0
+--- !u!4 &1865775153
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1865775150}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 26.389, y: 98.375, z: -0.13926153}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 14
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1869285267
 GameObject:
   m_ObjectHideFlags: 0
@@ -89043,7 +89195,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4575204776670758679, guid: 46a5410aa0916a28f918d32f00b44c47, type: 3}
       propertyPath: m_RootOrder
-      value: 16
+      value: 18
       objectReference: {fileID: 0}
     - target: {fileID: 4575204776670758679, guid: 46a5410aa0916a28f918d32f00b44c47, type: 3}
       propertyPath: m_LocalPosition.x
@@ -89177,7 +89329,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4575204776670758679, guid: 46a5410aa0916a28f918d32f00b44c47, type: 3}
       propertyPath: m_RootOrder
-      value: 13
+      value: 15
       objectReference: {fileID: 0}
     - target: {fileID: 4575204776670758679, guid: 46a5410aa0916a28f918d32f00b44c47, type: 3}
       propertyPath: m_LocalPosition.x
@@ -89235,7 +89387,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 8571500651252548161, guid: 055a67e0020e1360f95b048ad59a2655, type: 3}
       propertyPath: m_RootOrder
-      value: 17
+      value: 19
       objectReference: {fileID: 0}
     - target: {fileID: 8571500651252548161, guid: 055a67e0020e1360f95b048ad59a2655, type: 3}
       propertyPath: m_LocalPosition.x

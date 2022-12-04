@@ -121,7 +121,7 @@ MonoBehaviour:
   thrustImpactSound: {fileID: 0}
   bluntImpactSound: {fileID: 0}
   magicImpactSound: {fileID: 0}
-  saveID: 5
+  saveID: -1
   destroyedCairnSprite: {fileID: 21300000, guid: 9eeee9527bb8b7d0f9020bbfd10ae0f5, type: 3}
   minHealthToRubble: 2
 --- !u!82 &8571500651252548164
@@ -180,7 +180,7 @@ AudioSource:
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 0.5
+      value: 0.25
       inSlope: 0
       outSlope: 0
       tangentMode: 0
