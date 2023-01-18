@@ -768,6 +768,7 @@ public class PlayerController : MonoBehaviour
     private void PlayFootstepSound()
     {
         AudioClip footstepSound = mapManager.GetFootstepSound(rb.position + Vector2.up * 0.1f);
+        print("footstep sound is " + footstepSound.name);
 
         // This means not on the regular tilemap, but on something like a moving platform instead
         // The FootstepHelper should be on whatever object the player is on

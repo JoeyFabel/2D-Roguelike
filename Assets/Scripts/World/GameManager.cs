@@ -229,6 +229,7 @@ public class GameManager : MonoBehaviour
         data.worldObjectSaves = instance.saveableObjectDataDictionary;
 
         data.questSaves = instance.questDataDictionary;
+       // print("saving quest data, " + instance.questDataDictionary.Count + " quests found");
         
         data.inventoryData = instance.playerInventory.GetInventorySaveData();
         data.currentMoney = Inventory.GetCurrentMoney();
@@ -312,7 +313,9 @@ public class GameManager : MonoBehaviour
             instance.questDataDictionary = saveData.questSaves;
             instance.playerInventory.LoadInventoryFromData(saveData.inventoryData, saveData.currentMoney);
             XPManager.LoadXPData(saveData.xpData);
-            
+
+            print(saveData.questSaves.Count + " quests found");
+
             SpellHUD.LoadSpells(saveData.availableSpells ?? new[]{"Fireball", "Heal"});
         }
         else
