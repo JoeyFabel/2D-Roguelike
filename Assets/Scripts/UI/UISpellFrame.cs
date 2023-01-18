@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.UI;
 using Key = UnityEngine.InputSystem.Key;
 
@@ -14,7 +15,6 @@ public class UISpellFrame : MonoBehaviour
     public Image spellIcon;
 
     public Text hotkeyText;
-    private Key hotkey;
 
     public bool IsSelected { get; private set; }
 
@@ -31,13 +31,7 @@ public class UISpellFrame : MonoBehaviour
 
     public void SetHotkey(int hotkeyNumber)
     {
-        hotkey = (Key)(40 + hotkeyNumber);
         hotkeyText.text = hotkeyNumber.ToString();
-    }
-
-    public Key GetHotkey()
-    {
-        return hotkey;
     }
 
     public void SetCorrespondingSpell(MagicSpellScriptableObject spell)

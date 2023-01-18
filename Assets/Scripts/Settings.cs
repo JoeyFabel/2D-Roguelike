@@ -3,6 +3,8 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Audio;
 using System.IO;
+using UnityEngine.InputSystem;
+using UnityEngine.Rendering;
 
 public class Settings : MonoBehaviour
 {
@@ -20,11 +22,15 @@ public class Settings : MonoBehaviour
 
     public AudioMixer audioMixer;
 
+    public KeybindingButton[] keybindingButtons;
+
     class SettingsSaveData
     {
         public float masterVolume;
         public float musicVolume;
         public float soundFXVolume;
+
+        public string keybindingSave;
     }
 
     // Data saving variable
@@ -59,6 +65,8 @@ public class Settings : MonoBehaviour
                 musicVolumeSlider.value = musicVolumePercentage;
                 soundFXVolumeSlider.value = soundFXVolumePercentage;
             }
+
+            StartCoroutine(LoadKeybindings(data.keybindingSave));
         }        
 
         StartCoroutine(LoadVolumeSettingsIntoMixer());
@@ -74,15 +82,24 @@ public class Settings : MonoBehaviour
         audioMixer.SetFloat("SFX Volume", Mathf.Log(soundFXVolumePercentage) * 20);
     }
 
+    private IEnumerator LoadKeybindings(string keybindingSave)
+    {
+        yield return null;
+  
+        // Wait for the player to be created first
+        CharacterSelector.GetPlayerController().GetComponent<PlayerInput>().actions.LoadBindingOverridesFromJson(keybindingSave);
+    }
+
     public void SaveSettings()
     {
         SettingsSaveData settingsData = new SettingsSaveData();
         settingsData.masterVolume = masterVolumePercentage;
         settingsData.musicVolume = musicVolumePercentage;
         settingsData.soundFXVolume = soundFXVolumePercentage;
+        settingsData.keybindingSave = CharacterSelector.GetPlayerController().GetComponent<PlayerInput>().actions.SaveBindingOverridesAsJson();
 
         string savePath = persistentPath;
-
+        
         string json = JsonUtility.ToJson(settingsData);
 
         using StreamWriter writer = new StreamWriter(savePath);

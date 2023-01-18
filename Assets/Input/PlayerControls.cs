@@ -204,8 +204,8 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
-                    ""id"": ""d0d72506-e2f7-4d0d-b7c1-1f9ed8232793"",
-                    ""path"": ""<Mouse>/leftButton"",
+                    ""id"": ""394f6af0-4051-4336-b76a-adcd8621a7c6"",
+                    ""path"": ""<Keyboard>/space"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Keyboard and Mouse"",
@@ -215,8 +215,8 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
-                    ""id"": ""394f6af0-4051-4336-b76a-adcd8621a7c6"",
-                    ""path"": ""<Keyboard>/space"",
+                    ""id"": ""d0d72506-e2f7-4d0d-b7c1-1f9ed8232793"",
+                    ""path"": ""<Mouse>/leftButton"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Keyboard and Mouse"",

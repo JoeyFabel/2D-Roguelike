@@ -437,6 +437,7 @@ public class PlayerController : MonoBehaviour
             augurWeapon.GainMana(quickItem.manaToGain);
         }
         if (quickItem.getEmptyBottleOnUse) Inventory.GainEmptyBottle();
+        if (quickItem.spellToGain != null/*&& SpellHUD.instance.GetCanUseMagic()*/) SpellHUD.GainSpell(quickItem.spellToGain);
     }
 #endregion
 
@@ -537,17 +538,19 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    public void TryRemoveInteractable(IInteractable interactable)
+    {
+        if (currentInteractable?.Equals(interactable) ?? false)
+        {
+            currentInteractable = null;
+            DisableInteractSymbol();
+        }
+    }
+
     public static bool InsideCol(Collider2D mycol, Collider2D other)
     {
-        if (other.bounds.Contains(mycol.bounds.min)
-             && other.bounds.Contains(mycol.bounds.max))
-        {
-            return true;
-        }
-        else
-        {
-            return false;
-        }
+        return other.bounds.Contains(mycol.bounds.min)
+               && other.bounds.Contains(mycol.bounds.max);
     }
 
     private float shrinkRate = 5f;

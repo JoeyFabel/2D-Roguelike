@@ -1,5 +1,8 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -9,8 +12,9 @@ public class SpellHUD : MonoBehaviour
 
     public GameObject spellFramePrefab;
 
-    public List<MagicSpellScriptableObject> availableSpells;
-
+    public List<MagicSpellScriptableObject> allSpells;
+    private List<MagicSpellScriptableObject> availableSpells;
+    
     public Transform spellFrameParent;
 
     private bool canUseMagic;
@@ -20,20 +24,31 @@ public class SpellHUD : MonoBehaviour
     private MagicSpellScriptableObject currentSelectedSpell;
     private int currentSpellIndex;
 
+    private static string[] startingSpells;
+
     private void Awake()
     {
         instance = this;
     }
 
+    private void OnDisable()
+    {
+        Keyboard.current.onTextInput -= TryQuickSwapSpell;
+    }
+
     private void Start()
     {
-        // Initialize the spells!
-        //if (availableSpells.Count == 0) return;
-
-        spellFrames = new List<UISpellFrame>();
+        // Initialize the available spells
+       availableSpells ??= new List<MagicSpellScriptableObject>();
+       if (startingSpells != null) SetAvailableSpells(startingSpells);
+       
+       spellFrames ??= new List<UISpellFrame>();
 
         for (int i = 0; i < availableSpells.Count; i++)
         {
+            if (spellFrames.Find((item) =>
+                    item.GetCorrespondingSpell().spellName.Equals(availableSpells[i].spellName))) continue;
+            
             UISpellFrame spellFrame = Instantiate(spellFramePrefab, spellFrameParent).GetComponent<UISpellFrame>();
 
             spellFrame.Initialize();
@@ -50,26 +65,102 @@ public class SpellHUD : MonoBehaviour
             spellFrames[0].MarkAsSelected();
             currentSelectedSpell = spellFrames[0].GetCorrespondingSpell();
             currentSpellIndex = 0;
-        }        
+        }
+        
+        Keyboard.current.onTextInput += TryQuickSwapSpell;
     }
 
-    private void Update()
+    private void TryQuickSwapSpell(char pressedCharacter)
     {
-        // Tries to quick swap spells, cant find a better way to do this
+        // Return if you cant use magic
         if (!canUseMagic) return;
 
-        if (spellFrames.Count >= 1 && Keyboard.current.digit1Key.wasPressedThisFrame) SelectSpecificSpell(1);        
-        else if (spellFrames.Count >= 2 && Keyboard.current.digit2Key.wasPressedThisFrame) SelectSpecificSpell(2);
-        else if (spellFrames.Count >= 3 && Keyboard.current.digit3Key.wasPressedThisFrame) SelectSpecificSpell(3);
-        else if (spellFrames.Count >= 4 && Keyboard.current.digit4Key.wasPressedThisFrame) SelectSpecificSpell(4);
-        else if (spellFrames.Count >= 5 && Keyboard.current.digit5Key.wasPressedThisFrame) SelectSpecificSpell(5);
-        else if (spellFrames.Count >= 6 && Keyboard.current.digit6Key.wasPressedThisFrame) SelectSpecificSpell(6);
-        else if (spellFrames.Count >= 7 && Keyboard.current.digit7Key.wasPressedThisFrame) SelectSpecificSpell(7);
-        else if (spellFrames.Count >= 8 && Keyboard.current.digit8Key.wasPressedThisFrame) SelectSpecificSpell(8);
-        else if (spellFrames.Count >= 9 && Keyboard.current.digit9Key.wasPressedThisFrame) SelectSpecificSpell(9);
-        else if (spellFrames.Count >= 10 && Keyboard.current.digit0Key.wasPressedThisFrame) SelectSpecificSpell(10);
+        // Return if a digit was not pressed
+          if (!Char.IsDigit(pressedCharacter)) return;
+
+        int pressedDigit = pressedCharacter - '0';
+        
+        if (spellFrames.Count >= pressedDigit) SelectSpecificSpell(pressedDigit);
+    }
+    
+    public static string[] GetAvailableSpells()
+    {
+        string[] spells = new string[instance.availableSpells.Count];
+
+        for (int i = 0; i < spells.Length; i++)
+        {
+            spells[i] = instance.availableSpells[i].spellName;
+        }
+
+        return spells;
     }
 
+    private void SetAvailableSpells(string[] spells)
+    {
+        availableSpells ??= new List<MagicSpellScriptableObject>();
+        
+        foreach (var spell in allSpells)
+            if (spells.Contains(spell.spellName)) availableSpells.Add(spell);
+    }
+
+    public static void GainSpell(string spell)
+    {
+        print("Gaining the spell: " + spell);
+        MagicSpellScriptableObject spellToAdd =
+            instance.allSpells.Find((spellItem) => spellItem.spellName.Equals(spell));
+        
+        if (!instance.availableSpells.Contains(spellToAdd))
+        {
+            instance.availableSpells.Add(spellToAdd);
+            UISpellFrame spellFrame = Instantiate(instance.spellFramePrefab, instance.spellFrameParent).GetComponent<UISpellFrame>();
+
+            spellFrame.Initialize();
+            // This has not been added to the spells yet, so it is Count instead of count - 1
+            spellFrame.SetHotkey(instance.availableSpells.Count);
+
+            spellFrame.SetCorrespondingSpell(spellToAdd);
+
+            instance.spellFrames.Add(spellFrame);
+
+            string[] newStartingSpells = new string[startingSpells.Length + 1];
+            for (int i = 0; i < startingSpells.Length; i++) newStartingSpells[i] = startingSpells[i];
+            newStartingSpells[^1] = spell;
+            
+            startingSpells = newStartingSpells;
+        }
+    }
+
+    public static void LoadSpells(params string[] spells)
+    {
+        if (instance)
+        {
+            instance.availableSpells ??= new List<MagicSpellScriptableObject>();
+            instance.spellFrames ??= new List<UISpellFrame>();
+
+            foreach (var spell in spells) GainSpell(spell);
+        }
+        else
+        {
+            startingSpells = spells;
+        }
+    }
+
+    public static void GainOnlyDefaultSpells()
+    {
+        if (instance)
+        {
+            instance.availableSpells = new List<MagicSpellScriptableObject>
+            {
+                instance.allSpells.Find((spell) => spell.spellName.Equals("Fireball")),
+                instance.allSpells.Find((spell) => spell.spellName.Equals("Heal"))
+            };
+        }
+        else
+        {
+            startingSpells = new[] {"Fireball", "Heal"};
+        }
+    }
+    
     public void MarkSpellAffordability(float currentMagic)
     {
         spellFrames.ForEach((frame) => frame.MarkSpellAffordability(currentMagic));
@@ -93,10 +184,8 @@ public class SpellHUD : MonoBehaviour
 
     }
 
-    public void SelectSpecificSpell(int spellNumber)
+    private void SelectSpecificSpell(int spellNumber)
     {
-        print("selecting spell " + spellNumber);
-
         if (!canUseMagic || spellNumber > spellFrames.Count) return;
 
         spellFrames[currentSpellIndex].Deselect();
@@ -118,5 +207,10 @@ public class SpellHUD : MonoBehaviour
     {
         canUseMagic = false;
         spellFrameParent.gameObject.SetActive(false);
+    }
+
+    public bool GetCanUseMagic()
+    {
+        return canUseMagic;
     }
 }

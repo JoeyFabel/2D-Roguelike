@@ -112,7 +112,7 @@ public class Inventory : MonoBehaviour
             inventoryUI.UpdateItemUI(itemToLose, 0);
 
             // If a consumable was used and it was the last one, set the current quick item to null
-            if (itemToLose.itemID == instance.currentQuickItem.itemID)
+            if (itemToLose.itemID == (instance.currentQuickItem?.itemID ?? -1))
             {
                 instance.currentQuickItem = null;
                 inventoryUI.UpdateQuickItemDisplay(null);
@@ -202,7 +202,7 @@ public class Inventory : MonoBehaviour
             ToggleInventoryUI();
         }
     }
-    
+
     public void LoadInventoryFromData(Dictionary<int, int> inventoryData, int currentMoney)
     {
         inventory = new Dictionary<Item, int>();

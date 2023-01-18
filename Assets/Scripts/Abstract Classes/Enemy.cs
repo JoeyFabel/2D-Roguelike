@@ -24,7 +24,7 @@ public abstract class Enemy : Damageable
     public int moneyForDefeating = 10;
     public float moneyDropChance = 0f;
 
-    private const float flashTime = 0.1875f;
+    private const float FlashTime = 0.1875f;
     
     protected override void Start()
     {
@@ -60,9 +60,9 @@ public abstract class Enemy : Damageable
         Color flashColor = sprite.color;
 
         // Flash into full red
-        while (Time.time - timestamp <= flashTime / 2f)
+        while (Time.time - timestamp <= FlashTime / 2f)
         {
-            flashColor = Color.Lerp(originalColor, Color.red, (Time.time - timestamp) / (flashTime / 2f));
+            flashColor = Color.Lerp(originalColor, Color.red, (Time.time - timestamp) / (FlashTime / 2f));
 
             sprite.color = flashColor;
             
@@ -73,9 +73,9 @@ public abstract class Enemy : Damageable
 
         // Flash back to original color
         timestamp = Time.time;
-        while (Time.time - timestamp <= flashTime / 2f)
+        while (Time.time - timestamp <= FlashTime / 2f)
         {
-            flashColor = Color.Lerp(Color.red, originalColor, (Time.time - timestamp) / (flashTime / 2f));
+            flashColor = Color.Lerp(Color.red, originalColor, (Time.time - timestamp) / (FlashTime / 2f));
 
             sprite.color = flashColor;
 

@@ -30,9 +30,9 @@ public class DialogTree : MonoBehaviour, IInteractable, ISaveable
     private static readonly int toPlayerYProperty = Animator.StringToHash("To Player Y");
     private Coroutine watchPlayerRoutine;
 
-    private Animator animator;
+    protected Animator animator;
 
-    private bool started = false;
+    protected bool started = false;
     private bool hasSaveData = false;
 
     [SerializeField] private int saveID = -1;
@@ -40,6 +40,8 @@ public class DialogTree : MonoBehaviour, IInteractable, ISaveable
     
     public bool DoneLoading { get; set; }
 
+    protected bool interactable = true;
+    
     private void Awake()
     {
         SaveManager.RegisterSaveable(this);
@@ -48,6 +50,8 @@ public class DialogTree : MonoBehaviour, IInteractable, ISaveable
     private void OnDestroy()
     {
         SaveManager.UnRegisterSaveable(this);
+        
+        speechBubbleIcon.SetActive(false);
     }
 
     protected virtual void Start()
@@ -72,6 +76,12 @@ public class DialogTree : MonoBehaviour, IInteractable, ISaveable
 
     private void OnTriggerEnter2D(Collider2D col)
     {
+        if (!interactable)
+        {
+            this.player.TryRemoveInteractable(this);
+            return;
+        }
+        
         if (col.TryGetComponent(out PlayerController player))
         {
             speechBubbleIcon.SetActive((true));
@@ -81,6 +91,8 @@ public class DialogTree : MonoBehaviour, IInteractable, ISaveable
 
     private void OnTriggerExit2D(Collider2D other)
     {
+        if (!interactable) return;
+        
         if (other.TryGetComponent(out PlayerController player))
         {
             speechBubbleIcon.SetActive(false);
@@ -107,8 +119,10 @@ public class DialogTree : MonoBehaviour, IInteractable, ISaveable
         }
     }
     
-    public void Interact()
+    public virtual void Interact()
     {
+        if (!interactable) return;
+        
         // If the dialog bubble is closed, open the current starting dialog node
         if (!DialogManager.IsSpeechBubbleEnabled())
         {
@@ -125,9 +139,7 @@ public class DialogTree : MonoBehaviour, IInteractable, ISaveable
             if (currentNode.isPrimaryNode)
             {
                 currentNodeID = currentNode.id;
-                print(currentNodeID + ", " + currentNode.id);
                 startingNode = currentNode;
-                Debug.Log("changing starting node!");
             }
             else if (currentNode is EventNode)
             {
@@ -168,6 +180,7 @@ public class DialogTree : MonoBehaviour, IInteractable, ISaveable
                 {
                     EventNode eventNode = currentNode as EventNode;
                     eventNode?.action?.Invoke();
+                    print("running event actions");
                 }
             }
             else
@@ -178,6 +191,11 @@ public class DialogTree : MonoBehaviour, IInteractable, ISaveable
                 player.EnableControlsAfterUI();
             }
         }
+    }
+
+    public void SetInteractable(bool isInteractable)
+    {
+        interactable = isInteractable;
     }
 
     /*
@@ -192,7 +210,17 @@ public class DialogTree : MonoBehaviour, IInteractable, ISaveable
     }
     */
 
-    public void LoadData(WorldObjectSaveData saveData)
+    /// <summary>
+    /// Force the specified node to be the current node. This is usefull if you want a certain node to be displayed next.
+    /// Note that it will be the node AFTER the current node.
+    /// </summary>
+    /// <param name="newNode">The new node to be marked as the current node</param>
+    public void ForceSetCurrentNode(DialogNode newNode)
+    {
+        currentNode = newNode;
+    }
+
+    public virtual void LoadData(WorldObjectSaveData saveData)
     {
         // Start the object if it hasn't started already
         hasSaveData = true;
@@ -205,9 +233,7 @@ public class DialogTree : MonoBehaviour, IInteractable, ISaveable
 
         // only have primary nodes
         possibleNodes.RemoveAll((DialogNode node) => !node.isPrimaryNode);        
-
-        print("loading data for " + gameObject.name);
-
+        
         currentNodeID = data.startingPrimaryNodeID;
 
         if (data.startingPrimaryNodeID < 0)
@@ -224,16 +250,14 @@ public class DialogTree : MonoBehaviour, IInteractable, ISaveable
             
             startingNode = node;
             currentNode = node;
-
-            // print("    Found the starting dialog node (" + node.dialog + ")");
-
+            
             break;
         }        
 
         DoneLoading = true;
     }
 
-    public WorldObjectSaveData GetSaveData()
+    public virtual WorldObjectSaveData GetSaveData()
     {
         DialogTreeSaveData data = new DialogTreeSaveData();
 

@@ -477,7 +477,7 @@ MonoBehaviour:
   meleeHitBox: {fileID: 2269981218165051527}
   meleeLayerMask:
     serializedVersion: 2
-    m_Bits: 1025
+    m_Bits: 1537
   damageType: 2
   baseDamage: 1
   nMeleeYOffset: 0.1

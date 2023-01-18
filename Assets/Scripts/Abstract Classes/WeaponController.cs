@@ -86,6 +86,9 @@ public abstract class WeaponController : MonoBehaviour
         List<Damageable> hitDamageables = new List<Damageable>();
         foreach (var collider in results)
         {
+            // Ignore triggers, only hit actual colliders
+            if (collider.isTrigger) continue;
+            
             if (collider.TryGetComponent(out Damageable damageable))
             {
                 // Check to make sure hit damageable is not out of bounds
@@ -109,7 +112,7 @@ public abstract class WeaponController : MonoBehaviour
                         offsetIntersection.y += allowableYOffsetNorth; ;
 
                         // and check if the hit damageable is fully inside the out of bounds box
-                        if (neCorner.x < offsetIntersection.x && neCorner.y < offsetIntersection.y) { print("attack missed"); continue; }
+                        if (neCorner.x < offsetIntersection.x && neCorner.y < offsetIntersection.y) { /*print("attack missed");*/ continue; }
                     }
                     else // SE
                     {
@@ -166,7 +169,7 @@ public abstract class WeaponController : MonoBehaviour
                         if (swCorner.x > offsetIntersection.x && swCorner.y > offsetIntersection.y) { print("attack missed"); continue; }
                     }
                 }
-
+                
                 // Add the damageable to the list if it was a good hit
                 hitDamageables.Add(damageable);
             }

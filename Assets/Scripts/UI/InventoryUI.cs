@@ -1,7 +1,9 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 public class InventoryUI : MonoBehaviour
@@ -14,7 +16,9 @@ public class InventoryUI : MonoBehaviour
     public GameObject warningPanel;
     public Button warningCancelButton;
     public GameObject settingsPanel;
-
+    public Button settingsBackButton;
+    public Button keybindingBackButton;
+    
     public Text moneyText;
 
     [Header("Item Gained Display")]
@@ -59,6 +63,7 @@ public class InventoryUI : MonoBehaviour
 
         gameObject.SetActive(false);
         settingsPanel.SetActive(false);
+
         itemGainedCanvasGroup.gameObject.SetActive(false);
         goldGainedCanvasGroup.gameObject.SetActive(false);
 
@@ -73,6 +78,16 @@ public class InventoryUI : MonoBehaviour
         returnToMenu = true;
     }
 
+    /*
+    #if UNITY_EDITOR
+    private void Update()
+    {
+        if (EventSystem.current.currentSelectedGameObject == null) return;
+       Debug.Log("Current selected: " + EventSystem.current.currentSelectedGameObject.name, EventSystem.current.currentSelectedGameObject);
+    }
+#endif
+    */
+    
     public void UpdateQuickItemDisplay(Item quickItem)
     {
         if (quickItem == null) quickItemImage.transform.parent.gameObject.SetActive(false);
@@ -205,7 +220,7 @@ public class InventoryUI : MonoBehaviour
     {
         gameObject.SetActive(false);
         Time.timeScale = 1.0f;
-
+        
         player.EnableControlsAfterUI();
     }
 
@@ -264,10 +279,18 @@ public class InventoryUI : MonoBehaviour
         // If the inventory is open
         if (gameObject.activeSelf)
         {
-            if (warningPanel.activeSelf) // the main menu warning panel is opened
+            if (warningPanel.activeInHierarchy) // the main menu warning panel is opened
             {
                 warningPanel.SetActive(false);                
                 warningCancelButton.onClick.Invoke();
+            }
+            else if (keybindingBackButton.gameObject.activeInHierarchy)
+            {
+                keybindingBackButton.onClick.Invoke();
+            }
+            else if (settingsPanel.activeInHierarchy) // The settings panel is opend
+            {
+                settingsBackButton.onClick.Invoke();
             }
             else // the main inventory is open
             {
@@ -285,7 +308,7 @@ public class InventoryUI : MonoBehaviour
             gameObject.SetActive(true);
             Time.timeScale = 0f;
 
-            UnityEngine.EventSystems.EventSystem.current.SetSelectedGameObject(null);                       
+            EventSystem.current.SetSelectedGameObject(null);                       
             firstSelectedOnOpen.Select();
 
             // Hide the quick item when the inventory is open

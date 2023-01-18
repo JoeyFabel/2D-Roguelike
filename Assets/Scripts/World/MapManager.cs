@@ -5,7 +5,7 @@ using UnityEngine.Tilemaps;
 
 public class MapManager : MonoBehaviour
 {
-    [SerializeField] private List<TileData> tileDatas;
+    [SerializeField, Tooltip("Note - the first tileData in the list is used for default values")] private List<TileData> tileDatas;
     [SerializeField] private List<ColliderHeightScriptableObject> tileColliderDatas;
 
     private Dictionary<TileBase, TileData> dataFromTiles;
@@ -75,7 +75,7 @@ public class MapManager : MonoBehaviour
         }
 
         if (dataFromTiles.ContainsKey(groundTile)) return dataFromTiles[groundTile].footstepSounds[Random.Range(0, dataFromTiles[groundTile].footstepSounds.Length)];
-        else return null;
+        else return tileDatas[0].footstepSounds[Random.Range(0, tileDatas[0].footstepSounds.Length)];
     }
 
     public float getMovementMultiplier(Vector2 position)

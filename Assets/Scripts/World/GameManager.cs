@@ -50,8 +50,8 @@ public class GameManager : MonoBehaviour
     private void Awake()
     {
         Debug.LogWarning("TODO - Add some NPC quests");
-        Debug.LogWarning("TODO - Allow user to change keybindings from settings");
-        
+        Debug.LogWarning("TODO - ADD 1 Skeleton Keys");
+
         // Create the singleton or destroy the duplicate
         if (instance == null)
         {
@@ -149,7 +149,7 @@ public class GameManager : MonoBehaviour
 
         instance.playerLoadData = player.GetPlayerLoadData();
         instance.SaveWorldObjects();
-
+        
         instance.StartCoroutine(LoadSceneAfterFade(sceneName));
     }
 
@@ -168,6 +168,7 @@ public class GameManager : MonoBehaviour
     {
         instance.lastSceneName = SceneManager.GetActiveScene().name;
         instance.playersLastPosition = playerPosition;
+        print("player was at position " + playerPosition);
         instance.setPlayerPosition = false;
         instance.playerLoadData = playerData;
         instance.SaveWorldObjects();
@@ -220,6 +221,8 @@ public class GameManager : MonoBehaviour
         data.playerCharacterName = instance.characterSelector.GetCharacterName();
         data.playersLastPosition = instance.playersLastPosition;
 
+        data.availableSpells = SpellHUD.GetAvailableSpells();
+        
         data.xpData = XPManager.GetSaveData();
 
         instance.SaveWorldObjects();
@@ -266,6 +269,8 @@ public class GameManager : MonoBehaviour
             else instance.saveableObjectDataDictionary.Add(saveable.SaveID(), saveable.GetSaveData());
         } */
 
+//        print("Saving");
+        
         foreach (var saveable in SaveManager.Instances)
         {
             string saveID = SaveManager.GetSaveID(saveable);
@@ -273,14 +278,13 @@ public class GameManager : MonoBehaviour
             if (instance.saveableObjectDataDictionary.ContainsKey(saveID))
             {
                 instance.saveableObjectDataDictionary[saveID] = saveable.GetSaveData();
-             //   print("Saving a " + saveable.ToString() + " saveable id: " + saveID + " over existing save data");
+                print("Saving a " + saveable.ToString() + " saveable id: " + saveID + " over existing save data");
             }
             else
             {
                 instance.saveableObjectDataDictionary.Add(saveID, saveable.GetSaveData());
-              //  print("Saving a " + saveable.ToString() + " saveable id: " + saveID + " for the first time");
+                print("Saving a " + saveable.ToString() + " saveable id: " + saveID + " for the first time");
             }
-            
         }
     }
 
@@ -308,12 +312,16 @@ public class GameManager : MonoBehaviour
             instance.questDataDictionary = saveData.questSaves;
             instance.playerInventory.LoadInventoryFromData(saveData.inventoryData, saveData.currentMoney);
             XPManager.LoadXPData(saveData.xpData);
+            
+            SpellHUD.LoadSpells(saveData.availableSpells ?? new[]{"Fireball", "Heal"});
         }
         else
         {
             print("No save found!");
             instance.saveableObjectDataDictionary = new Dictionary<string, WorldObjectSaveData>();
             instance.questDataDictionary = new Dictionary<int, int>();
+            
+            SpellHUD.GainOnlyDefaultSpells();
 #if UNITY_EDITOR
             // instance.characterSelector.SetCharacterName("Dwarvish Thunderer");
             instance.characterSelector.UseDefaultCharacter();
@@ -424,9 +432,17 @@ public class GameManager : MonoBehaviour
         gameSavedImage.alpha = 0;
         gameSavedImage.gameObject.SetActive(false);
     }
+    
+#if UNITY_EDITOR_LINUX
+    [UnityEditor.MenuItem("Save Management/Open Save File Location")]
+    private static void OpenSaveFileLocation()
+    {
+        Debug.Log("Item path: " + Application.persistentDataPath);
+        string itemPath = Application.persistentDataPath;
 
-#if UNITY_EDITOR
-
+        System.Diagnostics.Process.Start("dolphin", itemPath);
+    }
+#elif UNITY_EDITOR
     [UnityEditor.MenuItem("Save Management/Open Save File Location")]
     private static void OpenSaveFileLocation()
     {
@@ -435,6 +451,8 @@ public class GameManager : MonoBehaviour
 
         System.Diagnostics.Process.Start("explorer.exe", "/select," + itemPath);
     }
+#endif
+#if UNITY_EDITOR
 
     [UnityEditor.MenuItem("Save Management/Delete Save File")]
     private static void DeleteSaveFile()

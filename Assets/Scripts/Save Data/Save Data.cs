@@ -14,6 +14,8 @@ public class SaveData
     public Dictionary<int, int> inventoryData;
     public int currentMoney;
 
+    public string[] availableSpells;
+    
     public XPSaveData xpData;
 }
 
@@ -57,6 +59,12 @@ public class XPSaveData
 public abstract class WorldObjectSaveData
 {
     public int saveID;
+}
+
+[System.Serializable]
+public class InputSaveData
+{
+    
 }
 
 /*

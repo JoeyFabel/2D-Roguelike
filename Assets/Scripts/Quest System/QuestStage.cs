@@ -10,6 +10,8 @@ public class QuestStage : MonoBehaviour
      
      [Tooltip("This object will be destroyed if the quest for this character is not in this stage. Note that this may need to be -1")]
      public int activeQuestStageNumber = 0;
+
+     public bool lastAllStages;
      
      [Tooltip("Anything that should be performed in addition to saving the quest data.")]
      public UnityEvent OnQuestStageCompleted;
@@ -19,7 +21,7 @@ public class QuestStage : MonoBehaviour
      
      private void Start()
      {
-          if (activeQuestStageNumber != GameManager.GetQuestPhase((int)quest)) Destroy(gameObject);
+          if (!lastAllStages && activeQuestStageNumber != GameManager.GetQuestPhase((int)quest)) Destroy(gameObject);
      }
 
      public void MarkStageAsComplete()
@@ -34,5 +36,7 @@ public class QuestStage : MonoBehaviour
      public enum Quests
      {
           Skeleton,
+          Peasant,
+          Cairns
      }
 }

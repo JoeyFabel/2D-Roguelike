@@ -11,4 +11,5 @@ public class Consumable : Item
     public int healthToGain;
     public float manaToGain;
     public bool getEmptyBottleOnUse;
+    public string spellToGain;
 }
