@@ -31,6 +31,8 @@ public class ExtendableDrawBridge : MonoBehaviour
 
     private IEnumerator MoveDrawbridge()
     {
+        // Play the audio
+        audioSource.Play();
         while (boxCollider.size.y < endLength - moveSpeed * Time.deltaTime)
         {
             // Increase the drawbridge's size
@@ -55,6 +57,9 @@ public class ExtendableDrawBridge : MonoBehaviour
         boxCollider.size = new Vector2(boxCollider.size.x, endLength);
         boxCollider.offset = new Vector2(boxCollider.offset.x, -endLength / 2);
         spriteRenderer.size = new Vector2(spriteRenderer.size.x, endLength);
+
+        // Stop the audio
+        audioSource.Stop();
     }
 
 }

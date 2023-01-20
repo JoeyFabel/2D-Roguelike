@@ -64,18 +64,23 @@ public class MapManager : MonoBehaviour
         }
     }
 
-    public AudioClip GetFootstepSound(Vector2 position)
+    public AudioClip GetFootstepSound(Vector2 position, out bool foundTile)
     {
         TileBase groundTile = tileMap.GetTile(tileMap.WorldToCell(position));
+        foundTile = false;
 
         if (groundTile == null)
         {
-            Debug.LogWarning("There is no tile at position " + position);
+            Debug.LogWarning("There is no tile at position " + position);            
             return null;
         }
 
-        if (dataFromTiles.ContainsKey(groundTile)) return dataFromTiles[groundTile].footstepSounds[Random.Range(0, dataFromTiles[groundTile].footstepSounds.Length)];
-        else return tileDatas[0].footstepSounds[Random.Range(0, tileDatas[0].footstepSounds.Length)];
+        if (dataFromTiles.ContainsKey(groundTile))
+        {
+            foundTile = true;
+            return dataFromTiles[groundTile].footstepSounds[Random.Range(0, dataFromTiles[groundTile].footstepSounds.Length)];
+        }
+        else return tileDatas[0].footstepSounds[Random.Range(0, tileDatas[0].footstepSounds.Length)];        
     }
 
     public float getMovementMultiplier(Vector2 position)

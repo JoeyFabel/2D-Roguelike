@@ -767,12 +767,11 @@ public class PlayerController : MonoBehaviour
 
     private void PlayFootstepSound()
     {
-        AudioClip footstepSound = mapManager.GetFootstepSound(rb.position + Vector2.up * 0.1f);
-        print("footstep sound is " + footstepSound.name);
+        AudioClip footstepSound = mapManager.GetFootstepSound(rb.position + Vector2.up * 0.1f, out bool foundTile);
 
         // This means not on the regular tilemap, but on something like a moving platform instead
         // The FootstepHelper should be on whatever object the player is on
-        if (footstepSound == null)
+        if (!foundTile || footstepSound == null)
         {
             RaycastHit2D hit = Physics2D.Raycast(collider.bounds.center, Vector2.down, heightTestPlayer, groundMask);
             
@@ -784,6 +783,7 @@ public class PlayerController : MonoBehaviour
             }
         }
 
+        //print("footstep sound is " + footstepSound.name);
         if (footstepSound) audioSource.PlayOneShot(footstepSound, 2.0f);
     }
 
