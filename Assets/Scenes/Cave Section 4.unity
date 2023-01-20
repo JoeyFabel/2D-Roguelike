@@ -133,7 +133,7 @@ GameObject:
   m_Component:
   - component: {fileID: 12990907}
   - component: {fileID: 12990908}
-  m_Layer: 2
+  m_Layer: 0
   m_Name: Chasm (10)
   m_TagString: Hole
   m_Icon: {fileID: 0}
@@ -288,7 +288,7 @@ GameObject:
   m_Component:
   - component: {fileID: 106500828}
   - component: {fileID: 106500829}
-  m_Layer: 2
+  m_Layer: 0
   m_Name: Chasm (9)
   m_TagString: Hole
   m_Icon: {fileID: 0}
@@ -346,7 +346,7 @@ GameObject:
   m_Component:
   - component: {fileID: 161546812}
   - component: {fileID: 161546813}
-  m_Layer: 2
+  m_Layer: 0
   m_Name: Chasm (11)
   m_TagString: Hole
   m_Icon: {fileID: 0}
@@ -523,7 +523,7 @@ GameObject:
   m_Component:
   - component: {fileID: 228048623}
   - component: {fileID: 228048624}
-  m_Layer: 2
+  m_Layer: 0
   m_Name: Chasm (17)
   m_TagString: Hole
   m_Icon: {fileID: 0}
@@ -6381,7 +6381,7 @@ GameObject:
   m_Component:
   - component: {fileID: 410912303}
   - component: {fileID: 410912304}
-  m_Layer: 2
+  m_Layer: 0
   m_Name: Chasm (4)
   m_TagString: Hole
   m_Icon: {fileID: 0}
@@ -15833,7 +15833,7 @@ GameObject:
   m_Component:
   - component: {fileID: 735852145}
   - component: {fileID: 735852146}
-  m_Layer: 2
+  m_Layer: 0
   m_Name: Chasm (12)
   m_TagString: Hole
   m_Icon: {fileID: 0}
@@ -15891,7 +15891,7 @@ GameObject:
   m_Component:
   - component: {fileID: 855001566}
   - component: {fileID: 855001567}
-  m_Layer: 2
+  m_Layer: 0
   m_Name: Chasm (5)
   m_TagString: Hole
   m_Icon: {fileID: 0}
@@ -16003,7 +16003,7 @@ GameObject:
   m_Component:
   - component: {fileID: 953607666}
   - component: {fileID: 953607667}
-  m_Layer: 2
+  m_Layer: 0
   m_Name: Chasm (3)
   m_TagString: Hole
   m_Icon: {fileID: 0}
@@ -16158,7 +16158,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1088115656}
   - component: {fileID: 1088115657}
-  m_Layer: 2
+  m_Layer: 0
   m_Name: Chasm (0)
   m_TagString: Hole
   m_Icon: {fileID: 0}
@@ -16216,7 +16216,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1133075682}
   - component: {fileID: 1133075683}
-  m_Layer: 2
+  m_Layer: 0
   m_Name: Chasm (14)
   m_TagString: Hole
   m_Icon: {fileID: 0}
@@ -16274,7 +16274,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1283247063}
   - component: {fileID: 1283247064}
-  m_Layer: 2
+  m_Layer: 0
   m_Name: Chasm (8)
   m_TagString: Hole
   m_Icon: {fileID: 0}
@@ -16332,7 +16332,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1305323705}
   - component: {fileID: 1305323706}
-  m_Layer: 2
+  m_Layer: 0
   m_Name: Chasm (7)
   m_TagString: Hole
   m_Icon: {fileID: 0}
@@ -16390,7 +16390,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1347914386}
   - component: {fileID: 1347914387}
-  m_Layer: 2
+  m_Layer: 0
   m_Name: Chasm (20)
   m_TagString: Hole
   m_Icon: {fileID: 0}
@@ -18093,7 +18093,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1642187314}
   - component: {fileID: 1642187315}
-  m_Layer: 2
+  m_Layer: 0
   m_Name: Chasm (21)
   m_TagString: Hole
   m_Icon: {fileID: 0}
@@ -18151,7 +18151,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1657295045}
   - component: {fileID: 1657295046}
-  m_Layer: 2
+  m_Layer: 0
   m_Name: Chasm (18)
   m_TagString: Hole
   m_Icon: {fileID: 0}
@@ -41915,6 +41915,82 @@ Tilemap:
     e31: 0
     e32: 0
     e33: 1
+--- !u!1 &1680776241
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1680776244}
+  - component: {fileID: 1680776243}
+  - component: {fileID: 1680776242}
+  m_Layer: 0
+  m_Name: Load to Cave Section 5
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1680776242
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1680776241}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fa3555ee1273e7f4fac160876187a365, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sceneName: Cave Section 5
+  isShopScene: 0
+  loadIntoShrine: 0
+  loadOutOfShrine: 0
+  playerOffset: {x: 0.25, y: 1.5}
+--- !u!61 &1680776243
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1680776241}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 2, y: 0.5}
+  m_EdgeRadius: 0
+--- !u!4 &1680776244
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1680776241}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 39.544, y: 48.726, z: -0.13926153}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 9
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1831140096
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -42754,7 +42830,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1856605903}
   - component: {fileID: 1856605904}
-  m_Layer: 2
+  m_Layer: 0
   m_Name: Chasm (15)
   m_TagString: Hole
   m_Icon: {fileID: 0}
@@ -42812,7 +42888,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1957435362}
   - component: {fileID: 1957435363}
-  m_Layer: 2
+  m_Layer: 0
   m_Name: Chasm (22)
   m_TagString: Hole
   m_Icon: {fileID: 0}
@@ -42870,7 +42946,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1993294564}
   - component: {fileID: 1993294565}
-  m_Layer: 2
+  m_Layer: 0
   m_Name: Chasm (19)
   m_TagString: Hole
   m_Icon: {fileID: 0}
@@ -42928,7 +43004,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2043669196}
   - component: {fileID: 2043669197}
-  m_Layer: 2
+  m_Layer: 0
   m_Name: Chasm (13)
   m_TagString: Hole
   m_Icon: {fileID: 0}
@@ -42986,7 +43062,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2096579411}
   - component: {fileID: 2096579412}
-  m_Layer: 2
+  m_Layer: 0
   m_Name: Chasm (6)
   m_TagString: Hole
   m_Icon: {fileID: 0}
@@ -43044,7 +43120,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2118507210}
   - component: {fileID: 2118507211}
-  m_Layer: 2
+  m_Layer: 0
   m_Name: Chasm (1)
   m_TagString: Hole
   m_Icon: {fileID: 0}
@@ -43102,7 +43178,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2119537297}
   - component: {fileID: 2119537298}
-  m_Layer: 2
+  m_Layer: 0
   m_Name: Chasm (16)
   m_TagString: Hole
   m_Icon: {fileID: 0}
@@ -43236,7 +43312,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2130566251}
   - component: {fileID: 2130566252}
-  m_Layer: 2
+  m_Layer: 0
   m_Name: Chasm (2)
   m_TagString: Hole
   m_Icon: {fileID: 0}

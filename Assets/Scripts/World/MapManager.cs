@@ -64,6 +64,11 @@ public class MapManager : MonoBehaviour
         }
     }
 
+    public Vector2 GetTileCenter(Vector2 worldPosition)
+    {
+        return tileMap.GetCellCenterWorld(tileMap.WorldToCell(worldPosition));
+    }
+
     public AudioClip GetFootstepSound(Vector2 position, out bool foundTile)
     {
         TileBase groundTile = tileMap.GetTile(tileMap.WorldToCell(position));
