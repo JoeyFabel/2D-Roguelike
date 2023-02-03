@@ -213,7 +213,7 @@ public class PlayerController : MonoBehaviour
 
         if (hit.collider != currentGround)
         {
-            respawnPosition = transform.position - (Vector3)lookDirection;
+            //respawnPosition = transform.position - (Vector3)lookDirection;// * speed * Time.deltaTime;
             currentGround = hit.collider;
             if (hit.collider != null) currentGroundPosition = hit.collider.transform.position;
         }
@@ -221,7 +221,7 @@ public class PlayerController : MonoBehaviour
         {
             if (currentGround)
             {
-                groundMoved = hit.collider.transform.position - currentGroundPosition;                
+                groundMoved = hit.collider.transform.position - currentGroundPosition;
 
                 currentGroundPosition = hit.collider.transform.position;
 
@@ -232,7 +232,7 @@ public class PlayerController : MonoBehaviour
                 //    movementVector.x += groundMoved.x;
                 //   movementVector.y += groundMoved.y;
             }
-            else respawnPosition = transform.position - (Vector3)lookDirection;
+            //else respawnPosition = transform.position - (Vector3)lookDirection;// * speed * Time.deltaTime;
         }
 
         //if (mapManager.getMovementMultiplier(position) < 1f) print(mapManager.getMovementMultiplier(position));
@@ -437,7 +437,7 @@ public class PlayerController : MonoBehaviour
             augurWeapon.GainMana(quickItem.manaToGain);
         }
         if (quickItem.getEmptyBottleOnUse) Inventory.GainEmptyBottle();
-        if (quickItem.spellToGain != null/*&& SpellHUD.instance.GetCanUseMagic()*/) SpellHUD.GainSpell(quickItem.spellToGain);
+        if (quickItem.spellToGain != ""/*&& SpellHUD.instance.GetCanUseMagic()*/) SpellHUD.GainSpell(quickItem.spellToGain);
     }
 #endregion
 
@@ -514,9 +514,14 @@ public class PlayerController : MonoBehaviour
         if (other.CompareTag("Hole") && InsideCol(collider, other))
         {
             RaycastHit2D hit = Physics2D.Raycast(collider.bounds.center, Vector2.down, heightTestPlayer, groundMask);
-            bool isGrounded = hit.collider != null;
+            //bool isGrounded = hit.collider != null;
 
-            if (hit.collider == null) FellInHole();
+            if (hit.collider == null)
+            {
+                // Calculate the respawn position by taking the current position where the player fell, and then move backwards by one cell
+                respawnPosition = transform.position - (Vector3)lookDirection * 0.75f;
+                FellInHole();
+            }
         }
     }
 
@@ -645,6 +650,9 @@ public class PlayerController : MonoBehaviour
         rb.velocity = Vector2.zero;
         sprite.enabled = false;
         //TakeDamage(fallDamage);
+        
+        // TODO - figure out what vfx to use for splash, or if its a hole with no vfx
+        //Instantiate(waterSplashVfxPrefab, transform.position, transform.rotation);
 
         yield return new WaitForSeconds(timeInHole - movementTime);
         //currentHealth -= fallDamage;
@@ -653,8 +661,12 @@ public class PlayerController : MonoBehaviour
         animator.SetBool("Falling", false);
         animator.SetBool("Can Move", true);
 
+        // Play splash effect
+
         collider.enabled = true;
         transform.position = respawnPosition;
+        //transform.position = mapManager.GetTileCenter(respawnPosition);
+        
 
         playerInput.ActivateInput();
         sprite.enabled = true;
@@ -767,11 +779,11 @@ public class PlayerController : MonoBehaviour
 
     private void PlayFootstepSound()
     {
-        AudioClip footstepSound = mapManager.GetFootstepSound(rb.position + Vector2.up * 0.1f);
+        AudioClip footstepSound = mapManager.GetFootstepSound(rb.position + Vector2.up * 0.1f, out bool foundTile);
 
         // This means not on the regular tilemap, but on something like a moving platform instead
         // The FootstepHelper should be on whatever object the player is on
-        if (footstepSound == null)
+        if (!foundTile || footstepSound == null)
         {
             RaycastHit2D hit = Physics2D.Raycast(collider.bounds.center, Vector2.down, heightTestPlayer, groundMask);
             
@@ -783,6 +795,7 @@ public class PlayerController : MonoBehaviour
             }
         }
 
+        //print("footstep sound is " + footstepSound.name);
         if (footstepSound) audioSource.PlayOneShot(footstepSound, 2.0f);
     }
 

@@ -67,7 +67,7 @@ GameObject:
   - component: {fileID: 1048827645510397023}
   m_Layer: 6
   m_Name: Dwarvish Thunderer
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

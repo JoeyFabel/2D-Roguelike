@@ -1,0 +1,13 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!221 &22100000
+AnimatorOverrideController:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Wood Horizontal Door Open
+  m_Controller: {fileID: 9100000, guid: effc5c17a1e6ce547932edc2719b7d98, type: 2}
+  m_Clips:
+  - m_OriginalClip: {fileID: 7400000, guid: 5db928d3b2b191149b160c18b01ef637, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: 4ef1aaf828268924894efc23f506507f, type: 2}

@@ -1397,7 +1397,7 @@ MonoBehaviour:
   speechText: {fileID: 6135857989857560916}
   choiceOptionParent: {fileID: 4399342912729648507}
   dialogOptionPrefab: {fileID: 7977587574820474759, guid: 3bfebf606e9ef7543b6717889e3ae849, type: 3}
-  charactersPerSecond: 15
+  defaultCharactersPerSecond: 15
 --- !u!1 &1079902914902461789
 GameObject:
   m_ObjectHideFlags: 0
@@ -12128,6 +12128,8 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 267cfb77454cc3d4c9544ed0c7984feb, type: 2}
   - {fileID: 11400000, guid: 5fad161a2af20c7db8362743aa8040d5, type: 2}
   - {fileID: 11400000, guid: 8c7656dd0b2019309a0707f11ad13acb, type: 2}
+  - {fileID: 11400000, guid: c7a15168097a32e4dac739d29f1a40eb, type: 2}
+  - {fileID: 11400000, guid: b7b6d5eb7f4e64a4a8967ebc7c495c5b, type: 2}
   moneyDrop: {fileID: 3551276138215652021, guid: 88981dac6d75a4c419b31debc2a90483, type: 3}
   bombPrefab: {fileID: 0}
 --- !u!114 &7530411453466834406
