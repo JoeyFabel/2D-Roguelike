@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -183,6 +184,22 @@ public class MovingPlatform : MonoBehaviour
         }
 
         idealLapTime = distanceToTravel / moveSpeed;
+    }
+
+    private void OnDrawGizmosSelected()
+    {
+        Vector3 platformOffset = movingPlatform.GetComponent<Collider2D>().bounds.center - movingPlatform.transform.position;
+        Vector3 platformSize = movingPlatform.GetComponent<Collider2D>().bounds.size;
+        Gizmos.color = Color.blue;
+        
+        for (int i = 0; i < targetPoints.Length - 1; i++)
+        {
+            Vector3 toEnd = ((targetPoints[i + 1].position + platformOffset) -
+                            (targetPoints[i].position + platformOffset)).normalized;
+            //Gizmos.DrawLine(targetPoints[i].position + platformOffset, targetPoints[i + 1].position + platformOffset - (toEnd * platformSize.x / 2));
+            Gizmos.DrawLine(targetPoints[i].position + platformOffset, targetPoints[i + 1].position - (toEnd * platformSize.x / 2));
+            Gizmos.DrawWireCube(targetPoints[i + 1].position + platformOffset, platformSize);
+        }
     }
 #endif
 }
