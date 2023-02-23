@@ -196,8 +196,8 @@ public class MovingPlatform : MonoBehaviour
         {
             Vector3 toEnd = ((targetPoints[i + 1].position + platformOffset) -
                             (targetPoints[i].position + platformOffset)).normalized;
-            //Gizmos.DrawLine(targetPoints[i].position + platformOffset, targetPoints[i + 1].position + platformOffset - (toEnd * platformSize.x / 2));
-            Gizmos.DrawLine(targetPoints[i].position + platformOffset, targetPoints[i + 1].position - (toEnd * platformSize.x / 2));
+            Gizmos.DrawLine(targetPoints[i].position + platformOffset, targetPoints[i + 1].position + platformOffset);
+            //Gizmos.DrawLine(targetPoints[i].position + platformOffset, targetPoints[i + 1].position - (toEnd * platformSize.x / 2));
             Gizmos.DrawWireCube(targetPoints[i + 1].position + platformOffset, platformSize);
         }
     }
