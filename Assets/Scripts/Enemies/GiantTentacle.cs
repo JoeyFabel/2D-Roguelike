@@ -100,12 +100,11 @@ public class GiantTentacle : Enemy
 
         if (results.Count > 0)
         {
-            Collider2D player;
-            if (player = results.Find((item) => item.CompareTag("Player")))
+            Collider2D player = results.Find((item) => item.CompareTag("Player"));
+            if (player )
             {
                 player.GetComponent<PlayerController>().TakeDamage(damage, damageType);
             }
-
         }
     }
 }
